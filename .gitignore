@@ -1,0 +1,37 @@
+# ============================================================
+# Repositorio PUBLICO: aqui arriba solo va la pagina.
+# Todo lo que sirve para fabricarla se queda en la maquina.
+# ============================================================
+
+# --- Maquinaria del boletin (local, nunca se publica) ---
+CLAUDE.md
+PUBLICAR.md
+plantilla/
+ediciones.json
+notas/
+borradores/
+
+# --- Ediciones en borrador ---
+# Una edicion a medias no se publica. Cuando este lista, se quita su linea
+# de aqui y se cambia su estado a "publicada" en plantilla/. Ver PUBLICAR.md.
+ediciones/2026-09/
+
+# --- Credenciales: jamas, por ningun motivo ---
+.env
+.env.*
+*.token
+*.key
+*.pem
+credenciales*
+secretos*
+*.credentials.json
+
+# --- Herramientas y sistema ---
+.claude/
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*~

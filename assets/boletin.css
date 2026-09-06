@@ -1,0 +1,1014 @@
+/* ============================================================
+   ¡Diay! Santa Ana — sistema de diseño
+   Este archivo es el UNICO lugar donde vive el diseño.
+   No se agrega CSS en linea en las paginas.
+   ============================================================ */
+
+:root{
+  /* Marca: colores muestreados del logo real */
+  --brand-red:#FF4B33;
+  --brand-red-deep:#E23A22;
+  --brand-yellow:#FAE31E;
+  --ink:#0F1115;
+
+  /* Un color por seccion. El valor activo se expone como --sec. */
+  --sec-portada:#FF4B33;
+  --sec-concejo:#2563EB;
+  --sec-barrios:#F5B301;
+  --sec-entrevista:#0E9F6E;
+  --sec-opinion:#7C3AED;
+  --sec-servicio:#0891B2;
+  --sec:var(--brand-red);
+
+  --surface:#FFFFFF;
+  --surface-2:#F4F4F7;
+  --surface-3:#E9E9EF;
+  --text:#0F1115;
+  --text-muted:#5B616E;
+  --border:#E3E3EA;
+  --shadow-sm:0 1px 2px rgba(15,17,21,.06), 0 4px 12px rgba(15,17,21,.05);
+  --shadow-lg:0 18px 50px -12px rgba(15,17,21,.22);
+
+  --font-display:'Anton', Impact, 'Arial Narrow Bold', Haettenschweiler, sans-serif;
+  --font-ui:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-read:'Newsreader', Georgia, 'Times New Roman', serif;
+
+  --wrap:1240px;
+  --measure:68ch;
+  --radius:16px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  color-scheme:light;
+}
+
+/* Modo oscuro por preferencia del sistema (salvo que se haya forzado claro) */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --surface:#0F1115;
+    --surface-2:#171A21;
+    --surface-3:#20242E;
+    --text:#F2F3F6;
+    --text-muted:#9AA1B0;
+    --border:#282D38;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.5), 0 4px 14px rgba(0,0,0,.35);
+    --shadow-lg:0 20px 55px -12px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+/* Modo oscuro forzado con el boton */
+:root[data-theme="dark"]{
+  --surface:#0F1115;
+  --surface-2:#171A21;
+  --surface-3:#20242E;
+  --text:#F2F3F6;
+  --text-muted:#9AA1B0;
+  --border:#282D38;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.5), 0 4px 14px rgba(0,0,0,.35);
+  --shadow-lg:0 20px 55px -12px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+
+/* ------------------------------------------------------------
+   Mapa de secciones. Cualquier elemento con data-seccion define
+   --sec para si mismo y sus hijos: etiquetas, marcadores de
+   imagen y acentos toman el color solos.
+   ------------------------------------------------------------ */
+[data-seccion="portada"]           {--sec:var(--sec-portada)}
+[data-seccion="desde-el-concejo"]  {--sec:var(--sec-concejo)}
+[data-seccion="desde-los-barrios"] {--sec:var(--sec-barrios)}
+[data-seccion="entrevista-del-mes"]{--sec:var(--sec-entrevista)}
+[data-seccion="opinion"]           {--sec:var(--sec-opinion)}
+[data-seccion="servicio-comunal"]  {--sec:var(--sec-servicio)}
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: no-preference){
+  html{scroll-behavior:smooth}
+}
+
+body{
+  margin:0;
+  background:var(--surface);
+  color:var(--text);
+  font-family:var(--font-ui);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  transition:background-color .35s var(--ease), color .35s var(--ease);
+}
+
+img{max-width:100%;display:block}
+a{color:inherit}
+
+:focus-visible{
+  outline:3px solid var(--brand-yellow);
+  outline-offset:3px;
+  border-radius:4px;
+}
+/* Los destinos de los saltos reciben foco solo para lectores de pantalla */
+[tabindex="-1"]:focus{outline:none}
+
+.skip-link{
+  position:absolute; left:12px; top:-60px; z-index:999;
+  background:var(--brand-red); color:#fff;
+  padding:12px 18px; border-radius:0 0 10px 10px;
+  font-weight:600; text-decoration:none;
+  transition:top .2s var(--ease);
+}
+.skip-link:focus{top:0}
+
+.wrap{width:min(100% - 2.5rem, var(--wrap)); margin-inline:auto}
+.measure{width:min(100% - 2.5rem, var(--measure)); margin-inline:auto}
+
+/* La firma de marca: una linea fina rojo -> amarillo */
+.brand-rule{
+  height:3px;
+  background:linear-gradient(90deg, var(--brand-red) 0%, var(--brand-yellow) 100%);
+}
+
+/* ============================================================
+   MASTHEAD — pegajoso y siempre visible
+   ============================================================ */
+.masthead{
+  position:sticky; top:0; z-index:100;
+  display:flex; align-items:center; gap:.4rem;
+  padding:.6rem clamp(.9rem, 4vw, 2rem);
+  background:color-mix(in srgb, var(--surface) 86%, transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--border);
+  transition:background-color .35s var(--ease);
+}
+.masthead__home{display:flex; align-items:center; margin-right:.6rem; flex:none}
+.masthead__logo{height:28px; width:auto}
+
+/* El logotipo tiene tinta negra, asi que se cambia de variante segun el tema */
+.logo-dark{display:none}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .logo-light{display:none}
+  :root:not([data-theme="light"]) .logo-dark{display:block}
+}
+:root[data-theme="dark"] .logo-light{display:none}
+:root[data-theme="dark"] .logo-dark{display:block}
+:root[data-theme="light"] .logo-light{display:block}
+:root[data-theme="light"] .logo-dark{display:none}
+
+.masthead__spacer{margin-left:auto}
+
+/* Enlaces y botones de la barra, todos con la misma silueta */
+.nav-link{
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.5rem .8rem;
+  font-size:.82rem; font-weight:600;
+  text-decoration:none; color:var(--text);
+  border-radius:999px; border:1px solid transparent;
+  background:none; cursor:pointer;
+  font-family:inherit;
+  white-space:nowrap;
+  transition:background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+}
+.nav-link:hover{background:var(--surface-2); color:var(--brand-red)}
+.nav-link svg{width:15px; height:15px; flex:none}
+
+.nav-link--cta{border-color:var(--border)}
+.nav-link--cta:hover{border-color:var(--brand-red); background:var(--surface-2)}
+
+.back-link svg{transition:transform .25s var(--ease)}
+.back-link:hover svg{transform:translateX(-4px)}
+
+/* --- Desplegable de secciones: <details>, funciona sin JS --- */
+.menu{position:relative}
+.menu > summary{
+  list-style:none;
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.5rem .8rem;
+  font-size:.82rem; font-weight:600;
+  border-radius:999px; border:1px solid transparent;
+  cursor:pointer; white-space:nowrap;
+  transition:background-color .25s var(--ease), color .25s var(--ease);
+}
+.menu > summary::-webkit-details-marker{display:none}
+.menu > summary:hover{background:var(--surface-2); color:var(--brand-red)}
+.menu > summary .caret{
+  width:13px; height:13px; flex:none;
+  transition:transform .25s var(--ease);
+}
+.menu[open] > summary{background:var(--surface-2)}
+.menu[open] > summary .caret{transform:rotate(180deg)}
+
+.menu__panel{
+  position:absolute; top:calc(100% + .55rem); left:0; z-index:110;
+  min-width:15rem;
+  padding:.4rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:var(--shadow-lg);
+  animation:menuIn .22s var(--ease);
+}
+@keyframes menuIn{ from{opacity:0; transform:translateY(-8px)} }
+
+.menu__item{
+  display:flex; align-items:center; gap:.65rem;
+  padding:.6rem .7rem;
+  font-size:.88rem; font-weight:500;
+  text-decoration:none; color:var(--text);
+  border-radius:9px;
+  transition:background-color .2s var(--ease);
+}
+.menu__item:hover{background:var(--surface-2)}
+.menu__item::before{
+  content:''; flex:none;
+  width:9px; height:9px; border-radius:3px;
+  background:var(--sec);
+}
+.menu__item[aria-current="page"]{background:var(--surface-2); font-weight:700}
+
+@media (max-width:620px){
+  .masthead{gap:.15rem; padding-inline:.7rem}
+  .nav-link, .menu > summary{padding-inline:.6rem; font-size:.78rem}
+  .nav-link--ediciones .rotulo{display:none}
+  .menu__panel{left:auto; right:0}
+}
+
+/* --- Boton de tema --- */
+.theme-toggle{
+  display:grid; place-items:center;
+  width:38px; height:38px; flex:none;
+  border:1px solid var(--border); border-radius:50%;
+  background:var(--surface-2); color:var(--text);
+  cursor:pointer;
+  transition:background-color .25s var(--ease), transform .25s var(--ease);
+}
+.theme-toggle:hover{background:var(--surface-3); transform:rotate(-18deg)}
+.theme-toggle svg{width:18px; height:18px; grid-area:1/1; transition:opacity .3s var(--ease), transform .4s var(--ease)}
+.theme-toggle .icon-moon{opacity:0; transform:scale(.4) rotate(-90deg)}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun{opacity:0; transform:scale(.4) rotate(90deg)}
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon{opacity:1; transform:none}
+}
+:root[data-theme="dark"] .theme-toggle .icon-sun{opacity:0; transform:scale(.4) rotate(90deg)}
+:root[data-theme="dark"] .theme-toggle .icon-moon{opacity:1; transform:none}
+:root[data-theme="light"] .theme-toggle .icon-sun{opacity:1; transform:none}
+:root[data-theme="light"] .theme-toggle .icon-moon{opacity:0; transform:scale(.4) rotate(-90deg)}
+
+/* ============================================================
+   AVISO — "estas leyendo una edicion anterior"
+   ============================================================ */
+.aviso{
+  display:flex; align-items:center; justify-content:center;
+  gap:.4rem 1rem; flex-wrap:wrap;
+  padding:.7rem 1.25rem;
+  background:var(--brand-yellow); color:var(--ink);
+  font-size:.85rem; font-weight:500;
+  text-align:center;
+}
+.aviso a{
+  display:inline-flex; align-items:center; gap:.35rem;
+  font-weight:700; text-decoration:underline; text-underline-offset:3px;
+  white-space:nowrap;
+}
+.aviso svg{width:14px; height:14px}
+
+/* ============================================================
+   PORTADA DE LA EDICION — saludo, numero, mes, lema
+   ============================================================ */
+.hero{
+  padding:clamp(2.5rem, 7vw, 4.75rem) 0 clamp(1.75rem, 4vw, 2.5rem);
+  display:grid; gap:1rem; justify-items:start;
+}
+
+.hero__meta{
+  display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;
+  font-size:.74rem; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--text-muted);
+}
+.hero__meta .punto{
+  width:5px; height:5px; border-radius:50%;
+  background:var(--brand-red);
+}
+
+.hero__saludo{
+  font-family:var(--font-display); font-weight:400;
+  font-size:clamp(2.4rem, 9vw, 5.25rem);
+  line-height:.92; letter-spacing:.005em;
+  text-transform:uppercase;
+  margin:0;
+  max-width:16ch;
+  text-wrap:balance;
+}
+.hero__saludo em{font-style:normal; color:var(--brand-red)}
+
+.hero__lema{
+  margin:0;
+  font-family:var(--font-read); font-style:italic;
+  font-size:clamp(1rem, 2.4vw, 1.45rem);
+  line-height:1.45;
+  color:var(--text-muted);
+  max-width:44ch;
+  text-wrap:pretty;
+}
+
+/* --- Fila de secciones bajo el lema --- */
+.secciones{
+  display:flex; gap:.55rem;
+  margin-top:.5rem;
+  padding-bottom:.5rem;
+  overflow-x:auto;
+  scrollbar-width:none;
+  scroll-snap-type:x proximity;
+  max-width:100%;
+}
+.secciones::-webkit-scrollbar{display:none}
+.secciones a{
+  display:inline-flex; align-items:center; gap:.5rem;
+  flex:none; scroll-snap-align:start;
+  padding:.5rem .9rem;
+  font-size:.82rem; font-weight:600;
+  text-decoration:none; color:var(--text);
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:999px;
+  white-space:nowrap;
+  transition:background-color .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease);
+}
+.secciones a::before{
+  content:''; flex:none;
+  width:8px; height:8px; border-radius:50%;
+  background:var(--sec);
+}
+.secciones a:hover{
+  transform:translateY(-2px);
+  border-color:var(--sec);
+  background:var(--surface-3);
+}
+
+/* ============================================================
+   EDITORIAL — la nota corta de la redaccion
+   ============================================================ */
+.editorial{
+  margin:clamp(1.5rem, 4vw, 2.5rem) 0 clamp(2.5rem, 6vw, 4rem);
+  padding:clamp(1.4rem, 3vw, 2rem) clamp(1.4rem, 3vw, 2.25rem);
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-left:4px solid var(--brand-red);
+  border-radius:6px var(--radius) var(--radius) 6px;
+}
+.editorial__rotulo{
+  display:block;
+  margin-bottom:.9rem;
+  font-size:.7rem; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--brand-red);
+}
+.editorial p{
+  margin:0 0 1em;
+  font-family:var(--font-read);
+  font-size:clamp(1.02rem, 2vw, 1.16rem);
+  line-height:1.7;
+  max-width:62ch;
+  text-wrap:pretty;
+}
+.editorial p:last-of-type{margin-bottom:0}
+.editorial__firma{
+  display:block;
+  margin-top:1.2rem;
+  font-size:.76rem; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text-muted);
+}
+
+/* ============================================================
+   ENCABEZADO DE SECCION
+   ============================================================ */
+.section-head{
+  display:flex; align-items:flex-end; justify-content:space-between;
+  gap:1.5rem; flex-wrap:wrap;
+  padding-bottom:1rem;
+  margin-bottom:clamp(1.5rem, 4vw, 2.25rem);
+  border-bottom:2px solid var(--text);
+}
+.section-head h2{
+  font-family:var(--font-display); font-weight:400;
+  font-size:clamp(1.7rem, 4.5vw, 2.6rem);
+  text-transform:uppercase; letter-spacing:.01em;
+  line-height:1; margin:0;
+}
+.section-head p{
+  margin:0; font-size:.76rem; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--text-muted);
+}
+
+/* ============================================================
+   REJILLA DE TITULARES
+   ============================================================ */
+.edicion{padding-bottom:clamp(2.5rem, 6vw, 4rem)}
+.edicion[id]{scroll-margin-top:4.5rem}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12, 1fr);
+  gap:clamp(1rem, 2vw, 1.5rem);
+}
+
+.card{
+  position:relative;
+  display:flex; flex-direction:column;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  text-decoration:none; color:inherit;
+  box-shadow:var(--shadow-sm);
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+}
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-lg);
+  border-color:color-mix(in srgb, var(--sec) 45%, var(--border));
+}
+
+.card__media{
+  position:relative;
+  overflow:hidden;
+  background:var(--surface-3);
+  flex:none;
+}
+.card__media img{
+  width:100%; height:100%; object-fit:cover;
+  transition:transform .7s var(--ease), filter .5s var(--ease);
+}
+.card:hover .card__media img{transform:scale(1.06)}
+
+/* --- Marcador para las notas que no tienen foto --- */
+.media--ph{
+  display:grid; place-items:center;
+  padding:1.25rem;
+  background:
+    radial-gradient(130% 130% at 12% 0%, color-mix(in srgb, var(--sec) 45%, var(--brand-yellow)) 0%, transparent 58%),
+    linear-gradient(135deg, var(--sec) 0%, color-mix(in srgb, var(--sec) 70%, #000) 100%);
+}
+.media--ph::after{
+  content:attr(data-rotulo);
+  font-family:var(--font-display);
+  font-size:clamp(1.3rem, 3.4vw, 2.4rem);
+  line-height:1.02;
+  letter-spacing:.01em;
+  text-transform:uppercase;
+  text-align:center;
+  color:rgba(255,255,255,.94);
+  text-shadow:0 6px 30px rgba(0,0,0,.28);
+  transition:transform .7s var(--ease);
+}
+.card:hover .media--ph::after{transform:scale(1.05)}
+
+.card__body{
+  display:flex; flex-direction:column; gap:.7rem;
+  padding:clamp(1.1rem, 2.2vw, 1.6rem);
+  flex:1 1 auto;
+}
+
+/* --- Etiqueta de seccion: sobria, con punto de color --- */
+.chip{
+  display:inline-flex; align-items:center; gap:.45rem;
+  align-self:flex-start;
+  padding:.32rem .68rem;
+  font-size:.66rem; font-weight:700;
+  letter-spacing:.13em; text-transform:uppercase;
+  color:var(--text);
+  background:var(--surface-3);
+  border-radius:999px;
+}
+.chip::before{
+  content:''; flex:none;
+  width:7px; height:7px; border-radius:50%;
+  background:var(--sec);
+}
+/* Sobre imagen oscura la etiqueta se invierte */
+.chip--sobre-foto{background:rgba(255,255,255,.16); color:#fff; backdrop-filter:blur(6px)}
+
+.card__title{
+  font-family:var(--font-display); font-weight:400;
+  font-size:1.35rem; line-height:1.1; letter-spacing:.005em;
+  text-transform:uppercase;
+  margin:0;
+  text-wrap:balance;
+  background-image:linear-gradient(var(--sec), var(--sec));
+  background-size:0% 3px;
+  background-position:0 100%;
+  background-repeat:no-repeat;
+  transition:background-size .45s var(--ease);
+  padding-bottom:2px;
+}
+.card:hover .card__title{background-size:100% 3px}
+
+.card__summary{
+  margin:0;
+  font-family:var(--font-read);
+  font-size:1rem; line-height:1.55;
+  color:var(--text-muted);
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+.card__meta{
+  display:flex; align-items:center; gap:.6rem;
+  margin-top:auto; padding-top:.4rem;
+  font-size:.75rem; font-weight:500; color:var(--text-muted);
+}
+.card__meta .arrow{
+  margin-left:auto; width:16px; height:16px; color:var(--sec);
+  transition:transform .35s var(--ease);
+}
+.card:hover .card__meta .arrow{transform:translateX(5px)}
+
+/* --- Tarjeta destacada: el texto va sobre la imagen --- */
+.card--feature{
+  grid-column:span 8;
+  min-height:clamp(340px, 44vw, 500px);
+  border:none;
+  background:var(--ink);
+}
+.card--feature .card__media{position:absolute; inset:0}
+.card--feature .card__media img{filter:brightness(.72)}
+.card--feature:hover .card__media img{filter:brightness(.62)}
+/* Velo oscuro para que el texto sobre la imagen se lea siempre.
+   Va en ::before porque ::after ya lo usa el rotulo del marcador. */
+.card--feature .card__media::before{
+  content:''; position:absolute; inset:0; z-index:2;
+  background:linear-gradient(to top, rgba(15,17,21,.94) 8%, rgba(15,17,21,.45) 48%, rgba(15,17,21,.05) 88%);
+}
+.card--feature .card__body{
+  position:relative;
+  justify-content:flex-end;
+  padding:clamp(1.4rem, 3.5vw, 2.4rem);
+  color:#fff;
+}
+.card--feature .card__title{
+  font-size:clamp(1.7rem, 4vw, 2.9rem);
+  background-image:linear-gradient(var(--brand-yellow), var(--brand-yellow));
+}
+.card--feature .card__summary{
+  color:rgba(255,255,255,.85);
+  -webkit-line-clamp:2;
+  max-width:56ch;
+}
+.card--feature .card__meta{color:rgba(255,255,255,.7)}
+.card--feature .card__meta .arrow{color:var(--brand-yellow)}
+
+/* --- Tarjeta mediana vertical --- */
+.card--small{grid-column:span 4}
+.card--small .card__media{aspect-ratio:16/10}
+
+/* --- Tarjeta de ancho completo, horizontal: cierra la rejilla --- */
+.card--full{grid-column:span 12; flex-direction:row}
+.card--full .card__media{width:38%; flex:none}
+.card--full .card__body{justify-content:center}
+.card--full .card__title{font-size:clamp(1.4rem, 2.6vw, 2rem)}
+
+@media (max-width:1000px){
+  .card--feature{grid-column:span 12; min-height:400px}
+  .card--small{grid-column:span 6}
+}
+@media (max-width:660px){
+  .card--feature,.card--small,.card--full{grid-column:span 12}
+  .card--full{flex-direction:column}
+  .card--full .card__media{width:100%; aspect-ratio:16/10}
+  .card--feature{min-height:min(72svh, 440px)}
+}
+
+/* Revelado escalonado al entrar en pantalla */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .7s var(--ease), transform .7s var(--ease);
+  transition-delay:calc(var(--i, 0) * 80ms);
+}
+.reveal.is-in{opacity:1; transform:none}
+
+/* ============================================================
+   BANDA DE FEEDBACK
+   ============================================================ */
+.feedback{
+  display:grid; gap:1.1rem; justify-items:center;
+  margin:clamp(2.5rem, 6vw, 4rem) auto;
+  padding:clamp(2rem, 5vw, 3rem) clamp(1.4rem, 4vw, 2.5rem);
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  text-align:center;
+}
+.feedback h2{
+  font-family:var(--font-display); font-weight:400;
+  font-size:clamp(1.5rem, 4vw, 2.2rem);
+  text-transform:uppercase; line-height:1.05;
+  margin:0; text-wrap:balance;
+}
+.feedback p{
+  margin:0; max-width:48ch;
+  color:var(--text-muted);
+  font-family:var(--font-read); font-size:1.05rem;
+  text-wrap:pretty;
+}
+
+.boton{
+  display:inline-flex; align-items:center; gap:.6rem;
+  padding:.9rem 1.7rem;
+  background:var(--brand-red); color:#fff;
+  font-family:var(--font-ui); font-size:.95rem; font-weight:700;
+  border:none; border-radius:999px;
+  text-decoration:none; cursor:pointer;
+  box-shadow:0 8px 24px -8px color-mix(in srgb, var(--brand-red) 70%, transparent);
+  transition:transform .28s var(--ease), background-color .28s var(--ease), box-shadow .28s var(--ease);
+}
+.boton:hover{
+  transform:translateY(-2px);
+  background:var(--brand-red-deep);
+  box-shadow:0 14px 32px -10px color-mix(in srgb, var(--brand-red) 80%, transparent);
+}
+.boton svg{width:16px; height:16px}
+
+/* ============================================================
+   ARCHIVO DE EDICIONES
+   ============================================================ */
+.ediciones{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap:clamp(1rem, 2vw, 1.5rem);
+  padding-bottom:clamp(2.5rem, 6vw, 4rem);
+}
+.ed-card{
+  display:flex; flex-direction:column;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  text-decoration:none; color:inherit;
+  box-shadow:var(--shadow-sm);
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease);
+}
+.ed-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-lg);
+  border-color:color-mix(in srgb, var(--brand-red) 45%, var(--border));
+}
+.ed-card__portada{
+  display:grid; place-items:center;
+  aspect-ratio:16/9;
+  padding:1.25rem;
+  background:
+    radial-gradient(130% 130% at 12% 0%, var(--brand-yellow) 0%, transparent 55%),
+    linear-gradient(135deg, var(--brand-red) 0%, var(--brand-red-deep) 100%);
+}
+.ed-card__portada span{
+  font-family:var(--font-display);
+  font-size:clamp(1.6rem, 4vw, 2.4rem);
+  line-height:1.05; text-align:center; text-transform:uppercase;
+  color:rgba(255,255,255,.95);
+  text-shadow:0 6px 30px rgba(0,0,0,.28);
+}
+.ed-card__body{display:flex; flex-direction:column; gap:.5rem; padding:1.3rem}
+.ed-card__num{
+  font-size:.7rem; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--text-muted);
+}
+.ed-card h2{
+  font-family:var(--font-display); font-weight:400;
+  font-size:1.5rem; line-height:1.1; text-transform:uppercase;
+  margin:0;
+}
+.ed-card p{margin:0; font-size:.9rem; color:var(--text-muted)}
+.ed-card__actual{
+  align-self:flex-start;
+  margin-top:.3rem;
+  padding:.28rem .6rem;
+  font-size:.66rem; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase;
+  background:var(--brand-yellow); color:var(--ink);
+  border-radius:999px;
+}
+
+/* ============================================================
+   ARTICULO — barra de progreso
+   ============================================================ */
+.progress{
+  position:fixed; inset:0 0 auto 0; z-index:120;
+  height:3px;
+  background:linear-gradient(90deg, var(--brand-red), var(--brand-yellow));
+  transform-origin:0 50%;
+  transform:scaleX(var(--p, 0));
+}
+@supports (animation-timeline: scroll()){
+  .progress{
+    transform:scaleX(0);
+    animation:progress linear both;
+    animation-timeline:scroll(root block);
+  }
+  @keyframes progress{ to{transform:scaleX(1)} }
+}
+
+/* ============================================================
+   ARTICULO — encabezado
+   ============================================================ */
+.article-head{
+  padding:clamp(2.25rem, 6vw, 4rem) 0 clamp(1.5rem, 4vw, 2.25rem);
+  text-align:center;
+  display:grid; justify-items:center; gap:1.05rem;
+}
+.article-head h1{
+  font-family:var(--font-display); font-weight:400;
+  font-size:clamp(2rem, 6vw, 3.9rem);
+  line-height:.98; letter-spacing:.005em;
+  text-transform:uppercase;
+  margin:0;
+  max-width:20ch;
+  text-wrap:balance;
+}
+.article-dek{
+  font-family:var(--font-read);
+  font-size:clamp(1.05rem, 2.4vw, 1.28rem);
+  line-height:1.55;
+  color:var(--text-muted);
+  max-width:58ch;
+  margin:0;
+  text-wrap:pretty;
+}
+.byline{
+  display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; justify-content:center;
+  font-size:.76rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--text-muted);
+  padding-top:.3rem;
+}
+.byline span:not(:last-child)::after{
+  content:'·'; margin-left:.75rem; color:var(--border);
+}
+.byline strong{color:var(--text); font-weight:600}
+
+/* ============================================================
+   ARTICULO — imagen principal
+   ============================================================ */
+.article-hero{
+  margin:0 auto clamp(2rem, 5vw, 3.25rem);
+  width:min(100% - 2.5rem, var(--wrap));
+  border-radius:var(--radius);
+  overflow:hidden;
+  background:var(--surface-3);
+  box-shadow:var(--shadow-lg);
+  aspect-ratio:16/8;
+}
+.article-hero img{width:100%; height:100%; object-fit:cover}
+.article-hero.media--ph::after{font-size:clamp(2rem, 7vw, 5rem)}
+
+/* ============================================================
+   ARTICULO — cuerpo
+   ============================================================ */
+.article-body{
+  font-family:var(--font-read);
+  font-size:clamp(1.08rem, 2.1vw, 1.2rem);
+  line-height:1.78;
+  color:var(--text);
+  padding-bottom:clamp(2rem, 5vw, 3rem);
+}
+.article-body p{margin:0 0 1.5em}
+
+.article-body > p:first-of-type::first-letter{
+  font-family:var(--font-display);
+  font-size:4.6em;
+  float:left;
+  line-height:.78;
+  margin:.06em .09em 0 0;
+  color:var(--sec);
+}
+
+/* Subtitulos dentro de la nota */
+.article-body h2{
+  font-family:var(--font-display); font-weight:400;
+  font-size:clamp(1.35rem, 3vw, 1.9rem);
+  line-height:1.12; text-transform:uppercase;
+  margin:2.2em 0 .7em;
+  text-wrap:balance;
+}
+
+/* Listas de verdad, con vinetas de la marca.
+   Reemplazan los asteriscos que traia el boletin viejo. */
+.article-body ul{margin:0 0 1.6em; padding:0; list-style:none}
+.article-body ul li{
+  position:relative;
+  margin:0 0 .85em;
+  padding-left:1.6rem;
+}
+.article-body ul li::before{
+  content:'';
+  position:absolute; left:.2rem; top:.72em;
+  width:8px; height:8px; border-radius:2px;
+  background:var(--sec);
+}
+.article-body ol{margin:0 0 1.6em; padding-left:1.4rem}
+.article-body ol li{margin:0 0 .7em; padding-left:.3rem}
+.article-body ol li::marker{color:var(--sec); font-weight:600}
+
+/* Cita destacada */
+.pull{
+  margin:2.4em 0;
+  padding:.2em 0 .2em 1.4rem;
+  border-left:4px solid var(--sec);
+  font-size:1.32em;
+  line-height:1.4;
+  font-style:italic;
+  color:var(--text);
+}
+.pull footer{
+  margin-top:.7rem;
+  font-family:var(--font-ui);
+  font-size:.62em; font-style:normal; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--text-muted);
+}
+
+/* Entrevistas: la pregunta se distingue de la respuesta */
+.pregunta{
+  margin:2em 0 1em;
+  font-family:var(--font-ui);
+  font-size:.95em; font-weight:600;
+  line-height:1.5;
+  color:var(--text);
+  padding-left:1.1rem;
+  border-left:3px solid var(--sec);
+}
+
+/* Bloque de fuentes al pie de la nota */
+.fuentes{
+  margin:2.5em 0 0;
+  padding:1.3rem 1.5rem;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  font-family:var(--font-ui);
+  font-size:.88rem;
+  color:var(--text-muted);
+}
+.fuentes h2{
+  font-family:var(--font-ui); font-weight:700;
+  font-size:.7rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--text);
+  margin:0 0 .8rem;
+}
+.fuentes ol{margin:0; padding-left:1.2rem}
+.fuentes li{margin:0 0 .35em}
+
+/* ============================================================
+   ARTICULO — compartir
+   ============================================================ */
+.compartir{
+  display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;
+  margin-top:clamp(2rem, 5vw, 3rem);
+  padding-top:1.5rem;
+  border-top:1px solid var(--border);
+  font-family:var(--font-ui);
+}
+.compartir__rotulo{
+  margin-right:.3rem;
+  font-size:.72rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--text-muted);
+}
+.compartir button, .compartir a{
+  display:inline-flex; align-items:center; gap:.45rem;
+  padding:.5rem .9rem;
+  font-family:inherit; font-size:.82rem; font-weight:600;
+  color:var(--text);
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:999px;
+  text-decoration:none; cursor:pointer;
+  transition:background-color .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease);
+}
+.compartir button:hover, .compartir a:hover{
+  transform:translateY(-2px);
+  background:var(--surface-3);
+  border-color:var(--sec);
+}
+.compartir svg{width:15px; height:15px}
+
+/* ============================================================
+   ARTICULO — seguir leyendo
+   ============================================================ */
+.related{
+  border-top:1px solid var(--border);
+  background:var(--surface-2);
+  padding:clamp(2.5rem, 6vw, 4rem) 0;
+}
+.related h2{
+  font-family:var(--font-display); font-weight:400;
+  font-size:clamp(1.4rem, 3.5vw, 2rem);
+  text-transform:uppercase; letter-spacing:.01em;
+  margin:0 0 1.4rem;
+}
+.related__grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap:1.2rem;
+}
+.rel-card{
+  display:flex; flex-direction:column; gap:.6rem;
+  padding:1.3rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  text-decoration:none; color:inherit;
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease);
+}
+.rel-card:hover{
+  transform:translateY(-5px);
+  box-shadow:var(--shadow-lg);
+  border-color:color-mix(in srgb, var(--sec) 45%, var(--border));
+}
+.rel-card h3{
+  font-family:var(--font-display); font-weight:400;
+  font-size:1.15rem; line-height:1.15; text-transform:uppercase;
+  margin:0;
+  text-wrap:balance;
+}
+.rel-card > span:last-child{
+  margin-top:auto; padding-top:.3rem;
+  font-size:.74rem; color:var(--text-muted);
+}
+
+/* ============================================================
+   PIE
+   ============================================================ */
+.footer{
+  border-top:1px solid var(--border);
+  background:var(--surface-2);
+  padding:2.75rem 0 2.25rem;
+  margin-top:2rem;
+}
+.footer__inner{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:1.5rem 2rem; flex-wrap:wrap;
+}
+.footer img{height:42px; width:auto}
+.footer p{margin:0; font-size:.85rem; color:var(--text-muted); max-width:46ch}
+.footer strong{color:var(--text)}
+.footer__enlaces{display:flex; gap:1.2rem; flex-wrap:wrap; font-size:.82rem; font-weight:600}
+.footer__enlaces a{text-decoration:none; color:var(--text-muted)}
+.footer__enlaces a:hover{color:var(--brand-red)}
+
+/* ============================================================
+   PAGINA DE REDIRECCION Y 404
+   ============================================================ */
+.centrado{
+  min-height:100svh;
+  display:grid; place-items:center; justify-items:center;
+  gap:1.25rem;
+  padding:2rem 1.5rem;
+  text-align:center;
+}
+.centrado img{width:min(70vw, 260px); height:auto}
+.centrado h1{
+  font-family:var(--font-display); font-weight:400;
+  font-size:clamp(1.8rem, 6vw, 3rem);
+  text-transform:uppercase; line-height:1.02;
+  margin:0; text-wrap:balance;
+}
+.centrado p{margin:0; max-width:44ch; color:var(--text-muted)}
+
+/* ============================================================
+   TRANSICION ENTRE PAGINAS
+   Sin pares con nombre: al compartir un solo CSS, dos paginas
+   distintas declararian el mismo nombre y el navegador
+   transformaria el elemento equivocado.
+   ============================================================ */
+@view-transition{ navigation:auto }
+@media (prefers-reduced-motion: no-preference){
+  ::view-transition-group(*){
+    animation-duration:.45s;
+    animation-timing-function:cubic-bezier(.22,.61,.36,1);
+  }
+}
+
+/* Entrada suave */
+.rise{
+  opacity:0;
+  transform:translateY(22px);
+  animation:rise .85s var(--ease) forwards;
+  animation-delay:calc(var(--d, 0) * 1ms);
+}
+@keyframes rise{ to{opacity:1; transform:none} }
+
+/* ============================================================
+   MOVIMIENTO REDUCIDO
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .rise,.reveal{opacity:1 !important; transform:none !important}
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ediciones anteriores — ¡Diay! Santa Ana</title>
+
+<meta name="description" content="Todas las ediciones del boletín ¡Diay! Santa Ana, de la más reciente a la más antigua.">
+<meta name="author" content="Redacción ¡Diay! Santa Ana">
+<meta name="theme-color" content="#FF4B33" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1115" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://pechancr.github.io/boletin-santa-ana/ediciones/">
+<link rel="icon" href="../assets/logo-claro.png">
+<link rel="apple-touch-icon" href="../assets/logo.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="¡Diay! Santa Ana">
+<meta property="og:title" content="Ediciones anteriores">
+<meta property="og:description" content="Todas las ediciones del boletín ¡Diay! Santa Ana, de la más reciente a la más antigua.">
+<meta property="og:url" content="https://pechancr.github.io/boletin-santa-ana/ediciones/">
+<meta property="og:image" content="https://pechancr.github.io/boletin-santa-ana/assets/logo.png">
+<meta property="og:locale" content="es_CR">
+<meta name="twitter:card" content="summary_large_image">
+
+<script>
+  /* Se aplica el tema antes de pintar, para que no haya parpadeo al cargar. */
+  try {
+    var t = localStorage.getItem('diay-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+  } catch (e) {}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../assets/boletin.css">
+</head>
+<body>
+
+<a class="skip-link" href="#lista">Saltar a la lista</a>
+
+<div class="brand-rule"></div>
+
+<header class="masthead">
+  <a class="nav-link back-link" href="../">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+    <span class="rotulo">Ir a la edición actual</span>
+  </a>
+
+  <span class="masthead__spacer"></span>
+
+  <img class="masthead__logo logo-light" src="../assets/logo-claro.png" alt="¡Diay! Santa Ana" width="1244" height="728">
+  <img class="masthead__logo logo-dark" src="../assets/logo-oscuro.png" alt="" width="1244" height="728">
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar entre modo claro y oscuro">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.8 6.8 0 0 0 11.1 11.1Z"/></svg>
+  </button>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="hero__meta rise" style="--d:60">Archivo</p>
+    <h1 class="hero__saludo rise" style="--d:160">Todas las <em>ediciones</em></h1>
+    <p class="hero__lema rise" style="--d:260">Cada edición queda aquí para siempre, con su propia dirección.</p>
+  </section>
+
+  <section id="lista" tabindex="-1">
+    <div class="ediciones">
+    <a class="ed-card" href="2026-07/">
+      <div class="ed-card__portada"><span>Julio 2026</span></div>
+      <div class="ed-card__body">
+        <span class="ed-card__num">Edición N.º 1</span>
+        <h2>Julio 2026</h2>
+        <p>5 notas</p>
+      <span class="ed-card__actual">Edición actual</span>
+      </div>
+    </a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__inner wrap">
+    <img class="logo-light" src="../assets/logo-claro.png" alt="" width="1244" height="728" loading="lazy">
+  <img class="logo-dark" src="../assets/logo-oscuro.png" alt="" width="1244" height="728" loading="lazy">
+    <p><strong>¡Diay! Santa Ana</strong> — boletín informativo independiente, hecho en Santa Ana, Costa Rica. Un boletín por mes, desde julio de 2026.</p>
+    <nav class="footer__enlaces" aria-label="Enlaces del pie">
+      <a href="../">Edición actual</a>
+      <a href="https://forms.gle/PENDIENTE-DIAY" target="_blank" rel="noopener">Enviar comentarios</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../assets/boletin.js" defer></script>
+</body>
+</html>

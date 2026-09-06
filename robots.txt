@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pechancr.github.io/boletin-santa-ana/sitemap.xml
