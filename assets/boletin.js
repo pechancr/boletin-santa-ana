@@ -39,6 +39,22 @@
     });
   }
 
+  /* --- La barra aparece cuando la portada sale de pantalla --------
+     Solo en la portada de la edicion, donde el logo va a pantalla
+     completa. En el resto de paginas la barra es fija de entrada.   */
+  var flotante = document.querySelector('.masthead--flotante');
+  var hero = document.querySelector('.hero');
+
+  if (flotante) {
+    if (hero && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entradas) {
+        flotante.classList.toggle('is-visible', !entradas[0].isIntersecting);
+      }, { rootMargin: '-70% 0px 0px 0px' }).observe(hero);
+    } else {
+      flotante.classList.add('is-visible');
+    }
+  }
+
   /* --- Revelado escalonado de las tarjetas ------------------------ */
   var porRevelar = document.querySelectorAll('.reveal');
 

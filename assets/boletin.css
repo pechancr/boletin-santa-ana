@@ -140,6 +140,16 @@ a{color:inherit}
   border-bottom:1px solid var(--border);
   transition:background-color .35s var(--ease);
 }
+/* En la portada de la edicion el logo ya manda a pantalla completa, asi que la
+   barra no compite con el: entra sola cuando el hero sale de pantalla. */
+.masthead--flotante{
+  position:fixed; inset:0 0 auto 0;
+  transform:translateY(-100%);
+  opacity:0;
+  transition:transform .45s var(--ease), opacity .35s var(--ease), background-color .35s var(--ease);
+}
+.masthead--flotante.is-visible{transform:translateY(0); opacity:1}
+
 .masthead__home{display:flex; align-items:center; margin-right:.6rem; flex:none}
 .masthead__logo{height:28px; width:auto}
 
@@ -272,25 +282,146 @@ a{color:inherit}
 .aviso svg{width:14px; height:14px}
 
 /* ============================================================
-   PORTADA DE LA EDICION — saludo, numero, mes, lema
+   PORTADA DE LA EDICION — el logo manda
+   Fondo tinta liso con grano. Sin manchas de color.
    ============================================================ */
 .hero{
+  position:relative;
+  min-height:100vh;
+  min-height:100svh;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:5rem 1.25rem 4.5rem;
+  overflow:hidden;
+  background:var(--ink);
+  color:#fff;
+  isolation:isolate;
+}
+
+/* Grano fino: le da textura de impreso al fondo liso */
+.hero::after{
+  content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  opacity:.2; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.hero__inner{
+  position:relative;
+  max-width:900px;
+  display:grid;
+  justify-items:center;
+  gap:1.4rem;
+}
+
+.hero__logo{
+  width:min(78vw, 420px);
+  height:auto;
+  filter:drop-shadow(0 10px 30px rgba(0,0,0,.35));
+}
+
+.kicker{
+  display:inline-flex; align-items:center; gap:.55rem;
+  background:var(--brand-yellow); color:var(--ink);
+  font-size:.73rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+  padding:.5rem 1rem; border-radius:999px;
+}
+.kicker::before{
+  content:''; width:7px; height:7px; border-radius:50%;
+  background:var(--brand-red-deep);
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1; transform:scale(1)}
+  50%{opacity:.35; transform:scale(.72)}
+}
+
+.hero h1{
+  font-family:var(--font-display);
+  font-weight:400;
+  font-size:clamp(2.6rem, 8.5vw, 6rem);
+  line-height:.94;
+  letter-spacing:.005em;
+  text-transform:uppercase;
+  margin:0;
+  text-wrap:balance;
+  text-shadow:0 6px 40px rgba(0,0,0,.3);
+}
+.hero h1 em{font-style:normal; color:var(--brand-yellow)}
+
+.hero__dek{
+  font-size:clamp(1rem, 2.2vw, 1.2rem);
+  line-height:1.6;
+  max-width:52ch;
+  margin:0;
+  color:rgba(255,255,255,.9);
+  text-wrap:pretty;
+}
+
+.hero__cta{
+  display:inline-flex; align-items:center; gap:.65rem;
+  margin-top:.4rem;
+  padding:1rem 1.9rem;
+  background:#fff; color:var(--ink);
+  font-family:var(--font-ui); font-size:1rem; font-weight:700;
+  border:none; border-radius:999px;
+  text-decoration:none; cursor:pointer;
+  box-shadow:0 10px 34px rgba(0,0,0,.28);
+  transition:transform .28s var(--ease), box-shadow .28s var(--ease), background-color .28s var(--ease);
+}
+.hero__cta:hover{
+  transform:translateY(-3px);
+  background:var(--brand-yellow);
+  box-shadow:0 18px 44px rgba(0,0,0,.36);
+}
+.hero__cta svg{width:17px; height:17px; transition:transform .28s var(--ease)}
+.hero__cta:hover svg{transform:translateY(3px)}
+
+.hero__cue{
+  position:absolute; left:50%; bottom:1.6rem; translate:-50% 0;
+  display:grid; justify-items:center; gap:.5rem;
+  font-size:.68rem; letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(255,255,255,.65);
+}
+.hero__cue span{
+  display:block; width:1px; height:34px;
+  background:linear-gradient(rgba(255,255,255,.7), transparent);
+  animation:cue 2s ease-in-out infinite;
+  transform-origin:top;
+}
+@keyframes cue{
+  0%{transform:scaleY(0); opacity:0}
+  40%{transform:scaleY(1); opacity:1}
+  100%{transform:scaleY(1) translateY(34px); opacity:0}
+}
+
+/* Parallax ligado al scroll donde el navegador lo soporte */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .hero__inner{
+      animation:heroOut linear both;
+      animation-timeline:view();
+      animation-range:exit-crossing 0% exit-crossing 90%;
+    }
+    @keyframes heroOut{ to{opacity:0; transform:translateY(-70px) scale(.94)} }
+  }
+}
+
+/* ============================================================
+   ENCABEZADO SIMPLE — para el archivo de ediciones
+   ============================================================ */
+.encabezado{
   padding:clamp(2.5rem, 7vw, 4.75rem) 0 clamp(1.75rem, 4vw, 2.5rem);
   display:grid; gap:1rem; justify-items:start;
 }
-
-.hero__meta{
+.encabezado__meta{
   display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;
+  margin:0;
   font-size:.74rem; font-weight:700;
   letter-spacing:.16em; text-transform:uppercase;
   color:var(--text-muted);
 }
-.hero__meta .punto{
-  width:5px; height:5px; border-radius:50%;
-  background:var(--brand-red);
-}
-
-.hero__saludo{
+.encabezado h1{
   font-family:var(--font-display); font-weight:400;
   font-size:clamp(2.4rem, 9vw, 5.25rem);
   line-height:.92; letter-spacing:.005em;
@@ -299,9 +430,8 @@ a{color:inherit}
   max-width:16ch;
   text-wrap:balance;
 }
-.hero__saludo em{font-style:normal; color:var(--brand-red)}
-
-.hero__lema{
+.encabezado h1 em{font-style:normal; color:var(--brand-red)}
+.encabezado__pie{
   margin:0;
   font-family:var(--font-read); font-style:italic;
   font-size:clamp(1rem, 2.4vw, 1.45rem);
@@ -311,12 +441,17 @@ a{color:inherit}
   text-wrap:pretty;
 }
 
-/* --- Fila de secciones bajo el lema --- */
+/* ============================================================
+   FILA DE SECCIONES
+   Va justo despues de la portada. Como la fila hace scroll
+   horizontal, el navegador tambien recorta arriba y abajo: por eso
+   lleva relleno propio, para que el brinco del hover no quede cortado.
+   ============================================================ */
 .secciones{
   display:flex; gap:.55rem;
-  margin-top:.5rem;
-  padding-bottom:.5rem;
+  padding:.6rem 0 .9rem;
   overflow-x:auto;
+  overscroll-behavior-x:contain;
   scrollbar-width:none;
   scroll-snap-type:x proximity;
   max-width:100%;
@@ -343,41 +478,13 @@ a{color:inherit}
   transform:translateY(-2px);
   border-color:var(--sec);
   background:var(--surface-3);
+  box-shadow:0 6px 16px -6px color-mix(in srgb, var(--sec) 55%, transparent);
 }
 
-/* ============================================================
-   EDITORIAL — la nota corta de la redaccion
-   ============================================================ */
-.editorial{
-  margin:clamp(1.5rem, 4vw, 2.5rem) 0 clamp(2.5rem, 6vw, 4rem);
-  padding:clamp(1.4rem, 3vw, 2rem) clamp(1.4rem, 3vw, 2.25rem);
-  background:var(--surface-2);
-  border:1px solid var(--border);
-  border-left:4px solid var(--brand-red);
-  border-radius:6px var(--radius) var(--radius) 6px;
-}
-.editorial__rotulo{
-  display:block;
-  margin-bottom:.9rem;
-  font-size:.7rem; font-weight:700;
-  letter-spacing:.18em; text-transform:uppercase;
-  color:var(--brand-red);
-}
-.editorial p{
-  margin:0 0 1em;
-  font-family:var(--font-read);
-  font-size:clamp(1.02rem, 2vw, 1.16rem);
-  line-height:1.7;
-  max-width:62ch;
-  text-wrap:pretty;
-}
-.editorial p:last-of-type{margin-bottom:0}
-.editorial__firma{
-  display:block;
-  margin-top:1.2rem;
-  font-size:.76rem; font-weight:600;
-  letter-spacing:.1em; text-transform:uppercase;
-  color:var(--text-muted);
+/* La banda que sostiene la fila, entre la portada y los titulares */
+.banda-secciones{
+  border-bottom:1px solid var(--border);
+  background:var(--surface);
 }
 
 /* ============================================================
@@ -1011,4 +1118,5 @@ a{color:inherit}
     scroll-behavior:auto !important;
   }
   .rise,.reveal{opacity:1 !important; transform:none !important}
+  .masthead--flotante{transform:none; opacity:1}
 }

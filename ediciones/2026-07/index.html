@@ -41,7 +41,7 @@
 
 <div class="brand-rule"></div>
 
-<header class="masthead">
+<header class="masthead masthead--flotante" id="masthead">
   <a class="masthead__home" href="./" aria-label="Portada de la edición">
     <img class="masthead__logo logo-light" src="../../assets/logo-claro.png" alt="¡Diay! Santa Ana" width="1244" height="728">
   <img class="masthead__logo logo-dark" src="../../assets/logo-oscuro.png" alt="" width="1244" height="728">
@@ -68,7 +68,7 @@
 
   <span class="masthead__spacer"></span>
 
-  <a class="nav-link nav-link--cta" href="https://forms.gle/PENDIENTE-DIAY" target="_blank" rel="noopener">Opiná</a>
+  <a class="nav-link nav-link--cta" href="https://forms.gle/9AAFWWuwYa7f2BU98" target="_blank" rel="noopener">Opiná</a>
 
   <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar entre modo claro y oscuro">
     <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
@@ -78,30 +78,31 @@
 
 <main>
 
-  <section class="hero wrap">
-    <p class="hero__meta rise" style="--d:60">
-      Edición N.º 1 <span class="punto" aria-hidden="true"></span> Julio 2026
-    </p>
-    <h1 class="hero__saludo rise" style="--d:160">¡Buenas, <em>Santa Ana</em>!</h1>
-    <p class="hero__lema rise" style="--d:260">Lo que pasa aquí, contado por los de aquí.</p>
+  <section class="hero">
+    <div class="hero__inner">
+      <img class="hero__logo rise" style="--d:80" src="../../assets/logo-oscuro.png" alt="¡Diay! Santa Ana — boletín informativo" width="1244" height="728" fetchpriority="high">
+      <span class="kicker rise" style="--d:260">Edición N.º 1 · Julio 2026</span>
+      <h1 class="rise" style="--d:380">Lo que pasa <em>aquí</em>,<br>contado por los de aquí</h1>
+      <p class="hero__dek rise" style="--d:520">Boletín independiente de Santa Ana, Costa Rica. Cada mes: lo que decide el Concejo, lo que pasa en los barrios y lo que nadie más está contando.</p>
+      <a class="hero__cta rise" style="--d:660" href="#titulares">
+        Ver los titulares
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </a>
+    </div>
+    <div class="hero__cue" aria-hidden="true">
+      <span></span>
+      Desliza
+    </div>
+  </section>
 
-    <nav class="secciones rise" style="--d:360" aria-label="Secciones de esta edición">
+  <div class="banda-secciones">
+    <nav class="secciones wrap" aria-label="Secciones de esta edición">
       <a data-seccion="portada" href="portada.html">Portada</a>
       <a data-seccion="desde-el-concejo" href="desde-el-concejo.html">Desde el Concejo</a>
       <a data-seccion="desde-los-barrios" href="desde-los-barrios.html">Desde los barrios</a>
       <a data-seccion="entrevista-del-mes" href="entrevista-del-mes.html">Entrevista del mes</a>
       <a data-seccion="opinion" href="opinion.html">Opinión</a>
     </nav>
-  </section>
-
-  <div class="wrap">
-    <section class="editorial rise" style="--d:460" aria-labelledby="editorial-rotulo">
-      <span class="editorial__rotulo" id="editorial-rotulo">Editorial</span>
-      <p>Esta fue nuestra primera entrega. Nació de una idea sencilla: en Santa Ana pasan cosas todos los días que merecen contarse, y nadie las cuenta mejor que quienes vivimos aquí.</p>
-      <p>En estas páginas hay una denuncia ambiental que sigue sin respuesta, los acuerdos de un Concejo Municipal que decide sobre nuestra plata, una familia que reconstruye su casa a pulso, una comunidad que exige que la industria de alto riesgo no le quede al lado de la escuela, y un proyecto de ley que puede cambiar lo que pagamos de luz cada mes.</p>
-      <p>Salió sin una sola fotografía, y aun así salió. Gracias por leernos.</p>
-      <span class="editorial__firma">— Redacción ¡Diay!</span>
-    </section>
   </div>
 
   <section class="edicion wrap" id="titulares" tabindex="-1">
@@ -178,7 +179,7 @@
     <section class="feedback reveal">
       <h2>¿Qué te pareció esta edición?</h2>
       <p>Contanos qué te sirvió, qué falta y qué deberíamos investigar el próximo mes. Nos toma un minuto leerlo y nos cambia la edición que viene.</p>
-      <a class="boton" href="https://forms.gle/PENDIENTE-DIAY" target="_blank" rel="noopener">
+      <a class="boton" href="https://forms.gle/9AAFWWuwYa7f2BU98" target="_blank" rel="noopener">
         Dejanos tu opinión
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
@@ -193,7 +194,7 @@
     <p><strong>¡Diay! Santa Ana</strong> — boletín informativo independiente, hecho en Santa Ana, Costa Rica. Edición N.º 1, julio 2026.</p>
     <nav class="footer__enlaces" aria-label="Enlaces del pie">
       <a href="../">Ediciones anteriores</a>
-      <a href="https://forms.gle/PENDIENTE-DIAY" target="_blank" rel="noopener">Enviar comentarios</a>
+      <a href="https://forms.gle/9AAFWWuwYa7f2BU98" target="_blank" rel="noopener">Enviar comentarios</a>
     </nav>
   </div>
 </footer>
