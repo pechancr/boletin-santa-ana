@@ -1,9 +1,14 @@
 # ============================================================
-# Repositorio PUBLICO: aqui arriba solo va la pagina.
-# Todo lo que sirve para fabricarla se queda en la maquina.
+# Repositorio PUBLICO: aqui solo va la pagina.
+#
+# La maquinaria que la fabrica ya no vive en esta carpeta: esta un nivel
+# arriba, en el repositorio privado boletin-santa-ana-dev, y esta carpeta
+# es su subcarpeta sitio/.
 # ============================================================
 
-# --- Maquinaria del boletin (local, nunca se publica) ---
+# --- Red de seguridad ---
+# Ya no deberian existir aqui. Se quedan listados por si alguna vez se
+# copian de vuelta por error: asi no se publican ni por accidente.
 CLAUDE.md
 PUBLICAR.md
 plantilla/
