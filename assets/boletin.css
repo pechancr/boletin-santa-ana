@@ -29,6 +29,15 @@
   --shadow-sm:0 1px 2px rgba(15,17,21,.06), 0 4px 12px rgba(15,17,21,.05);
   --shadow-lg:0 18px 50px -12px rgba(15,17,21,.22);
 
+  /* La portada de la edicion sigue el tema. El fondo sale de --surface, que en
+     modo oscuro ya vale la misma tinta de antes; lo que va sobre el fondo si
+     necesita su propio juego de valores para leerse en los dos modos. */
+  --hero-sombra:none;
+  --hero-logo-sombra:drop-shadow(0 8px 22px rgba(15,17,21,.14));
+  --hero-cta-bg:var(--ink);
+  --hero-cta-fg:#fff;
+  --hero-cue:rgba(15,17,21,.55);
+
   --font-display:'Anton', Impact, 'Arial Narrow Bold', Haettenschweiler, sans-serif;
   --font-ui:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-read:'Newsreader', Georgia, 'Times New Roman', serif;
@@ -52,6 +61,11 @@
     --border:#282D38;
     --shadow-sm:0 1px 2px rgba(0,0,0,.5), 0 4px 14px rgba(0,0,0,.35);
     --shadow-lg:0 20px 55px -12px rgba(0,0,0,.7);
+    --hero-sombra:0 6px 40px rgba(0,0,0,.3);
+    --hero-logo-sombra:drop-shadow(0 10px 30px rgba(0,0,0,.35));
+    --hero-cta-bg:#fff;
+    --hero-cta-fg:var(--ink);
+    --hero-cue:rgba(255,255,255,.65);
     color-scheme:dark;
   }
 }
@@ -65,6 +79,11 @@
   --border:#282D38;
   --shadow-sm:0 1px 2px rgba(0,0,0,.5), 0 4px 14px rgba(0,0,0,.35);
   --shadow-lg:0 20px 55px -12px rgba(0,0,0,.7);
+  --hero-sombra:0 6px 40px rgba(0,0,0,.3);
+  --hero-logo-sombra:drop-shadow(0 10px 30px rgba(0,0,0,.35));
+  --hero-cta-bg:#fff;
+  --hero-cta-fg:var(--ink);
+  --hero-cue:rgba(255,255,255,.65);
   color-scheme:dark;
 }
 
@@ -239,7 +258,11 @@ a{color:inherit}
   .masthead{gap:.15rem; padding-inline:.7rem}
   .nav-link, .menu > summary{padding-inline:.6rem; font-size:.78rem}
   .nav-link--ediciones .rotulo{display:none}
-  .menu__panel{left:auto; right:0}
+  /* El boton de secciones vive pegado al borde izquierdo: si el panel se ancla
+     a el, se sale de la pantalla y las opciones quedan cortadas. En pantalla
+     chica se ancla a la barra entera y ocupa el ancho completo. */
+  .menu{position:static}
+  .menu__panel{left:.7rem; right:.7rem; min-width:0}
 }
 
 /* --- Boton de tema --- */
@@ -283,7 +306,8 @@ a{color:inherit}
 
 /* ============================================================
    PORTADA DE LA EDICION — el logo manda
-   Fondo tinta liso con grano. Sin manchas de color.
+   Fondo liso con grano, sin manchas de color. Sigue el tema de la pagina:
+   papel en modo claro, tinta en modo oscuro. El logotipo cambia con el.
    ============================================================ */
 .hero{
   position:relative;
@@ -294,8 +318,8 @@ a{color:inherit}
   text-align:center;
   padding:5rem 1.25rem 4.5rem;
   overflow:hidden;
-  background:var(--ink);
-  color:#fff;
+  background:var(--surface);
+  color:var(--text);
   isolation:isolate;
 }
 
@@ -317,7 +341,7 @@ a{color:inherit}
 .hero__logo{
   width:min(78vw, 420px);
   height:auto;
-  filter:drop-shadow(0 10px 30px rgba(0,0,0,.35));
+  filter:var(--hero-logo-sombra);
 }
 
 .kicker{
@@ -346,7 +370,7 @@ a{color:inherit}
   text-transform:uppercase;
   margin:0;
   text-wrap:balance;
-  text-shadow:0 6px 40px rgba(0,0,0,.3);
+  text-shadow:var(--hero-sombra);
 }
 .hero h1 em{font-style:normal; color:var(--brand-yellow)}
 
@@ -354,7 +378,7 @@ a{color:inherit}
   display:inline-flex; align-items:center; gap:.65rem;
   margin-top:.4rem;
   padding:1rem 1.9rem;
-  background:#fff; color:var(--ink);
+  background:var(--hero-cta-bg); color:var(--hero-cta-fg);
   font-family:var(--font-ui); font-size:1rem; font-weight:700;
   border:none; border-radius:999px;
   text-decoration:none; cursor:pointer;
@@ -363,7 +387,8 @@ a{color:inherit}
 }
 .hero__cta:hover{
   transform:translateY(-3px);
-  background:var(--brand-yellow);
+  /* Sobre el amarillo la tinta siempre es oscura, en los dos modos. */
+  background:var(--brand-yellow); color:var(--ink);
   box-shadow:0 18px 44px rgba(0,0,0,.36);
 }
 .hero__cta svg{width:17px; height:17px; transition:transform .28s var(--ease)}
@@ -373,11 +398,11 @@ a{color:inherit}
   position:absolute; left:50%; bottom:1.6rem; translate:-50% 0;
   display:grid; justify-items:center; gap:.5rem;
   font-size:.68rem; letter-spacing:.2em; text-transform:uppercase;
-  color:rgba(255,255,255,.65);
+  color:var(--hero-cue);
 }
 .hero__cue span{
   display:block; width:1px; height:34px;
-  background:linear-gradient(rgba(255,255,255,.7), transparent);
+  background:linear-gradient(currentColor, transparent);
   animation:cue 2s ease-in-out infinite;
   transform-origin:top;
 }
@@ -423,15 +448,6 @@ a{color:inherit}
   text-wrap:balance;
 }
 .encabezado h1 em{font-style:normal; color:var(--brand-red)}
-.encabezado__pie{
-  margin:0;
-  font-family:var(--font-read); font-style:italic;
-  font-size:clamp(1rem, 2.4vw, 1.45rem);
-  line-height:1.45;
-  color:var(--text-muted);
-  max-width:44ch;
-  text-wrap:pretty;
-}
 
 /* ============================================================
    FILA DE SECCIONES
@@ -475,6 +491,9 @@ a{color:inherit}
 
 /* La banda que sostiene la fila, entre la portada y los titulares */
 .banda-secciones{
+  /* Ahora que la portada puede ser blanca, esta linea es la que marca donde
+     termina la portada y empieza el boletin. */
+  border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
   background:var(--surface);
 }
