@@ -7,13 +7,13 @@
 
   var root = document.documentElement;
 
-  /* --- Modo oscuro ------------------------------------------------ */
+  /* --- Modo oscuro ------------------------------------------------
+     Se abre en claro siempre; el oscuro es solo si se elige aqui.    */
   var toggle = document.getElementById('themeToggle');
 
   if (toggle) {
     toggle.addEventListener('click', function () {
-      var actual = root.dataset.theme ||
-        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      var actual = root.dataset.theme || 'light';
       var siguiente = actual === 'dark' ? 'light' : 'dark';
       root.dataset.theme = siguiente;
       try { localStorage.setItem('diay-theme', siguiente); } catch (e) {}
@@ -137,6 +137,30 @@
         campo.select();
         try { document.execCommand('copy'); listo(); } catch (e) {}
         document.body.removeChild(campo);
+      }
+    });
+  }
+
+  /* --- Agenda: lo que ya paso se atenua ----------------------------
+     La pagina es estatica y se lee semanas despues de publicada: la
+     fecha de hoy la sabe el navegador, no el generador. Sin JS la
+     agenda se lee completa, igual que el dia que salio.              */
+  var eventos = document.querySelectorAll('.evento[data-fecha]');
+
+  if (eventos.length) {
+    var hoy = new Date();
+    var hoyIso = hoy.getFullYear() + '-' +
+      ('0' + (hoy.getMonth() + 1)).slice(-2) + '-' +
+      ('0' + hoy.getDate()).slice(-2);
+
+    eventos.forEach(function (evento) {
+      if (evento.getAttribute('data-fecha') < hoyIso) {
+        evento.classList.add('evento--pasado');
+        var marca = document.createElement('span');
+        marca.className = 'evento__pasado';
+        marca.textContent = 'Ya pasó';
+        var titulo = evento.querySelector('.evento__titulo');
+        if (titulo) titulo.appendChild(marca);
       }
     });
   }

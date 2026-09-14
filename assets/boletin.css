@@ -18,6 +18,7 @@
   --sec-entrevista:#0E9F6E;
   --sec-opinion:#7C3AED;
   --sec-servicio:#0891B2;
+  --sec-sabias:#DB2777;
   --sec:var(--brand-red);
 
   --surface:#FFFFFF;
@@ -50,26 +51,11 @@
   color-scheme:light;
 }
 
-/* Modo oscuro por preferencia del sistema (salvo que se haya forzado claro) */
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --surface:#0F1115;
-    --surface-2:#171A21;
-    --surface-3:#20242E;
-    --text:#F2F3F6;
-    --text-muted:#9AA1B0;
-    --border:#282D38;
-    --shadow-sm:0 1px 2px rgba(0,0,0,.5), 0 4px 14px rgba(0,0,0,.35);
-    --shadow-lg:0 20px 55px -12px rgba(0,0,0,.7);
-    --hero-sombra:0 6px 40px rgba(0,0,0,.3);
-    --hero-logo-sombra:drop-shadow(0 10px 30px rgba(0,0,0,.35));
-    --hero-cta-bg:#fff;
-    --hero-cta-fg:var(--ink);
-    --hero-cue:rgba(255,255,255,.65);
-    color-scheme:dark;
-  }
-}
-/* Modo oscuro forzado con el boton */
+/* El boletin abre SIEMPRE en modo claro, aunque el sistema este en oscuro:
+   es una decision de la redaccion (septiembre 2026). El oscuro existe, pero
+   solo si la persona lo elige con el boton; boletin.js lo recuerda. Por eso
+   aqui no hay ningun @media (prefers-color-scheme: dark). */
+/* Modo oscuro elegido con el boton */
 :root[data-theme="dark"]{
   --surface:#0F1115;
   --surface-2:#171A21;
@@ -98,6 +84,7 @@
 [data-seccion="entrevista-del-mes"]{--sec:var(--sec-entrevista)}
 [data-seccion="opinion"]           {--sec:var(--sec-opinion)}
 [data-seccion="servicio-comunal"]  {--sec:var(--sec-servicio)}
+[data-seccion="sabias-que"]        {--sec:var(--sec-sabias)}
 
 *,*::before,*::after{box-sizing:border-box}
 
@@ -174,10 +161,6 @@ a{color:inherit}
 
 /* El logotipo tiene tinta negra, asi que se cambia de variante segun el tema */
 .logo-dark{display:none}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]) .logo-light{display:none}
-  :root:not([data-theme="light"]) .logo-dark{display:block}
-}
 :root[data-theme="dark"] .logo-light{display:none}
 :root[data-theme="dark"] .logo-dark{display:block}
 :root[data-theme="light"] .logo-light{display:block}
@@ -277,10 +260,6 @@ a{color:inherit}
 .theme-toggle:hover{background:var(--surface-3); transform:rotate(-18deg)}
 .theme-toggle svg{width:18px; height:18px; grid-area:1/1; transition:opacity .3s var(--ease), transform .4s var(--ease)}
 .theme-toggle .icon-moon{opacity:0; transform:scale(.4) rotate(-90deg)}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]) .theme-toggle .icon-sun{opacity:0; transform:scale(.4) rotate(90deg)}
-  :root:not([data-theme="light"]) .theme-toggle .icon-moon{opacity:1; transform:none}
-}
 :root[data-theme="dark"] .theme-toggle .icon-sun{opacity:0; transform:scale(.4) rotate(90deg)}
 :root[data-theme="dark"] .theme-toggle .icon-moon{opacity:1; transform:none}
 :root[data-theme="light"] .theme-toggle .icon-sun{opacity:1; transform:none}
@@ -562,6 +541,8 @@ a{color:inherit}
   transition:transform .7s var(--ease), filter .5s var(--ease);
 }
 .card:hover .card__media img{transform:scale(1.06)}
+/* Un afiche o un mapa se recorta desde arriba: ahi esta el titulo. */
+.card__media--arriba img{object-position:top}
 
 /* --- Marcador para las notas que no tienen foto --- */
 .media--ph{
@@ -683,6 +664,10 @@ a{color:inherit}
 .card--small{grid-column:span 4}
 .card--small .card__media{aspect-ratio:16/10}
 
+/* --- Media fila: cuando sin destacada sobran dos tarjetas, se reparten el ancho --- */
+.card--half{grid-column:span 6}
+.card--half .card__media{aspect-ratio:16/9}
+
 /* --- Tarjeta de ancho completo, horizontal: cierra la rejilla --- */
 .card--full{grid-column:span 12; flex-direction:row}
 .card--full .card__media{width:38%; flex:none}
@@ -694,7 +679,7 @@ a{color:inherit}
   .card--small{grid-column:span 6}
 }
 @media (max-width:660px){
-  .card--feature,.card--small,.card--full{grid-column:span 12}
+  .card--feature,.card--small,.card--half,.card--full{grid-column:span 12}
   .card--full{flex-direction:column}
   .card--full .card__media{width:100%; aspect-ratio:16/10}
   .card--feature{min-height:min(72svh, 440px)}
@@ -876,7 +861,10 @@ a{color:inherit}
   width:min(100% - 2.5rem, var(--wrap));
   border-radius:var(--radius);
   overflow:hidden;
-  background:var(--surface-3);
+  /* background-color y no background: el atajo borraba el degradado de
+     .media--ph, y la nota sin foto mostraba un recuadro gris en vez del
+     marcador con el color de su seccion. */
+  background-color:var(--surface-3);
   box-shadow:var(--shadow-lg);
   aspect-ratio:16/8;
 }
@@ -1132,4 +1120,210 @@ a{color:inherit}
   }
   .rise,.reveal{opacity:1 !important; transform:none !important}
   .masthead--flotante{transform:none; opacity:1}
+}
+
+
+/* -------------------------------------------------------------------------
+   Nota al pie sobre como se hizo una nota. Hoy la usa «Desde el Concejo»,
+   que se arma desde las actas del Concejo. Es una aclaracion, no una
+   advertencia: va en el tono del cuerpo y no compite con el texto.
+   ------------------------------------------------------------------------- */
+.metodo{
+  margin:clamp(2rem, 5vw, 3rem) 0 0;
+  padding:clamp(1.1rem, 3vw, 1.6rem) clamp(1.1rem, 3vw, 1.7rem);
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-left:3px solid var(--sec);
+  border-radius:var(--radius);
+}
+.metodo h2{
+  margin:0 0 .5rem;
+  font-family:var(--font-ui);
+  font-size:.82rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--text-muted);
+}
+.metodo p{
+  margin:0;
+  font-family:var(--font-read);
+  font-size:.98rem; line-height:1.7;
+  color:var(--text-muted);
+}
+
+/* -------------------------------------------------------------------------
+   Que actas cubre la nota. Las actas se publican con semanas de atraso y la
+   edicion de un mes cuenta sesiones de meses anteriores: se dice arriba, antes
+   de que alguien lea "septiembre" y crea que habla de septiembre. Es un
+   <aside> y no un <p> suelto para no robarle la capitular al primer parrafo.
+   ------------------------------------------------------------------------- */
+.periodo{
+  margin:0 0 clamp(1.4rem, 4vw, 2rem);
+  padding:0 0 0 1rem;
+  border-left:3px solid var(--sec);
+}
+.periodo p{
+  margin:0;
+  font-family:var(--font-ui);
+  font-size:.9rem; line-height:1.6;
+  color:var(--text-muted);
+}
+.periodo strong{color:var(--text); font-weight:600}
+
+/* -------------------------------------------------------------------------
+   De que se hablo: los temas que se discutieron, se votaran o no. Va entre
+   el cuerpo y «Como se hizo esta nota», con la misma caja pero en el color
+   del texto: esto si es contenido.
+   ------------------------------------------------------------------------- */
+.temas{
+  margin:clamp(2rem, 5vw, 3rem) 0 0;
+  padding:clamp(1.1rem, 3vw, 1.6rem) clamp(1.1rem, 3vw, 1.7rem);
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-top:3px solid var(--sec);
+  border-radius:var(--radius);
+}
+.article-body .temas h2{
+  margin:0 0 .9rem;
+  font-size:clamp(1.15rem, 2.6vw, 1.45rem);
+}
+.article-body .temas ul{margin:0}
+.article-body .temas li{
+  margin:0 0 .7em;
+  font-size:1rem; line-height:1.65;
+}
+.article-body .temas li:last-child{margin-bottom:0}
+
+/* -------------------------------------------------------------------------
+   Fotos dentro de la nota. La primera va arriba como imagen principal; las
+   demas, donde el cuerpo diga <!-- foto:N -->, o al final en galeria.
+   Un mapa o un afiche no se pueden recortar: con "encuadre": "completo" la
+   imagen se muestra entera, sin la proporcion fija del encabezado.
+   ------------------------------------------------------------------------- */
+.article-hero--completo{aspect-ratio:auto; background:var(--surface-2)}
+.article-hero--completo img{height:auto; max-height:88svh; object-fit:contain}
+.article-hero figcaption,
+.foto figcaption{
+  padding:.7rem 1rem .8rem;
+  font-family:var(--font-ui);
+  font-size:.8rem; line-height:1.5;
+  color:var(--text-muted);
+  background:var(--surface-2);
+}
+.credito{
+  display:block;
+  font-size:.72rem; font-weight:600;
+  letter-spacing:.06em; text-transform:uppercase;
+}
+.foto{
+  margin:2.2em 0;
+  border-radius:12px;
+  overflow:hidden;
+  background:var(--surface-3);
+}
+.foto img{display:block; width:100%; height:auto}
+.galeria{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap:1rem;
+  margin:2.4em 0 0;
+}
+.galeria .foto{margin:0}
+
+/* -------------------------------------------------------------------------
+   Agenda: la de «Servicio comunal». No es una tabla: en el celular una tabla
+   de cinco columnas no se lee. Cada actividad es una fila con su fecha grande.
+   ------------------------------------------------------------------------- */
+.agenda{font-family:var(--font-ui)}
+.article-body .agenda__mes{
+  display:flex; align-items:baseline; gap:.7rem;
+  margin:2em 0 .9em;
+}
+.article-body .agenda__mes:first-child{margin-top:0}
+.agenda__cuenta{
+  font-family:var(--font-ui);
+  font-size:.74rem; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--text-muted);
+}
+.article-body ol.agenda__lista{
+  list-style:none; margin:0; padding:0;
+  display:grid; gap:.7rem;
+}
+.article-body ol.agenda__lista > li{margin:0; padding:0}
+.evento{
+  display:grid;
+  grid-template-columns:4.4rem 1fr;
+  gap:1rem;
+  align-items:center;
+  padding:.85rem 1rem .85rem .85rem;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  transition:border-color .25s var(--ease), opacity .25s var(--ease);
+}
+.evento:hover{border-color:color-mix(in srgb, var(--sec) 45%, var(--border))}
+.evento__fecha{
+  display:grid; place-items:center;
+  aspect-ratio:1;
+  border-radius:12px;
+  background:var(--sec);
+  color:#fff;
+  line-height:1;
+}
+.evento__dia{font-family:var(--font-display); font-size:1.9rem}
+.evento__mes{
+  font-size:.66rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase;
+}
+.article-body .evento__titulo{
+  margin:0 0 .35rem;
+  font-family:var(--font-ui);
+  font-size:1rem; font-weight:700; line-height:1.3;
+  text-transform:none;
+}
+.article-body ul.evento__datos{
+  display:flex; flex-wrap:wrap; gap:.25rem 1rem;
+  margin:0; padding:0;
+  font-size:.84rem; line-height:1.45;
+  color:var(--text-muted);
+}
+.article-body ul.evento__datos li{
+  display:inline-flex; align-items:center; gap:.35rem;
+  margin:0; padding:0;
+}
+.article-body ul.evento__datos li::before{content:none}
+.evento__datos svg{width:14px; height:14px; flex:none; color:var(--sec)}
+.evento__pasado{
+  margin-left:.5rem;
+  padding:.12rem .45rem;
+  font-size:.62rem; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase;
+  vertical-align:middle;
+  color:var(--text-muted);
+  background:var(--surface-3);
+  border-radius:999px;
+}
+.evento--pasado{opacity:.55}
+.evento--pasado .evento__fecha{background:var(--text-muted)}
+
+.agenda-info{
+  margin:clamp(2rem, 5vw, 3rem) 0 0;
+  padding:clamp(1.1rem, 3vw, 1.6rem) clamp(1.1rem, 3vw, 1.7rem);
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-top:3px solid var(--sec);
+  border-radius:var(--radius);
+  font-family:var(--font-ui);
+}
+.article-body .agenda-info h2{
+  margin:0 0 .9rem;
+  font-size:clamp(1.15rem, 2.6vw, 1.45rem);
+}
+.article-body .agenda-info ul{margin:0}
+.article-body .agenda-info li{margin:0 0 .6em; font-size:.95rem; line-height:1.5}
+.agenda-info a{color:var(--text); font-weight:600}
+
+@media (max-width:520px){
+  .evento{grid-template-columns:3.6rem 1fr; gap:.8rem}
+  .evento__dia{font-size:1.55rem}
 }
