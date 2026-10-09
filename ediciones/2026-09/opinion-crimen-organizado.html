@@ -29,6 +29,31 @@
     var t = localStorage.getItem('diay-theme');
     if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
   } catch (e) {}
+  /* Campaña del mes. La lista y sus zonas viven en CAMPANAS (armazon.py);
+     aquí solo se elige la que toca hoy, o la de ?campana=<id> para probar. */
+  try {
+    var C = [{"id": "octubre-rosa", "desde": "10-01", "hasta": "10-31", "zonas": "linea resplandor pastilla lema boton opina aviso", "colores": {"claro": {"principal": "#E0457B", "fuerte": "#C2185B", "suave": "#FDE2EC"}, "oscuro": {"principal": "#F472B6", "fuerte": "#F9A8D4", "suave": "#3A1626"}}}], r = document.documentElement, d = new Date();
+    var hoy = ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    var pedida = (location.search.match(/[?&]campana=([a-z0-9-]+)/) || [])[1];
+    var c = C.filter(function (x) {
+      if (pedida) return x.id === pedida;
+      return x.desde <= x.hasta ? (hoy >= x.desde && hoy <= x.hasta) : (hoy >= x.desde || hoy <= x.hasta);
+    })[0];
+    if (c) {
+      r.dataset.campana = c.id;
+      r.dataset.zonas = c.zonas;
+      ['claro', 'oscuro'].forEach(function (m) {
+        ['principal', 'fuerte', 'suave'].forEach(function (t) {
+          r.style.setProperty('--campana-' + t + '-' + m, c.colores[m][t]);
+        });
+      });
+      if ((' ' + c.zonas + ' ').indexOf(' aviso ') >= 0) {
+        var st = document.createElement('style');
+        st.textContent = '.campana-aviso[data-campana="' + c.id + '"]{display:flex}';
+        document.head.appendChild(st);
+      }
+    }
+  } catch (e) {}
 </script>
 <script>
   /* Google Analytics 4: solo en el dominio publicado, no en local. */
@@ -73,12 +98,12 @@
       <a class="menu__item" data-seccion="entrevista-del-mes" href="entrevista-del-mes.html">Entrevista del mes</a>
       <a class="menu__item" data-seccion="opinion" href="opinion.html">Opinión · Cuando la prevención se pone en pausa</a>
       <a class="menu__item" data-seccion="opinion" href="opinion-crimen-organizado.html" aria-current="page">Opinión · Crimen organizado</a>
-      <a class="menu__item" data-seccion="servicio-comunal" href="servicio-comunal.html">Servicio comunal</a>
+      <a class="menu__item" data-seccion="agenda" href="agenda.html">Agenda</a>
       <a class="menu__item" data-seccion="sabias-que" href="sabias-que.html">¿Sabías que…?</a>
     </nav>
   </details>
 
-  <a class="nav-link nav-link--agenda" href="servicio-comunal.html">
+  <a class="nav-link nav-link--agenda" href="agenda.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
     <span class="rotulo">Agenda</span>
   </a>

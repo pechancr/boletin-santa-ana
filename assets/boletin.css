@@ -17,7 +17,8 @@
   --sec-barrios:#F5B301;
   --sec-entrevista:#0E9F6E;
   --sec-opinion:#7C3AED;
-  --sec-servicio:#0891B2;
+  --sec-servicio:#EA580C;
+  --sec-agenda:#0891B2;
   --sec-sabias:#DB2777;
   --sec:var(--brand-red);
 
@@ -84,6 +85,7 @@
 [data-seccion="entrevista-del-mes"]{--sec:var(--sec-entrevista)}
 [data-seccion="opinion"]           {--sec:var(--sec-opinion)}
 [data-seccion="servicio-comunal"]  {--sec:var(--sec-servicio)}
+[data-seccion="agenda"]            {--sec:var(--sec-agenda)}
 [data-seccion="sabias-que"]        {--sec:var(--sec-sabias)}
 
 *,*::before,*::after{box-sizing:border-box}
@@ -1336,9 +1338,9 @@ a{color:inherit}
    La arma boletin.js con la fecha de quien lee. En celular no va:
    ahi queda solo el boton Agenda de la barra.
    ============================================================ */
-.nav-link--agenda{border-color:var(--sec-servicio); color:var(--sec-servicio)}
+.nav-link--agenda{border-color:var(--sec-agenda); color:var(--sec-agenda)}
 .nav-link--agenda:hover,
-.nav-link--agenda[aria-current="page"]{background:var(--surface-2); color:var(--sec-servicio); border-color:var(--sec-servicio)}
+.nav-link--agenda[aria-current="page"]{background:var(--surface-2); color:var(--sec-agenda); border-color:var(--sec-agenda)}
 
 .semana{padding-block:clamp(2rem, 5vw, 3rem) 0}
 .semana .section-head{border-bottom-color:var(--sec); align-items:center}
@@ -1400,3 +1402,52 @@ a{color:inherit}
   .nav-link--agenda svg{display:block}
   .nav-link--agenda .rotulo{display:none}
 }
+
+/* ============================================================
+   CAMPAÑAS DEL MES — reglas genéricas por zona
+   Qué campaña, cuándo, con qué colores y en qué zonas lo decide
+   CAMPANAS en plantilla/armazon.py; el <head> marca la activa con
+   data-campana, data-zonas y los colores como variables. Aquí no se
+   nombra ninguna campaña: solo se pinta cada zona si está en la lista.
+   ============================================================ */
+[data-campana]{
+  --campana:var(--campana-principal-claro);
+  --campana-fuerte:var(--campana-fuerte-claro);
+  --campana-suave:var(--campana-suave-claro);
+}
+:root[data-theme="dark"][data-campana]{
+  --campana:var(--campana-principal-oscuro);
+  --campana-fuerte:var(--campana-fuerte-oscuro);
+  --campana-suave:var(--campana-suave-oscuro);
+}
+
+[data-zonas~="linea"] .brand-rule{
+  height:6px;
+  background:linear-gradient(90deg, var(--campana-fuerte) 0%, var(--campana) 50%, var(--campana-suave) 100%);
+}
+[data-zonas~="resplandor"] .hero{
+  background:radial-gradient(ellipse 70% 55% at 50% 42%, color-mix(in srgb, var(--campana) 16%, transparent), transparent 70%), var(--surface);
+}
+[data-zonas~="pastilla"] .hero .kicker{background:var(--campana); color:#fff}
+[data-zonas~="pastilla"] .hero .kicker::before{background:#fff}
+[data-zonas~="lema"] .hero h1 em{color:var(--campana)}
+[data-zonas~="boton"] .hero__cta{background:var(--campana-fuerte); color:#fff}
+:root[data-theme="dark"][data-zonas~="boton"] .hero__cta{color:var(--ink)}
+[data-zonas~="opina"] .masthead .nav-link--cta{border-color:var(--campana); color:var(--campana-fuerte)}
+
+/* La tarjeta: hay una por campaña encendida y el <head> muestra la activa */
+.campana-aviso{
+  display:none;
+  align-items:flex-start; gap:.85rem; text-align:left;
+  max-width:36rem; margin:.4rem auto .6rem; padding:1rem 1.2rem;
+  border-radius:var(--radius); border:1px solid color-mix(in srgb, var(--campana) 35%, transparent);
+  background:var(--campana-suave); color:var(--text);
+  font-family:var(--font-ui); font-size:.9rem; line-height:1.5;
+}
+.campana-aviso p{margin:0}
+.campana-aviso strong{display:block; color:var(--campana-fuerte); font-size:1rem; margin-bottom:.15rem}
+.campana-aviso__icono{
+  flex:none; display:grid; place-items:center; width:2.4rem; height:2.4rem;
+  border-radius:50%; background:var(--campana); color:#fff;
+}
+.campana-aviso__icono svg{width:20px; height:20px}

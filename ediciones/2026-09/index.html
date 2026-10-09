@@ -29,6 +29,31 @@
     var t = localStorage.getItem('diay-theme');
     if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
   } catch (e) {}
+  /* Campaña del mes. La lista y sus zonas viven en CAMPANAS (armazon.py);
+     aquí solo se elige la que toca hoy, o la de ?campana=<id> para probar. */
+  try {
+    var C = [{"id": "octubre-rosa", "desde": "10-01", "hasta": "10-31", "zonas": "linea resplandor pastilla lema boton opina aviso", "colores": {"claro": {"principal": "#E0457B", "fuerte": "#C2185B", "suave": "#FDE2EC"}, "oscuro": {"principal": "#F472B6", "fuerte": "#F9A8D4", "suave": "#3A1626"}}}], r = document.documentElement, d = new Date();
+    var hoy = ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    var pedida = (location.search.match(/[?&]campana=([a-z0-9-]+)/) || [])[1];
+    var c = C.filter(function (x) {
+      if (pedida) return x.id === pedida;
+      return x.desde <= x.hasta ? (hoy >= x.desde && hoy <= x.hasta) : (hoy >= x.desde || hoy <= x.hasta);
+    })[0];
+    if (c) {
+      r.dataset.campana = c.id;
+      r.dataset.zonas = c.zonas;
+      ['claro', 'oscuro'].forEach(function (m) {
+        ['principal', 'fuerte', 'suave'].forEach(function (t) {
+          r.style.setProperty('--campana-' + t + '-' + m, c.colores[m][t]);
+        });
+      });
+      if ((' ' + c.zonas + ' ').indexOf(' aviso ') >= 0) {
+        var st = document.createElement('style');
+        st.textContent = '.campana-aviso[data-campana="' + c.id + '"]{display:flex}';
+        document.head.appendChild(st);
+      }
+    }
+  } catch (e) {}
 </script>
 <script>
   /* Google Analytics 4: solo en el dominio publicado, no en local. */
@@ -73,7 +98,7 @@
       <a class="menu__item" data-seccion="entrevista-del-mes" href="entrevista-del-mes.html">Entrevista del mes</a>
       <a class="menu__item" data-seccion="opinion" href="opinion.html">Opinión · Cuando la prevención se pone en pausa</a>
       <a class="menu__item" data-seccion="opinion" href="opinion-crimen-organizado.html">Opinión · Crimen organizado</a>
-      <a class="menu__item" data-seccion="servicio-comunal" href="servicio-comunal.html">Servicio comunal</a>
+      <a class="menu__item" data-seccion="agenda" href="agenda.html">Agenda</a>
       <a class="menu__item" data-seccion="sabias-que" href="sabias-que.html">¿Sabías que…?</a>
     </nav>
   </details>
@@ -83,7 +108,7 @@
     <span class="rotulo">Ediciones</span>
   </a>
 
-  <a class="nav-link nav-link--agenda" href="servicio-comunal.html">
+  <a class="nav-link nav-link--agenda" href="agenda.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
     <span class="rotulo">Agenda</span>
   </a>
@@ -106,6 +131,10 @@
   <img class="hero__logo rise logo-dark" src="../../assets/logo-oscuro.png" alt="¡Diay! Santa Ana — boletín informativo" width="1052" height="682" style="--d:80" fetchpriority="high">
       <span class="kicker rise" style="--d:260">Edición N.º 2 · Septiembre 2026</span>
       <h1 class="rise" style="--d:380">Lo que pasa <em>aquí</em>,<br>contado por los de aquí</h1>
+      <aside class="campana-aviso rise" style="--d:460" data-campana="octubre-rosa" aria-label="En octubre, Santa Ana se viste de rosa.">
+        <span class="campana-aviso__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-2.2 0-3.6 1.7-3.6 3.6 0 2.4 1.9 4.6 3.6 6.9 1.7-2.3 3.6-4.5 3.6-6.9C15.6 4.7 14.2 3 12 3Z"/><path d="M10.2 11.2 5.5 21l3.3-1.2L12 13.5M13.8 11.2 18.5 21l-3.3-1.2"/></svg></span>
+        <p><strong>En octubre, Santa Ana se viste de rosa.</strong> Un abrazo a quienes luchan contra el cáncer de mama, a quienes acompañan y a quienes recordamos. La detección temprana salva vidas: revisate y animá a las tuyas a hacerlo.</p>
+      </aside>
       <a class="hero__cta rise" style="--d:520" href="#titulares">
         Ver los titulares
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
@@ -124,16 +153,16 @@
       <a data-seccion="desde-los-barrios" href="desde-los-barrios.html">Desde los barrios</a>
       <a data-seccion="entrevista-del-mes" href="entrevista-del-mes.html">Entrevista del mes</a>
       <a data-seccion="opinion" href="opinion.html">Opinión</a>
-      <a data-seccion="servicio-comunal" href="servicio-comunal.html">Servicio comunal</a>
+      <a data-seccion="agenda" href="agenda.html">Agenda</a>
       <a data-seccion="sabias-que" href="sabias-que.html">¿Sabías que…?</a>
     </nav>
   </div>
 
 
-  <section class="semana wrap" id="semana" data-seccion="servicio-comunal" aria-labelledby="semana-titulo" hidden>
+  <section class="semana wrap" id="semana" data-seccion="agenda" aria-labelledby="semana-titulo" hidden>
     <div class="section-head">
       <h2 id="semana-titulo">Agenda</h2>
-      <a class="semana__todo" href="servicio-comunal.html">Ver la agenda completa <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      <a class="semana__todo" href="agenda.html">Ver la agenda completa <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
     </div>
     <ol class="semana__dias"></ol>
     <script type="application/json" class="semana__datos">[{"fecha": "2026-09-01", "actividad": "Taller de Empoderamiento Femenino", "hora": "9:00 a. m.–11:00 a. m.", "lugar": "Salón Parroquial de Santa Ana"}, {"fecha": "2026-09-03", "actividad": "Taller de Masculinidades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Santa Ana"}, {"fecha": "2026-09-05", "actividad": "Feria de Empleo", "hora": "12:00 m. d.–4:00 p. m.", "lugar": "Terrazas Lindora"}, {"fecha": "2026-09-09", "actividad": "Taller de Empoderamiento Femenino – Piedades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Piedades"}, {"fecha": "2026-09-10", "actividad": "Taller de Masculinidades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Santa Ana"}, {"fecha": "2026-09-12", "actividad": "Celebración del Día de la Niñez", "hora": "9:00 a. m.–1:00 p. m.", "lugar": "Parques de Santa Ana y Piedades"}, {"fecha": "2026-09-14", "actividad": "Faroleada por la Democracia", "hora": "6:00 p. m. en adelante", "lugar": "Santa Ana"}, {"fecha": "2026-09-16", "actividad": "Taller de Empoderamiento Femenino – Piedades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Piedades"}, {"fecha": "2026-09-17", "actividad": "Taller de Masculinidades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Santa Ana"}, {"fecha": "2026-09-20", "actividad": "Feria de Salud y Bienestar Animal", "hora": "8:00 a. m.–2:00 p. m.", "lugar": "Santa Ana"}, {"fecha": "2026-09-23", "actividad": "Taller de Empoderamiento Femenino – Piedades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Piedades"}, {"fecha": "2026-09-24", "actividad": "Taller de Masculinidades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Santa Ana"}, {"fecha": "2026-09-30", "actividad": "Taller de Empoderamiento Femenino – Piedades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Piedades"}, {"fecha": "2026-10-01", "actividad": "Mercadito Dorado", "hora": "7:30 a. m.–3:00 p. m.", "lugar": "Mercado de Abasto Solidario de Santa Ana"}, {"fecha": "2026-10-01", "actividad": "Taller de Masculinidades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Santa Ana"}, {"fecha": "2026-10-07", "actividad": "Taller de Empoderamiento Femenino – Piedades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Piedades"}, {"fecha": "2026-10-08", "actividad": "Taller de Masculinidades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Santa Ana"}, {"fecha": "2026-10-11", "actividad": "XXII Carrera Atlética–Caminata Grupo Comeca", "hora": "Por confirmar", "lugar": "San Rafael de Escazú – Santa Ana"}, {"fecha": "2026-10-13", "actividad": "Último Taller de Empoderamiento Femenino – Santa Ana", "hora": "9:00–11:00 a. m.", "lugar": "Salón Parroquial de Santa Ana"}, {"fecha": "2026-10-14", "actividad": "Taller de Empoderamiento Femenino – Piedades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Piedades"}, {"fecha": "2026-10-15", "actividad": "Taller de Masculinidades", "hora": "6:30–8:30 p. m.", "lugar": "Salón Comunal de Santa Ana"}]</script>
@@ -229,10 +258,10 @@
           </div>
         </div>
       </a>
-      <a class="card card--half reveal" data-seccion="servicio-comunal" style="--i:6" href="servicio-comunal.html">
-        <div class="card__media media--ph" data-rotulo="Servicio comunal" role="img" aria-label="Marcador de la sección Servicio comunal: esta nota no tiene fotografía"></div>
+      <a class="card card--half reveal" data-seccion="agenda" style="--i:6" href="agenda.html">
+        <div class="card__media media--ph" data-rotulo="Agenda" role="img" aria-label="Marcador de la sección Agenda: esta nota no tiene fotografía"></div>
         <div class="card__body">
-          <span class="chip">Servicio comunal</span>
+          <span class="chip">Agenda</span>
           <h3 class="card__title">Agenda de setiembre y octubre</h3>
           <p class="card__summary">21 actividades: talleres de empoderamiento femenino y de masculinidades, la Feria de Empleo, la Faroleada por la Democracia y más.</p>
           <div class="card__meta">
