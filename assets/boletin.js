@@ -165,6 +165,79 @@
     });
   }
 
+  /* --- Agenda en la portada: cinco dias con hoy al centro ---------
+     Los eventos vienen como datos en la pagina; los dias se cuentan
+     desde hoy, asi la franja sigue al dia sin volver a publicar. Si
+     en esos cinco dias no hay nada, la franja se queda escondida.   */
+  var semana = document.getElementById('semana');
+
+  if (semana) {
+    var datos = [];
+    try { datos = JSON.parse(semana.querySelector('.semana__datos').textContent); } catch (e) {}
+    var enlace = semana.querySelector('.semana__todo').getAttribute('href');
+    var DIAS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+    var MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'set', 'oct', 'nov', 'dic'];
+    var iso = function (d) {
+      return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    };
+    var lista = semana.querySelector('.semana__dias');
+    var base = new Date();
+    var total = 0;
+
+    for (var i = -2; i <= 2; i++) {
+      var dia = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i);
+      var delDia = datos.filter(function (ev) { return ev.fecha === iso(dia); });
+      total += delDia.length;
+
+      var li = document.createElement('li');
+      li.className = 'semana__dia' + (i === 0 ? ' es-hoy' : '') + (i < 0 ? ' ya-paso' : '');
+      if (i === 0) li.setAttribute('aria-current', 'date');
+
+      var fecha = document.createElement('div');
+      fecha.className = 'semana__fecha';
+      var nombre = document.createElement('span');
+      nombre.textContent = i === 0 ? 'Hoy' : DIAS[dia.getDay()];
+      var numero = document.createElement('b');
+      numero.textContent = dia.getDate();
+      var mes = document.createElement('span');
+      mes.textContent = MESES[dia.getMonth()];
+      fecha.appendChild(nombre); fecha.appendChild(numero); fecha.appendChild(mes);
+      li.appendChild(fecha);
+
+      if (delDia.length) {
+        delDia.forEach(function (ev) {
+          var a = document.createElement('a');
+          a.className = 'semana__evento';
+          a.href = enlace;
+          [['strong', ev.actividad], ['span', ev.hora], ['span', ev.lugar]].forEach(function (par) {
+            if (!par[1]) return;
+            var el = document.createElement(par[0]);
+            el.textContent = par[1];
+            a.appendChild(el);
+          });
+          li.appendChild(a);
+        });
+      } else {
+        var vacio = document.createElement('p');
+        vacio.className = 'semana__vacio';
+        vacio.textContent = 'Sin actividades';
+        li.appendChild(vacio);
+      }
+      lista.appendChild(li);
+    }
+
+    if (total) semana.hidden = false;
+  }
+
+  /* --- App en el celular (PWA) ----------------------------------
+     El service worker deja instalar el boletin y leerlo sin conexion.
+     Lo genera plantilla/generar.py; solo se registra servido por http(s). */
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').catch(function () {});
+    });
+  }
+
   /* --- Enlace de WhatsApp: se arma con la URL real de la pagina --- */
   var waLink = document.getElementById('btnWhatsApp');
 

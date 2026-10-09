@@ -1,0 +1,29 @@
+{
+  "name": "¡Diay! Santa Ana",
+  "short_name": "¡Diay!",
+  "description": "Lo que pasa aquí, contado por los de aquí",
+  "lang": "es-CR",
+  "start_url": "/?app=1",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FF4B33",
+  "icons": [
+    {
+      "src": "/assets/icono-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icono-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icono-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

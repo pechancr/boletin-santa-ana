@@ -241,6 +241,9 @@ a{color:inherit}
   .masthead{gap:.15rem; padding-inline:.7rem}
   .nav-link, .menu > summary{padding-inline:.6rem; font-size:.78rem}
   .nav-link--ediciones .rotulo{display:none}
+  .masthead .back-link .rotulo{display:none}
+  /* En la barra de la portada no cabe todo: Agenda va solo con el texto */
+  .nav-link--agenda svg{display:none}
   /* El boton de secciones vive pegado al borde izquierdo: si el panel se ancla
      a el, se sale de la pantalla y las opciones quedan cortadas. En pantalla
      chica se ancla a la barra entera y ocupa el ancho completo. */
@@ -1326,4 +1329,74 @@ a{color:inherit}
 @media (max-width:520px){
   .evento{grid-template-columns:3.6rem 1fr; gap:.8rem}
   .evento__dia{font-size:1.55rem}
+}
+
+/* ============================================================
+   AGENDA EN LA PORTADA — cinco dias con hoy al centro
+   La arma boletin.js con la fecha de quien lee. En celular no va:
+   ahi queda solo el boton Agenda de la barra.
+   ============================================================ */
+.nav-link--agenda{border-color:var(--sec-servicio); color:var(--sec-servicio)}
+.nav-link--agenda:hover,
+.nav-link--agenda[aria-current="page"]{background:var(--surface-2); color:var(--sec-servicio); border-color:var(--sec-servicio)}
+
+.semana{padding-block:clamp(2rem, 5vw, 3rem) 0}
+.semana .section-head{border-bottom-color:var(--sec); align-items:center}
+.semana__todo{
+  display:inline-flex; align-items:center; gap:.4rem;
+  font-family:var(--font-ui); font-weight:600; font-size:.88rem;
+  color:var(--text); text-decoration:none;
+}
+.semana__todo .arrow{width:16px; height:16px; transition:transform .25s var(--ease)}
+.semana__todo:hover{color:var(--sec)}
+.semana__todo:hover .arrow{transform:translateX(4px)}
+
+.semana__dias{
+  list-style:none; margin:0; padding:0;
+  display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem;
+}
+.semana__dia{
+  display:flex; flex-direction:column; gap:.6rem;
+  padding:1rem; min-height:11rem;
+  border:1px solid var(--border); border-radius:var(--radius);
+  background:var(--surface); font-family:var(--font-ui);
+}
+.semana__dia.es-hoy{
+  border:2px solid var(--sec);
+  box-shadow:0 10px 30px -14px color-mix(in srgb, var(--sec) 60%, transparent);
+}
+.semana__dia.ya-paso{opacity:.55}
+.semana__fecha{
+  display:flex; align-items:baseline; gap:.4rem;
+  font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--text-muted);
+}
+.semana__fecha b{
+  font-family:var(--font-display); font-weight:400; font-size:1.9rem;
+  line-height:1; letter-spacing:0; color:var(--text);
+}
+.es-hoy .semana__fecha span:first-child{color:var(--sec)}
+.semana__evento{
+  display:flex; flex-direction:column; gap:.15rem;
+  padding:.55rem .65rem; border-left:3px solid var(--sec); border-radius:8px;
+  background:var(--surface-2); color:var(--text); text-decoration:none;
+}
+.semana__evento:hover{background:var(--surface-3)}
+.semana__evento strong{font-size:.86rem; line-height:1.25}
+.semana__evento span{font-size:.74rem; color:var(--text-muted)}
+.semana__vacio{margin:0; font-size:.8rem; color:var(--text-muted)}
+
+@media (max-width:900px){
+  .semana{display:none}
+}
+
+/* En los celulares mas angostos (360px) la barra no da para todo. «Opiná»
+   sale de la barra; el formulario sigue al final de la portada. */
+@media (max-width:380px){
+  .masthead .nav-link--cta{display:none}
+}
+/* Y en los de 320px Agenda queda solo como icono */
+@media (max-width:340px){
+  .nav-link--agenda svg{display:block}
+  .nav-link--agenda .rotulo{display:none}
 }
