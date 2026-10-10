@@ -1,5 +1,5 @@
 /* ¡Diay! Santa Ana — service worker. Lo genera plantilla/generar.py. */
-var VERSION = 'diay-20261009190250';
+var VERSION = 'diay-20261009193455';
 var PRECARGA = ["/", "/ediciones/", "/assets/boletin.css", "/assets/boletin.js", "/assets/logo-claro.png", "/assets/logo-oscuro.png", "/assets/icono-192.png", "/ediciones/2026-09/", "/ediciones/2026-09/portada.html", "/ediciones/2026-09/desde-el-concejo.html", "/ediciones/2026-09/desde-los-barrios.html", "/ediciones/2026-09/entrevista-del-mes.html", "/ediciones/2026-09/opinion.html", "/ediciones/2026-09/opinion-crimen-organizado.html", "/ediciones/2026-09/agenda.html", "/ediciones/2026-09/sabias-que.html"];
 
 self.addEventListener('install', function (e) {

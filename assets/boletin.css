@@ -1488,3 +1488,6 @@ a{color:inherit}
 }
 @keyframes instalar-entra{from{transform:translateY(120%); opacity:0}}
 @media (prefers-reduced-motion: reduce){ .instalar{animation:none} }
+
+/* Transparencia: el aviso de que se cuentan las visitas */
+.footer p.footer__aviso{font-size:.75rem}
