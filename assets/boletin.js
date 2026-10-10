@@ -229,6 +229,72 @@
     if (total) semana.hidden = false;
   }
 
+  /* --- Aviso para instalar la app ---------------------------------
+     Chrome casi nunca muestra su propio aviso: lo deja en manos de la
+     pagina. Guardamos su evento y mostramos un boton nuestro. En iPhone
+     no existe ese evento, asi que se explica el paso a mano. Solo en
+     celular, nunca si ya esta instalada, y si la persona lo cierra no
+     vuelve a salir en 30 dias.                                       */
+  var enApp = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  var esCelular = window.matchMedia('(pointer: coarse)').matches;
+  var cerradoHasta = 0;
+  try { cerradoHasta = +localStorage.getItem('diay-instalar') || 0; } catch (e) {}
+  var forzado = /[?&]instalar=1/.test(location.search);
+
+  var avisoInstalar = function (titulo, texto, accion) {
+    if (document.querySelector('.instalar')) return;
+    var caja = document.createElement('div');
+    caja.className = 'instalar';
+    caja.setAttribute('role', 'dialog');
+    caja.setAttribute('aria-label', 'Instalar ¡Diay! Santa Ana');
+    var icono = document.createElement('img');
+    icono.src = '/assets/icono-192.png';
+    icono.alt = '';
+    var p = document.createElement('p');
+    var t = document.createElement('strong');
+    t.textContent = titulo;
+    p.appendChild(t);
+    p.appendChild(document.createTextNode(texto));
+    caja.appendChild(icono);
+    caja.appendChild(p);
+    var cerrar = function () {
+      caja.remove();
+      try { localStorage.setItem('diay-instalar', Date.now() + 30 * 864e5); } catch (e) {}
+    };
+    if (accion) {
+      var si = document.createElement('button');
+      si.type = 'button';
+      si.className = 'instalar__si';
+      si.textContent = 'Instalar';
+      si.addEventListener('click', function () { accion(); caja.remove(); });
+      caja.appendChild(si);
+    }
+    var no = document.createElement('button');
+    no.type = 'button';
+    no.className = 'instalar__no';
+    no.setAttribute('aria-label', 'Cerrar');
+    no.textContent = '×';
+    no.addEventListener('click', cerrar);
+    caja.appendChild(no);
+    document.body.appendChild(caja);
+  };
+
+  if (!enApp && (forzado || (esCelular && Date.now() > cerradoHasta))) {
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      avisoInstalar('Llevá ¡Diay! en tu celular', 'Instalalo como app: abre al toque y se lee sin internet.',
+        function () { e.prompt(); });
+    });
+    var esIphone = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (esIphone || forzado) {
+      setTimeout(function () {
+        avisoInstalar('Llevá ¡Diay! en tu celular',
+          esIphone ? 'Tocá Compartir y luego «Agregar a inicio».'
+                   : 'En el menú del navegador, elegí «Instalar app» o «Agregar a inicio».');
+      }, forzado ? 300 : 4000);
+    }
+  }
+
   /* --- App en el celular (PWA) ----------------------------------
      El service worker deja instalar el boletin y leerlo sin conexion.
      Lo genera plantilla/generar.py; solo se registra servido por http(s). */

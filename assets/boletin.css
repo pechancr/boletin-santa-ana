@@ -1410,7 +1410,9 @@ a{color:inherit}
    data-campana, data-zonas y los colores como variables. Aquí no se
    nombra ninguna campaña: solo se pinta cada zona si está en la lista.
    ============================================================ */
-[data-campana]{
+/* Solo en <html>: la tarjeta y los logos tambien llevan data-campana, y si la
+   regla los alcanzara les volveria a poner los colores del modo claro. */
+:root[data-campana]{
   --campana:var(--campana-principal-claro);
   --campana-fuerte:var(--campana-fuerte-claro);
   --campana-suave:var(--campana-suave-claro);
@@ -1435,19 +1437,54 @@ a{color:inherit}
 :root[data-theme="dark"][data-zonas~="boton"] .hero__cta{color:var(--ink)}
 [data-zonas~="opina"] .masthead .nav-link--cta{border-color:var(--campana); color:var(--campana-fuerte)}
 
-/* La tarjeta: hay una por campaña encendida y el <head> muestra la activa */
+/* La tarjeta: hay una por campaña encendida y el <head> muestra la activa.
+   Va siempre con los colores claros y texto negro, también en modo oscuro:
+   así se lee igual en los dos y resalta sobre el fondo oscuro. */
 .campana-aviso{
   display:none;
   align-items:flex-start; gap:.85rem; text-align:left;
   max-width:36rem; margin:.4rem auto .6rem; padding:1rem 1.2rem;
-  border-radius:var(--radius); border:1px solid color-mix(in srgb, var(--campana) 35%, transparent);
-  background:var(--campana-suave); color:var(--text);
+  border-radius:var(--radius);
+  border:1px solid color-mix(in srgb, var(--campana-principal-claro) 35%, transparent);
+  background:var(--campana-suave-claro); color:#111;
   font-family:var(--font-ui); font-size:.9rem; line-height:1.5;
 }
 .campana-aviso p{margin:0}
-.campana-aviso strong{display:block; color:var(--campana-fuerte); font-size:1rem; margin-bottom:.15rem}
+.campana-aviso strong{display:block; color:var(--campana-fuerte-claro); font-size:1rem; margin-bottom:.15rem}
 .campana-aviso__icono{
   flex:none; display:grid; place-items:center; width:2.4rem; height:2.4rem;
-  border-radius:50%; background:var(--campana); color:#fff;
+  border-radius:50%; background:var(--campana-principal-claro); color:#fff;
 }
 .campana-aviso__icono svg{width:20px; height:20px}
+
+/* Logos de campaña (zona "logo"): escondidos; el <head> muestra los de la activa */
+.logo-campana{display:none}
+
+/* ============================================================
+   INSTALAR LA APP — aviso abajo, solo en celular
+   Chrome y Android avisan con beforeinstallprompt y aquí va el botón;
+   en iPhone no hay aviso posible y se explica cómo hacerlo a mano.
+   ============================================================ */
+.instalar{
+  position:fixed; z-index:300; left:.75rem; right:.75rem;
+  bottom:calc(.75rem + env(safe-area-inset-bottom, 0px));
+  display:flex; align-items:center; gap:.75rem;
+  padding:.8rem .9rem; border-radius:var(--radius);
+  background:var(--surface); color:var(--text);
+  border:1px solid var(--border); box-shadow:var(--shadow-lg);
+  font-family:var(--font-ui); font-size:.88rem; line-height:1.35;
+  animation:instalar-entra .35s var(--ease);
+}
+.instalar img{width:40px; height:40px; border-radius:10px; flex:none}
+.instalar p{margin:0; flex:1}
+.instalar p strong{display:block}
+.instalar__si{
+  flex:none; padding:.55rem 1rem; border:0; border-radius:999px;
+  background:var(--brand-red); color:#fff; font:inherit; font-weight:700; cursor:pointer;
+}
+.instalar__no{
+  flex:none; width:2rem; height:2rem; border:0; border-radius:50%;
+  background:var(--surface-2); color:var(--text-muted); font-size:1.1rem; line-height:1; cursor:pointer;
+}
+@keyframes instalar-entra{from{transform:translateY(120%); opacity:0}}
+@media (prefers-reduced-motion: reduce){ .instalar{animation:none} }
