@@ -29,6 +29,13 @@
     var t = localStorage.getItem('diay-theme');
     if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
   } catch (e) {}
+  /* Instalar la app: Chrome avisa una sola vez, a veces antes de que cargue
+     boletin.js. El evento se guarda aqui y boletin.js lo usa cuando llega. */
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    window.diayInstalar = e;
+    document.dispatchEvent(new Event('diay:instalable'));
+  });
   /* Campaña del mes. La lista y sus zonas viven en CAMPANAS (armazon.py);
      aquí solo se elige la que toca hoy, o la de ?campana=<id> para probar. */
   try {
@@ -204,6 +211,21 @@
     </section>
   </div>
 
+  <section class="related related--seccion" data-seccion="portada">
+    <div class="wrap">
+      <div class="related__head">
+        <h2>Más de Portada</h2>
+        <a class="related__todo" href="../../secciones/portada/">Ver todo <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="related__grid">
+        <a class="rel-card" data-seccion="portada" href="../2026-07/portada.html">
+          <span class="chip">Julio 2026</span>
+          <h3>Aguas negras en el Parque Lorne Ross</h3>
+          <span>2 min de lectura</span>
+        </a>
+      </div>
+    </div>
+  </section>
   <section class="related">
     <div class="wrap">
       <h2>Seguí leyendo</h2>

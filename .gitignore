@@ -22,6 +22,7 @@ actas/
 # --- Ediciones en borrador ---
 # Una edicion a medias no se publica. Cuando este lista, se quita su linea
 # de aqui y se cambia su estado a "publicada" en plantilla/. Ver PUBLICAR.md.
+ediciones/2026-10/
 
 # --- Credenciales: jamas, por ningun motivo ---
 .env

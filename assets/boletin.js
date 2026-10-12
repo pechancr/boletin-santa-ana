@@ -99,7 +99,13 @@
   }
 
   /* --- Compartir --------------------------------------------------
-     WhatsApp es como circula de verdad un boletin comunal aqui.     */
+     WhatsApp es como circula de verdad un boletin comunal aqui.
+     Cada boton comparte el enlace con su etiqueta de Analytics
+     (utm_source), para saber por donde llega la gente. El canonical
+     de la pagina evita que Google indexe esas variantes.            */
+  var enlaceCon = function (fuente) {
+    return location.origin + location.pathname + '?utm_source=' + fuente + '&utm_medium=compartir';
+  };
   var btnCompartir = document.getElementById('btnCompartir');
 
   if (btnCompartir) {
@@ -107,7 +113,7 @@
       btnCompartir.addEventListener('click', function () {
         navigator.share({
           title: document.title,
-          url: location.href
+          url: enlaceCon('compartir')
         }).catch(function () { /* el usuario cancelo: no es un error */ });
       });
     } else {
@@ -129,10 +135,10 @@
       };
 
       if (navigator.clipboard) {
-        navigator.clipboard.writeText(location.href).then(listo, function () {});
+        navigator.clipboard.writeText(enlaceCon('enlace')).then(listo, function () {});
       } else {
         var campo = document.createElement('input');
-        campo.value = location.href;
+        campo.value = enlaceCon('enlace');
         document.body.appendChild(campo);
         campo.select();
         try { document.execCommand('copy'); listo(); } catch (e) {}
@@ -230,70 +236,174 @@
   }
 
   /* --- Aviso para instalar la app ---------------------------------
-     Chrome casi nunca muestra su propio aviso: lo deja en manos de la
-     pagina. Guardamos su evento y mostramos un boton nuestro. En iPhone
-     no existe ese evento, asi que se explica el paso a mano. Solo en
-     celular, nunca si ya esta instalada, y si la persona lo cierra no
-     vuelve a salir en 30 dias.                                       */
-  var enApp = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+     Tres casos, y en ninguno el boton puede quedar sin hacer nada:
+       - Chrome/Android avisa con beforeinstallprompt (lo guarda el <head>
+         en window.diayInstalar): el boton abre la instalacion de Chrome,
+         y si algo falla abre la guia paso a paso.
+       - iPhone/iPad: Apple no deja instalar desde la pagina; el boton
+         «Cómo» abre la guia de Compartir → Agregar a inicio.
+       - El navegador de adentro de WhatsApp, Instagram, Facebook o TikTok
+         no deja instalar: la guia explica abrirla en Chrome o Safari.
+     Solo en celular, nunca dentro de la app ya instalada, y si se cierra
+     no vuelve en 30 dias. ?instalar=1 lo fuerza para probar.          */
+  var ua = navigator.userAgent;
+  var enApp = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  var esIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var enAppAjena = /FBAN|FBAV|FB_IAB|Instagram|WhatsApp|Line\/|TikTok|musical_ly|Twitter/i.test(ua);
   var esCelular = window.matchMedia('(pointer: coarse)').matches;
+  var forzado = /[?&]instalar=1/.test(location.search);
   var cerradoHasta = 0;
   try { cerradoHasta = +localStorage.getItem('diay-instalar') || 0; } catch (e) {}
-  var forzado = /[?&]instalar=1/.test(location.search);
+  var noVolver = function (dias) {
+    try { localStorage.setItem('diay-instalar', Date.now() + dias * 864e5); } catch (e) {}
+  };
 
-  var avisoInstalar = function (titulo, texto, accion) {
-    if (document.querySelector('.instalar')) return;
-    var caja = document.createElement('div');
-    caja.className = 'instalar';
-    caja.setAttribute('role', 'dialog');
-    caja.setAttribute('aria-label', 'Instalar ¡Diay! Santa Ana');
+  var svg = function (trazo) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + trazo + '</svg>';
+  };
+  var ICONOS = {
+    menu: svg('<circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/>'),
+    compartir: svg('<path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>'),
+    agregar: svg('<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/>'),
+    listo: svg('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),
+    abrir: svg('<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>'),
+    copiar: svg('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>')
+  };
+  var PASOS = {
+    android: {
+      titulo: 'Instalar en Android',
+      pasos: [['menu', 'Tocá el menú <strong>⋮</strong> de Chrome, arriba a la derecha.'],
+              ['agregar', 'Elegí <strong>«Instalar app»</strong> o <strong>«Agregar a pantalla principal»</strong>.'],
+              ['listo', 'Confirmá. El ícono de ¡Diay! queda junto a tus apps.']]
+    },
+    ios: {
+      titulo: 'Instalar en iPhone',
+      pasos: [['compartir', 'Tocá el botón <strong>Compartir</strong>: el cuadrado con la flecha hacia arriba, abajo en Safari.'],
+              ['agregar', 'Bajá y elegí <strong>«Agregar a inicio»</strong>.'],
+              ['listo', 'Tocá <strong>«Agregar»</strong>. ¡Diay! queda en tu pantalla de inicio.']]
+    },
+    ajena: {
+      titulo: 'Abrilo en tu navegador',
+      pasos: [['abrir', 'Esta app abre las páginas en su propio navegador, y ahí no se puede instalar.'],
+              ['copiar', 'Copiá el enlace y pegalo en <strong>Chrome</strong> o <strong>Safari</strong>.'],
+              ['listo', 'Desde ahí, tocá <strong>«Instalar»</strong> en el aviso de abajo.']]
+    }
+  };
+
+  var guia = function (tipo) {
+    var datos = PASOS[tipo];
+    var fondo = document.createElement('div');
+    fondo.className = 'instalar-guia';
+    var hoja = document.createElement('div');
+    hoja.className = 'instalar-guia__hoja';
+    hoja.setAttribute('role', 'dialog');
+    hoja.setAttribute('aria-modal', 'true');
+    hoja.setAttribute('aria-label', datos.titulo);
+    var html = '<h2>' + datos.titulo + '</h2><ol>';
+    datos.pasos.forEach(function (p) {
+      html += '<li><span class="instalar-guia__icono">' + ICONOS[p[0]] + '</span><span>' + p[1] + '</span></li>';
+    });
+    html += '</ol>';
+    hoja.innerHTML = html;
+    if (tipo === 'ajena') {
+      var copiar = document.createElement('button');
+      copiar.type = 'button';
+      copiar.className = 'instalar__si';
+      copiar.textContent = 'Copiar el enlace';
+      copiar.addEventListener('click', function () {
+        var enlace = location.origin + location.pathname;
+        var hecho = function () { copiar.textContent = '¡Copiado!'; };
+        if (navigator.clipboard) navigator.clipboard.writeText(enlace).then(hecho, function () {});
+        else hecho();
+      });
+      hoja.appendChild(copiar);
+    }
+    var listo = document.createElement('button');
+    listo.type = 'button';
+    listo.className = 'instalar-guia__cerrar';
+    listo.textContent = 'Entendido';
+    hoja.appendChild(listo);
+    fondo.appendChild(hoja);
+    var cerrar = function () { fondo.remove(); document.removeEventListener('keydown', alEscape); };
+    var alEscape = function (e) { if (e.key === 'Escape') cerrar(); };
+    listo.addEventListener('click', cerrar);
+    fondo.addEventListener('click', function (e) { if (e.target === fondo) cerrar(); });
+    document.addEventListener('keydown', alEscape);
+    document.body.appendChild(fondo);
+    listo.focus();
+  };
+
+  var instalar = function () {
+    var evento = window.diayInstalar;
+    if (!evento) { guia(esIOS ? 'ios' : 'android'); return; }
+    window.diayInstalar = null;  // Chrome deja usarlo una sola vez
+    var caja = document.querySelector('.instalar');
+    try {
+      Promise.resolve(evento.prompt()).then(function () {
+        return evento.userChoice;
+      }).then(function (eleccion) {
+        if (caja) caja.remove();
+        if (eleccion && eleccion.outcome === 'accepted') noVolver(3650);
+      }).catch(function () { guia('android'); });
+    } catch (e) {
+      guia('android');
+    }
+  };
+
+  // Un solo aviso: si ya esta, se actualiza (de «Cómo» a «Instalar» cuando Chrome avisa).
+  var avisoInstalar = function () {
+    var caja = document.querySelector('.instalar');
+    if (!caja) {
+      caja = document.createElement('div');
+      caja.className = 'instalar';
+      caja.setAttribute('role', 'dialog');
+      caja.setAttribute('aria-label', 'Instalar ¡Diay! Santa Ana');
+      document.body.appendChild(caja);
+    }
+    var tipo = window.diayInstalar ? 'chrome' : (enAppAjena ? 'ajena' : (esIOS ? 'ios' : 'android'));
+    var textos = {
+      chrome: 'Instalalo como app: abre al toque y se lee sin internet.',
+      ios: 'Se instala desde Safari en dos toques.',
+      ajena: 'Abrilo en Chrome o Safari para instalarlo.',
+      android: 'Se instala desde el menú de Chrome.'
+    };
+    caja.innerHTML = '';
     var icono = document.createElement('img');
     icono.src = '/assets/icono-192.png';
     icono.alt = '';
     var p = document.createElement('p');
     var t = document.createElement('strong');
-    t.textContent = titulo;
+    t.textContent = 'Llevá ¡Diay! en tu celular';
     p.appendChild(t);
-    p.appendChild(document.createTextNode(texto));
-    caja.appendChild(icono);
-    caja.appendChild(p);
-    var cerrar = function () {
-      caja.remove();
-      try { localStorage.setItem('diay-instalar', Date.now() + 30 * 864e5); } catch (e) {}
-    };
-    if (accion) {
-      var si = document.createElement('button');
-      si.type = 'button';
-      si.className = 'instalar__si';
-      si.textContent = 'Instalar';
-      si.addEventListener('click', function () { accion(); caja.remove(); });
-      caja.appendChild(si);
-    }
+    p.appendChild(document.createTextNode(textos[tipo]));
+    var si = document.createElement('button');
+    si.type = 'button';
+    si.className = 'instalar__si';
+    si.textContent = tipo === 'chrome' ? 'Instalar' : 'Cómo';
+    si.addEventListener('click', function () { tipo === 'chrome' ? instalar() : guia(tipo); });
     var no = document.createElement('button');
     no.type = 'button';
     no.className = 'instalar__no';
     no.setAttribute('aria-label', 'Cerrar');
     no.textContent = '×';
-    no.addEventListener('click', cerrar);
+    no.addEventListener('click', function () { caja.remove(); noVolver(30); });
+    caja.appendChild(icono);
+    caja.appendChild(p);
+    caja.appendChild(si);
     caja.appendChild(no);
-    document.body.appendChild(caja);
   };
 
   if (!enApp && (forzado || (esCelular && Date.now() > cerradoHasta))) {
-    window.addEventListener('beforeinstallprompt', function (e) {
-      e.preventDefault();
-      avisoInstalar('Llevá ¡Diay! en tu celular', 'Instalalo como app: abre al toque y se lee sin internet.',
-        function () { e.prompt(); });
-    });
-    var esIphone = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    if (esIphone || forzado) {
-      setTimeout(function () {
-        avisoInstalar('Llevá ¡Diay! en tu celular',
-          esIphone ? 'Tocá Compartir y luego «Agregar a inicio».'
-                   : 'En el menú del navegador, elegí «Instalar app» o «Agregar a inicio».');
-      }, forzado ? 300 : 4000);
-    }
+    if (window.diayInstalar) avisoInstalar();
+    document.addEventListener('diay:instalable', avisoInstalar);
+    if (esIOS || enAppAjena || forzado) setTimeout(avisoInstalar, forzado ? 300 : 4000);
   }
+  window.addEventListener('appinstalled', function () {
+    var caja = document.querySelector('.instalar');
+    if (caja) caja.remove();
+    noVolver(3650);
+  });
 
   /* --- App en el celular (PWA) ----------------------------------
      El service worker deja instalar el boletin y leerlo sin conexion.
@@ -309,7 +419,7 @@
 
   if (waLink) {
     var titulo = document.querySelector('.article-head h1');
-    var texto = (titulo ? titulo.textContent.trim() + ' — ' : '') + location.href;
+    var texto = (titulo ? titulo.textContent.trim() + ' — ' : '') + enlaceCon('whatsapp');
     waLink.href = 'https://wa.me/?text=' + encodeURIComponent(texto);
   }
 })();

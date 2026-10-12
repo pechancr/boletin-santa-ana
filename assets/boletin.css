@@ -1491,3 +1491,67 @@ a{color:inherit}
 
 /* Transparencia: el aviso de que se cuentan las visitas */
 .footer p.footer__aviso{font-size:.75rem}
+
+/* Guia paso a paso para instalar (Android, iPhone, navegador de otra app) */
+.instalar-guia{
+  position:fixed; inset:0; z-index:400;
+  display:flex; align-items:flex-end; justify-content:center;
+  background:rgba(15,17,21,.55);
+}
+.instalar-guia__hoja{
+  width:min(100%, 30rem); max-height:90vh; overflow:auto;
+  margin:0 .75rem calc(.75rem + env(safe-area-inset-bottom, 0px));
+  padding:1.3rem 1.2rem 1.1rem; border-radius:var(--radius);
+  background:var(--surface); color:var(--text); box-shadow:var(--shadow-lg);
+  font-family:var(--font-ui); font-size:.95rem; line-height:1.4;
+  animation:instalar-entra .3s var(--ease);
+}
+.instalar-guia__hoja h2{font-family:var(--font-display); font-weight:400; text-transform:uppercase; font-size:1.5rem; margin:0 0 .9rem}
+.instalar-guia__hoja ol{list-style:none; margin:0 0 1rem; padding:0; display:grid; gap:.85rem; counter-reset:paso}
+.instalar-guia__hoja li{display:flex; gap:.8rem; align-items:center}
+.instalar-guia__icono{
+  flex:none; display:grid; place-items:center; width:2.6rem; height:2.6rem; border-radius:50%;
+  background:var(--surface-2); color:var(--brand-red);
+}
+.instalar-guia__icono svg{width:22px; height:22px}
+.instalar-guia__hoja .instalar__si{margin-right:.5rem}
+.instalar-guia__cerrar{
+  padding:.55rem 1rem; border:1px solid var(--border); border-radius:999px;
+  background:transparent; color:var(--text); font:inherit; font-weight:600; cursor:pointer;
+}
+
+/* «Más de <Sección>» al pie de cada nota, y las paginas /secciones/<slug>/ */
+.related--seccion{background:var(--surface); border-top:3px solid var(--sec)}
+.related__head{display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.4rem}
+.related__head h2{margin:0}
+.related__todo{
+  display:inline-flex; align-items:center; gap:.4rem;
+  font-family:var(--font-ui); font-weight:600; font-size:.9rem; color:var(--text); text-decoration:none;
+}
+.related__todo .arrow{width:16px; height:16px; transition:transform .25s var(--ease)}
+.related__todo:hover{color:var(--sec)}
+.related__todo:hover .arrow{transform:translateX(4px)}
+.seccion-lista{padding-bottom:clamp(2.5rem, 6vw, 4rem)}
+.seccion-lista .rel-card p{margin:0; font-family:var(--font-read); color:var(--text-muted); line-height:1.5}
+
+/* Redes del boletin en el pie (solo si REDES en armazon.py tiene alguna) */
+.footer__redes{display:flex; gap:.9rem; flex-wrap:wrap; align-items:center; font-size:.82rem; font-weight:600}
+.footer__redes span{color:var(--text-muted); font-weight:500}
+.footer__redes a{color:var(--text); text-decoration:none}
+.footer__redes a:hover{color:var(--brand-red)}
+
+/* Descarga de una nota (p. ej. la guia en PDF de Servicio comunal) */
+.descarga{
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+  margin:2rem 0; padding:1.2rem 1.3rem;
+  border:2px solid var(--sec); border-radius:var(--radius);
+  background:color-mix(in srgb, var(--sec) 8%, var(--surface));
+  font-family:var(--font-ui);
+}
+.descarga__icono{flex:none; display:grid; place-items:center; width:3rem; height:3rem; border-radius:50%; background:var(--sec); color:#fff}
+.descarga__icono svg{width:24px; height:24px}
+.descarga__texto{flex:1 1 14rem; display:flex; flex-direction:column; gap:.2rem}
+.descarga__texto strong{font-size:1.05rem; line-height:1.3}
+.descarga__texto span{font-size:.88rem; color:var(--text-muted); line-height:1.4}
+.article-body .descarga .boton{margin:0; text-decoration:none}
+.article-body .descarga .boton, .article-body .descarga .boton:hover{color:#fff}
