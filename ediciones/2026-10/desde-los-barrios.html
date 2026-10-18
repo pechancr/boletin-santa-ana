@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es" data-seccion="desde-los-barrios">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acompañar para aprender — ¡Diay! Santa Ana</title>
+
+<meta name="description" content="La Asociación de Desarrollo Integral de Piedades apoyará académicamente a estudiantes de primer grado.">
+<meta name="author" content="Redacción ¡Diay! Santa Ana">
+<meta name="theme-color" content="#FF4B33">
+<link rel="canonical" href="https://diaycostarica.com/ediciones/2026-10/desde-los-barrios.html">
+<link rel="icon" href="../../assets/icono-32.png" sizes="32x32">
+<link rel="icon" href="../../assets/icono-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="../../assets/icono-180.png">
+<link rel="manifest" href="../../manifest.webmanifest">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="¡Diay! Santa Ana">
+<meta property="og:title" content="Acompañar para aprender">
+<meta property="og:description" content="La Asociación de Desarrollo Integral de Piedades apoyará académicamente a estudiantes de primer grado.">
+<meta property="og:url" content="https://diaycostarica.com/ediciones/2026-10/desde-los-barrios.html">
+<meta property="og:image" content="https://diaycostarica.com/assets/logo.png">
+<meta property="og:locale" content="es_CR">
+<meta name="twitter:card" content="summary_large_image">
+
+<script>
+  /* Se aplica el tema antes de pintar, para que no haya parpadeo al cargar. */
+  try {
+    var t = localStorage.getItem('diay-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+  } catch (e) {}
+  /* Instalar la app: Chrome avisa una sola vez, a veces antes de que cargue
+     boletin.js. El evento se guarda aqui y boletin.js lo usa cuando llega. */
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    window.diayInstalar = e;
+    document.dispatchEvent(new Event('diay:instalable'));
+  });
+  /* Campaña del mes. La lista y sus zonas viven en CAMPANAS (armazon.py);
+     aquí solo se elige la que toca hoy, o la de ?campana=<id> para probar. */
+  try {
+    var C = [{"id": "octubre-rosa", "desde": "10-01", "hasta": "10-31", "zonas": "linea resplandor pastilla lema boton opina aviso logo", "colores": {"claro": {"principal": "#E0457B", "fuerte": "#C2185B", "suave": "#FDE2EC"}, "oscuro": {"principal": "#F472B6", "fuerte": "#F9A8D4", "suave": "#3A1626"}}}], r = document.documentElement, d = new Date();
+    var hoy = ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    var pedida = (location.search.match(/[?&]campana=([a-z0-9-]+)/) || [])[1];
+    var c = C.filter(function (x) {
+      if (pedida) return x.id === pedida;
+      return x.desde <= x.hasta ? (hoy >= x.desde && hoy <= x.hasta) : (hoy >= x.desde || hoy <= x.hasta);
+    })[0];
+    if (c) {
+      r.dataset.campana = c.id;
+      r.dataset.zonas = c.zonas;
+      ['claro', 'oscuro'].forEach(function (m) {
+        ['principal', 'fuerte', 'suave'].forEach(function (t) {
+          r.style.setProperty('--campana-' + t + '-' + m, c.colores[m][t]);
+        });
+      });
+      /* Lo que depende de cual campana es: su tarjeta y su logo. */
+      var z = ' ' + c.zonas + ' ', sel = '[data-campana="' + c.id + '"]', css = '';
+      if (z.indexOf(' aviso ') >= 0) css += '.campana-aviso' + sel + '{display:flex}';
+      if (z.indexOf(' logo ') >= 0) css += '.logo-light,.logo-dark{display:none!important}'
+        + '.logo-campana--claro' + sel + '{display:revert}'
+        + ':root[data-theme="dark"] .logo-campana--claro' + sel + '{display:none}'
+        + ':root[data-theme="dark"] .logo-campana--oscuro' + sel + '{display:block}';
+      if (css) {
+        var st = document.createElement('style');
+        st.textContent = css;
+        document.head.appendChild(st);
+      }
+    }
+  } catch (e) {}
+</script>
+<script>
+  /* Google Analytics 4: solo en el dominio publicado, no en local. */
+  if (location.hostname === 'diaycostarica.com') {
+    var ga = document.createElement('script');
+    ga.async = true;
+    ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-J1KM0BXWMD';
+    document.head.appendChild(ga);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', 'G-J1KM0BXWMD');
+  }
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../assets/boletin.css">
+</head>
+<body>
+
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="masthead">
+  <a class="nav-link back-link" href="./">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+    <span class="rotulo">Volver al boletín</span>
+  </a>
+
+  <details class="menu">
+    <summary>
+      Secciones
+      <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </summary>
+    <nav class="menu__panel" aria-label="Secciones de esta edición">
+      <a class="menu__item" data-seccion="portada" href="portada.html">Portada</a>
+      <a class="menu__item" data-seccion="desde-el-concejo" href="desde-el-concejo.html">Desde el Concejo</a>
+      <a class="menu__item" data-seccion="desde-los-barrios" href="desde-los-barrios.html" aria-current="page">Desde los barrios · Acompañar para aprender</a>
+      <a class="menu__item" data-seccion="desde-los-barrios" href="desde-los-barrios-espacios-verdes.html">Desde los barrios · Más que cemento</a>
+      <a class="menu__item" data-seccion="sabias-que" href="sabias-que.html">¿Sabías que…?</a>
+      <a class="menu__item" data-seccion="opinion" href="opinion.html">Opinión · Recuperemos el paisaje</a>
+      <a class="menu__item" data-seccion="opinion" href="opinion-contraloria.html">Opinión · La Contraloría imprueba ₡1.400 millones</a>
+      <a class="menu__item" data-seccion="servicio-comunal" href="servicio-comunal.html">Servicio comunal</a>
+      <a class="menu__item" data-seccion="agenda" href="agenda.html">Agenda</a>
+    </nav>
+  </details>
+
+  <a class="nav-link nav-link--agenda" href="agenda.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+    <span class="rotulo">Agenda</span>
+  </a>
+
+  <span class="masthead__spacer"></span>
+
+  <img class="masthead__logo logo-light" src="../../assets/logo-claro.png" alt="¡Diay! Santa Ana" width="1052" height="682">
+  <img class="masthead__logo logo-dark" src="../../assets/logo-oscuro.png" alt="¡Diay! Santa Ana" width="1052" height="682">
+  <img class="masthead__logo logo-campana logo-campana--claro" data-campana="octubre-rosa" src="../../assets/logo-claro-rosado.png" alt="¡Diay! Santa Ana" width="1052" height="682" loading="lazy">
+  <img class="masthead__logo logo-campana logo-campana--oscuro" data-campana="octubre-rosa" src="../../assets/logo-oscuro-rosado.png" alt="¡Diay! Santa Ana" width="1052" height="682" loading="lazy">
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar entre modo claro y oscuro">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.8 6.8 0 0 0 11.1 11.1Z"/></svg>
+  </button>
+</header>
+
+<main id="contenido">
+  <article>
+
+    <div class="article-head wrap">
+      <span class="chip rise" style="--d:60">Desde los barrios</span>
+      <h1 class="rise" style="--d:150">Acompañar para aprender</h1>
+      <p class="article-dek rise" style="--d:260">La Asociación de Desarrollo Integral de Piedades apoyará académicamente a estudiantes de primer grado.</p>
+      <div class="byline rise" style="--d:360">
+        <span><strong>Redacción ¡Diay!</strong></span>
+        <span>Octubre 2026</span>
+        <span>2 min de lectura</span>
+      </div>
+    </div>
+
+    <figure class="article-hero rise" style="--d:460">
+      <img src="img/salon-comunal-piedades.webp" alt="Fachada del Salón Comunal de Piedades de Santa Ana: un edificio de dos pisos con detalles azules y un parqueo adoquinado al frente." fetchpriority="high">
+    </figure>
+
+    <div class="article-body measure">
+      <p>Este mes de octubre, en el salón comunal de Piedades, se pondrá en marcha el programa Horizontes, que brindará acompañamiento en matemáticas, lectura y escritura para niñas y niños de primer grado de la Escuela Ezequiel Morales Aguilar, impulsado de forma voluntaria por la Asociación de Desarrollo Integral de Piedades en coordinación con la dirección de la escuela.</p>
+
+      <p>Las sesiones serán breves y enfocadas. En lugar de repetir todo el contenido visto en la escuela, cada sesión se concentra en los puntos donde los estudiantes necesitan más apoyo: reconocer letras y sonidos, formar palabras, contar, sumar y restar con material sencillo y efectivo. Este enfoque permite que los niños y niñas avancen a su ritmo, ganen confianza y disfruten aprender, sin sentirse presionados.</p>
+
+      <p>El programa cuenta con personas voluntarias de la comunidad que impartirán las sesiones y otras personas que dedicarán parte de su tiempo en diferentes tareas dentro del programa. Todo se coordina con la dirección de la escuela y con las familias o personas encargadas de cada estudiante, para que el refuerzo complemente lo que se trabaja en el aula y se mantenga también en casa.</p>
+
+      <blockquote>
+        <p>«Cuando una comunidad educa y acompaña a sus niños, está construyendo el futuro de toda la comunidad.»</p>
+        <cite>Mireya Gómez, presidenta de la Asociación de Desarrollo Integral de Piedades</cite>
+      </blockquote>
+
+      <p>Primer grado es una etapa clave: ahí se construyen las bases de la lectura, la escritura y el razonamiento matemático. Un apoyo oportuno puede marcar la diferencia en todo el recorrido escolar.</p>
+
+      <p>Esta primera etapa servirá para apoyar a los estudiantes en el último tramo del año escolar, cuando reforzar lo aprendido puede ayudarles a cerrar el curso con más seguridad. Además, será un punto de partida: la Asociación de Desarrollo Integral de Piedades planea ampliar el acompañamiento el próximo año para llegar a más niñas y niños de la escuela.</p>
+
+      <p>Las personas interesadas en aportar su experiencia como docente o colaborar de alguna otra manera con el programa, por ejemplo, económicamente para la compra de meriendas y materiales para los estudiantes, pueden comunicarse con la Asociación de Desarrollo Integral de Piedades al correo electrónico <a href="mailto:ADIPiedades@hotmail.com">ADIPiedades@hotmail.com</a>.</p>
+
+      <div class="compartir">
+        <span class="compartir__rotulo">Compartir</span>
+        <a id="btnWhatsApp" href="https://wa.me/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3.1-1.4-5.1-4.5-5.3-4.7-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .5-.1.7.5l1 2.3c.1.2.1.4 0 .6l-.4.5-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l.9-1c.2-.2.4-.2.6-.1l2.2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.4Z"/></svg>
+          WhatsApp
+        </a>
+        <button id="btnCopiar" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+          <span class="rotulo">Copiar enlace</span>
+        </button>
+        <button id="btnCompartir" type="button" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+          <span class="rotulo">Compartir</span>
+        </button>
+      </div>
+    </div>
+
+  </article>
+
+  <div class="wrap">
+    <section class="feedback">
+      <h2>¿Te sirvió esta nota?</h2>
+      <p>Contanos qué te pareció o mandanos un dato para la próxima edición. Lo leemos todo.</p>
+      <a class="boton" href="https://forms.gle/9AAFWWuwYa7f2BU98" target="_blank" rel="noopener">
+        Dejanos tu opinión
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </section>
+  </div>
+
+  <section class="related related--seccion" data-seccion="desde-los-barrios">
+    <div class="wrap">
+      <div class="related__head">
+        <h2>Más de Desde los barrios</h2>
+        <a class="related__todo" href="../../secciones/desde-los-barrios/">Ver todo <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="related__grid">
+        <a class="rel-card" data-seccion="desde-los-barrios" href="../2026-09/desde-los-barrios.html">
+          <span class="chip">Septiembre 2026</span>
+          <h3>En Salitral el agua no alcanza</h3>
+          <span>2 min de lectura</span>
+        </a>
+        <a class="rel-card" data-seccion="desde-los-barrios" href="../2026-07/desde-los-barrios.html">
+          <span class="chip">Julio 2026</span>
+          <h3>La familia Acuña sigue reconstruyendo</h3>
+          <span>2 min de lectura</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  <section class="related">
+    <div class="wrap">
+      <h2>Seguí leyendo</h2>
+      <div class="related__grid">
+        <a class="rel-card" data-seccion="portada" href="portada.html">
+          <span class="chip">Portada</span>
+          <h3>Crear también es ejercer la libertad</h3>
+          <span>5 min de lectura</span>
+        </a>
+        <a class="rel-card" data-seccion="desde-el-concejo" href="desde-el-concejo.html">
+          <span class="chip">Desde el Concejo</span>
+          <h3>El presupuesto 2027 y la basura</h3>
+          <span>3 min de lectura</span>
+        </a>
+        <a class="rel-card" data-seccion="desde-los-barrios" href="desde-los-barrios-espacios-verdes.html">
+          <span class="chip">Desde los barrios</span>
+          <h3>Más que cemento</h3>
+          <span>2 min de lectura</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__inner wrap">
+    <img class="logo-light" src="../../assets/logo-claro.png" alt="" width="1052" height="682" loading="lazy">
+  <img class="logo-dark" src="../../assets/logo-oscuro.png" alt="" width="1052" height="682" loading="lazy">
+  <img class="logo-campana logo-campana--claro" data-campana="octubre-rosa" src="../../assets/logo-claro-rosado.png" alt="" width="1052" height="682" loading="lazy">
+  <img class="logo-campana logo-campana--oscuro" data-campana="octubre-rosa" src="../../assets/logo-oscuro-rosado.png" alt="" width="1052" height="682" loading="lazy">
+    <p><strong>¡Diay! Santa Ana</strong> — boletín informativo independiente, hecho en Santa Ana, Costa Rica. Edición N.º 3, octubre 2026.</p>
+    <p class="footer__aviso">Para saber cuánta gente nos lee, este sitio usa Google Analytics.</p>
+    <nav class="footer__enlaces" aria-label="Enlaces del pie">
+      <a href="./">Portada de la edición</a>
+      <a href="../">Ediciones anteriores</a>
+      <a href="https://forms.gle/9AAFWWuwYa7f2BU98" target="_blank" rel="noopener">Enviar comentarios</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../../assets/boletin.js" defer></script>
+</body>
+</html>

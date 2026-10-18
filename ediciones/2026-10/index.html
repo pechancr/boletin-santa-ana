@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¡Diay! Santa Ana — Edición N.º 3 · Octubre 2026</title>
+
+<meta name="description" content="Boletín informativo independiente de Santa Ana, Costa Rica. Edición N.º 3, octubre 2026.">
+<meta name="author" content="Redacción ¡Diay! Santa Ana">
+<meta name="theme-color" content="#FF4B33">
+<link rel="canonical" href="https://diaycostarica.com/ediciones/2026-10/">
+<link rel="icon" href="../../assets/icono-32.png" sizes="32x32">
+<link rel="icon" href="../../assets/icono-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="../../assets/icono-180.png">
+<link rel="manifest" href="../../manifest.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="¡Diay! Santa Ana">
+<meta property="og:title" content="¡Diay! Santa Ana — Edición N.º 3 · Octubre 2026">
+<meta property="og:description" content="Boletín informativo independiente de Santa Ana, Costa Rica. Edición N.º 3, octubre 2026.">
+<meta property="og:url" content="https://diaycostarica.com/ediciones/2026-10/">
+<meta property="og:image" content="https://diaycostarica.com/assets/logo.png">
+<meta property="og:locale" content="es_CR">
+<meta name="twitter:card" content="summary_large_image">
+
+<script>
+  /* Se aplica el tema antes de pintar, para que no haya parpadeo al cargar. */
+  try {
+    var t = localStorage.getItem('diay-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+  } catch (e) {}
+  /* Instalar la app: Chrome avisa una sola vez, a veces antes de que cargue
+     boletin.js. El evento se guarda aqui y boletin.js lo usa cuando llega. */
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    window.diayInstalar = e;
+    document.dispatchEvent(new Event('diay:instalable'));
+  });
+  /* Campaña del mes. La lista y sus zonas viven en CAMPANAS (armazon.py);
+     aquí solo se elige la que toca hoy, o la de ?campana=<id> para probar. */
+  try {
+    var C = [{"id": "octubre-rosa", "desde": "10-01", "hasta": "10-31", "zonas": "linea resplandor pastilla lema boton opina aviso logo", "colores": {"claro": {"principal": "#E0457B", "fuerte": "#C2185B", "suave": "#FDE2EC"}, "oscuro": {"principal": "#F472B6", "fuerte": "#F9A8D4", "suave": "#3A1626"}}}], r = document.documentElement, d = new Date();
+    var hoy = ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    var pedida = (location.search.match(/[?&]campana=([a-z0-9-]+)/) || [])[1];
+    var c = C.filter(function (x) {
+      if (pedida) return x.id === pedida;
+      return x.desde <= x.hasta ? (hoy >= x.desde && hoy <= x.hasta) : (hoy >= x.desde || hoy <= x.hasta);
+    })[0];
+    if (c) {
+      r.dataset.campana = c.id;
+      r.dataset.zonas = c.zonas;
+      ['claro', 'oscuro'].forEach(function (m) {
+        ['principal', 'fuerte', 'suave'].forEach(function (t) {
+          r.style.setProperty('--campana-' + t + '-' + m, c.colores[m][t]);
+        });
+      });
+      /* Lo que depende de cual campana es: su tarjeta y su logo. */
+      var z = ' ' + c.zonas + ' ', sel = '[data-campana="' + c.id + '"]', css = '';
+      if (z.indexOf(' aviso ') >= 0) css += '.campana-aviso' + sel + '{display:flex}';
+      if (z.indexOf(' logo ') >= 0) css += '.logo-light,.logo-dark{display:none!important}'
+        + '.logo-campana--claro' + sel + '{display:revert}'
+        + ':root[data-theme="dark"] .logo-campana--claro' + sel + '{display:none}'
+        + ':root[data-theme="dark"] .logo-campana--oscuro' + sel + '{display:block}';
+      if (css) {
+        var st = document.createElement('style');
+        st.textContent = css;
+        document.head.appendChild(st);
+      }
+    }
+  } catch (e) {}
+</script>
+<script>
+  /* Google Analytics 4: solo en el dominio publicado, no en local. */
+  if (location.hostname === 'diaycostarica.com') {
+    var ga = document.createElement('script');
+    ga.async = true;
+    ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-J1KM0BXWMD';
+    document.head.appendChild(ga);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', 'G-J1KM0BXWMD');
+  }
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../assets/boletin.css">
+</head>
+<body>
+
+<a class="skip-link" href="#titulares">Saltar a los titulares</a>
+
+<div class="brand-rule"></div>
+
+<header class="masthead masthead--flotante" id="masthead">
+  <a class="masthead__home" href="./" aria-label="Portada de la edición">
+    <img class="masthead__logo logo-light" src="../../assets/logo-claro.png" alt="¡Diay! Santa Ana" width="1052" height="682">
+  <img class="masthead__logo logo-dark" src="../../assets/logo-oscuro.png" alt="¡Diay! Santa Ana" width="1052" height="682">
+  <img class="masthead__logo logo-campana logo-campana--claro" data-campana="octubre-rosa" src="../../assets/logo-claro-rosado.png" alt="¡Diay! Santa Ana" width="1052" height="682" loading="lazy">
+  <img class="masthead__logo logo-campana logo-campana--oscuro" data-campana="octubre-rosa" src="../../assets/logo-oscuro-rosado.png" alt="¡Diay! Santa Ana" width="1052" height="682" loading="lazy">
+  </a>
+
+  <details class="menu">
+    <summary>
+      Secciones
+      <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </summary>
+    <nav class="menu__panel" aria-label="Secciones de esta edición">
+      <a class="menu__item" data-seccion="portada" href="portada.html">Portada</a>
+      <a class="menu__item" data-seccion="desde-el-concejo" href="desde-el-concejo.html">Desde el Concejo</a>
+      <a class="menu__item" data-seccion="desde-los-barrios" href="desde-los-barrios.html">Desde los barrios · Acompañar para aprender</a>
+      <a class="menu__item" data-seccion="desde-los-barrios" href="desde-los-barrios-espacios-verdes.html">Desde los barrios · Más que cemento</a>
+      <a class="menu__item" data-seccion="sabias-que" href="sabias-que.html">¿Sabías que…?</a>
+      <a class="menu__item" data-seccion="opinion" href="opinion.html">Opinión · Recuperemos el paisaje</a>
+      <a class="menu__item" data-seccion="opinion" href="opinion-contraloria.html">Opinión · La Contraloría imprueba ₡1.400 millones</a>
+      <a class="menu__item" data-seccion="servicio-comunal" href="servicio-comunal.html">Servicio comunal</a>
+      <a class="menu__item" data-seccion="agenda" href="agenda.html">Agenda</a>
+    </nav>
+  </details>
+
+  <a class="nav-link nav-link--ediciones" href="../">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+    <span class="rotulo">Ediciones</span>
+  </a>
+
+  <a class="nav-link nav-link--agenda" href="agenda.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+    <span class="rotulo">Agenda</span>
+  </a>
+
+  <span class="masthead__spacer"></span>
+
+  <a class="nav-link nav-link--cta" href="https://forms.gle/9AAFWWuwYa7f2BU98" target="_blank" rel="noopener">Opiná</a>
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar entre modo claro y oscuro">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.8 6.8 0 0 0 11.1 11.1Z"/></svg>
+  </button>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero__inner">
+      <img class="hero__logo rise logo-light" src="../../assets/logo-claro.png" alt="¡Diay! Santa Ana — boletín informativo" width="1052" height="682" style="--d:80" fetchpriority="high">
+  <img class="hero__logo rise logo-dark" src="../../assets/logo-oscuro.png" alt="¡Diay! Santa Ana — boletín informativo" width="1052" height="682" style="--d:80" fetchpriority="high">
+  <img class="hero__logo rise logo-campana logo-campana--claro" data-campana="octubre-rosa" src="../../assets/logo-claro-rosado.png" alt="¡Diay! Santa Ana — boletín informativo" width="1052" height="682" style="--d:80" loading="lazy">
+  <img class="hero__logo rise logo-campana logo-campana--oscuro" data-campana="octubre-rosa" src="../../assets/logo-oscuro-rosado.png" alt="¡Diay! Santa Ana — boletín informativo" width="1052" height="682" style="--d:80" loading="lazy">
+      <span class="kicker rise" style="--d:260">Edición N.º 3 · Octubre 2026</span>
+      <h1 class="rise" style="--d:380">Lo que pasa <em>aquí</em>,<br>contado por los de aquí</h1>
+      <aside class="campana-aviso rise" style="--d:460" data-campana="octubre-rosa" aria-label="En octubre, Santa Ana se viste de rosa.">
+        <span class="campana-aviso__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-2.2 0-3.6 1.7-3.6 3.6 0 2.4 1.9 4.6 3.6 6.9 1.7-2.3 3.6-4.5 3.6-6.9C15.6 4.7 14.2 3 12 3Z"/><path d="M10.2 11.2 5.5 21l3.3-1.2L12 13.5M13.8 11.2 18.5 21l-3.3-1.2"/></svg></span>
+        <p><strong>En octubre, Santa Ana se viste de rosa.</strong> Un abrazo a quienes luchan contra el cáncer de mama, a quienes acompañan y a quienes recordamos. La detección temprana salva vidas: revisate y animá a las tuyas a hacerlo.</p>
+      </aside>
+      <a class="hero__cta rise" style="--d:520" href="#titulares">
+        Ver los titulares
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </a>
+    </div>
+    <div class="hero__cue" aria-hidden="true">
+      <span></span>
+      Desliza
+    </div>
+  </section>
+
+  <div class="banda-secciones">
+    <nav class="secciones wrap" aria-label="Secciones de esta edición">
+      <a data-seccion="portada" href="portada.html">Portada</a>
+      <a data-seccion="desde-el-concejo" href="desde-el-concejo.html">Desde el Concejo</a>
+      <a data-seccion="desde-los-barrios" href="desde-los-barrios.html">Desde los barrios</a>
+      <a data-seccion="sabias-que" href="sabias-que.html">¿Sabías que…?</a>
+      <a data-seccion="opinion" href="opinion.html">Opinión</a>
+      <a data-seccion="servicio-comunal" href="servicio-comunal.html">Servicio comunal</a>
+      <a data-seccion="agenda" href="agenda.html">Agenda</a>
+    </nav>
+  </div>
+
+
+  <section class="semana wrap" id="semana" data-seccion="agenda" aria-labelledby="semana-titulo" hidden>
+    <div class="section-head">
+      <h2 id="semana-titulo">Agenda</h2>
+      <a class="semana__todo" href="agenda.html">Ver la agenda completa <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+    </div>
+    <ol class="semana__dias"></ol>
+    <script type="application/json" class="semana__datos">[{"fecha": "2026-10-14", "hasta": "2026-10-24", "actividad": "XXVII Festival Internacional de Música Barroca", "hora": "Varias", "lugar": "Parroquia de Santa Ana, EMAI, Parroquia de Pozos y otros espacios"}, {"fecha": "2026-10-19", "hasta": "", "actividad": "Fuenteovejuna – Elenco de Teatro EMAI", "hora": "6:00 p. m.", "lugar": "Auditorio EMAI"}, {"fecha": "2026-10-22", "hasta": "", "actividad": "Actividad para personas adultas mayores", "hora": "2:00–5:00 p. m.", "lugar": "Biblioteca Pública de Santa Ana"}, {"fecha": "2026-10-24", "hasta": "", "actividad": "Dido & Æneas – Ópera y cierre del Festival Barroco", "hora": "3:30 p. m. y 7:00 p. m.", "lugar": "Auditorio EMAI / Parroquia de Pozos"}, {"fecha": "2026-11-08", "hasta": "", "actividad": "XIII BMW Lindora Run by Powerade", "hora": "Por confirmar", "lugar": "Lindora, Santa Ana"}, {"fecha": "2026-11-14", "hasta": "2026-11-15", "actividad": "Juegos Comunales de Santa Ana", "hora": "Por confirmar", "lugar": "Diferentes espacios del cantón"}]</script>
+  </section>
+
+  <section class="edicion wrap" id="titulares" tabindex="-1">
+    <div class="section-head">
+      <h2>Titulares</h2>
+      <p>9 notas · Octubre 2026</p>
+    </div>
+
+    <div class="grid">
+
+      <a class="card card--small reveal" data-seccion="portada" style="--i:0" href="portada.html">
+        <div class="card__media">
+          <img src="img/emai-antorcha.webp" alt="Una mujer con chaleco rojo lee un discurso frente a un micrófono; detrás, la banda de la EMAI, con camisa blanca y pañuelo rojo, y la bandera de Costa Rica." loading="lazy" decoding="async">
+        </div>
+        <div class="card__body">
+          <span class="chip">Portada</span>
+          <h3 class="card__title">Crear también es ejercer la libertad</h3>
+          <p class="card__summary">El discurso completo de la EMAI al recibir la antorcha: la libertad como un legado que se cuida, y el arte como una forma de ejercerla.</p>
+          <div class="card__meta">
+            <span>5 min de lectura</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
+      <a class="card card--small reveal" data-seccion="desde-el-concejo" style="--i:1" href="desde-el-concejo.html">
+        <div class="card__media">
+          <img src="img/concejo.webp" alt="Fachada del edificio de la Municipalidad de Santa Ana, adornada con franjas azul, blanco y rojo de la bandera de Costa Rica." loading="lazy" decoding="async">
+        </div>
+        <div class="card__body">
+          <span class="chip">Desde el Concejo</span>
+          <h3 class="card__title">Un presupuesto de ₡21.436.464.205 y la basura rumbo a Limón</h3>
+          <p class="card__summary">El presupuesto 2027 pasó por unanimidad tras dictámenes seis a uno. La basura irá a un relleno en Limón. Y otras dos votaciones divididas.</p>
+          <div class="card__meta">
+            <span>3 min de lectura</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
+      <a class="card card--small reveal" data-seccion="desde-los-barrios" style="--i:2" href="desde-los-barrios.html">
+        <div class="card__media">
+          <img src="img/salon-comunal-piedades.webp" alt="Fachada del Salón Comunal de Piedades de Santa Ana: un edificio de dos pisos con detalles azules y un parqueo adoquinado al frente." loading="lazy" decoding="async">
+        </div>
+        <div class="card__body">
+          <span class="chip">Desde los barrios</span>
+          <h3 class="card__title">Acompañar para aprender</h3>
+          <p class="card__summary">El programa Horizontes dará refuerzo en matemáticas, lectura y escritura a niñas y niños de la Escuela Ezequiel Morales Aguilar, en el salón comunal de Piedades.</p>
+          <div class="card__meta">
+            <span>2 min de lectura</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
+      <a class="card card--small reveal" data-seccion="desde-los-barrios" style="--i:3" href="desde-los-barrios-espacios-verdes.html">
+        <div class="card__media">
+          <img src="img/arboles-santa-ana.webp" alt="Árboles grandes y frondosos en una esquina de Santa Ana, con postes de luz y señales de tránsito al frente." loading="lazy" decoding="async">
+        </div>
+        <div class="card__body">
+          <span class="chip">Desde los barrios</span>
+          <h3 class="card__title">Más que cemento: el valor de los espacios verdes en nuestras comunidades</h3>
+          <p class="card__summary">Los árboles y los parques no son un lujo: son infraestructura para la vida. La reciente tala en Santa Ana Centro obliga a preguntarse qué cantón queremos.</p>
+          <div class="card__meta">
+            <span>2 min de lectura</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
+      <a class="card card--small reveal" data-seccion="sabias-que" style="--i:4" href="sabias-que.html">
+        <div class="card__media">
+          <img src="img/efemeride-dia-culturas.webp" alt="Retrato en blanco y negro de un joven con camisa a rayas; a su lado, un rótulo dice «Real como que hoy hay»." loading="lazy" decoding="async">
+        </div>
+        <div class="card__body">
+          <span class="chip">¿Sabías que…?</span>
+          <h3 class="card__title">12 de octubre: Día de las Culturas</h3>
+          <p class="card__summary">Celebrar la diversidad también es reconocer los aportes de los pueblos indígenas y afrodescendientes, y comprometerse con una convivencia sin racismo.</p>
+          <div class="card__meta">
+            <span>1 min de lectura</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
+      <a class="card card--small reveal" data-seccion="opinion" style="--i:5" href="opinion.html">
+        <div class="card__media">
+          <img src="img/contaminacion-visual.webp" alt="Vallas publicitarias de gran tamaño a la orilla de una carretera, con cables eléctricos encima, frente a los cerros." loading="lazy" decoding="async">
+        </div>
+        <div class="card__body">
+          <span class="chip">Opinión</span>
+          <h3 class="card__title">Recuperemos el paisaje: contra la contaminación visual en Santa Ana</h3>
+          <p class="card__summary">Santa Ana regula los rótulos desde 2003, pero las vallas y las pantallas gigantes siguen creciendo. ¿Ese reglamento protege el paisaje o solo existe en el papel?</p>
+          <div class="card__meta">
+            <span>3 min de lectura</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
+      <a class="card card--small reveal" data-seccion="opinion" style="--i:6" href="opinion-contraloria.html">
+        <div class="card__media">
+          <img src="img/contraloria-presupuesto.webp" alt="Manos que apilan monedas en tres torres sobre una mesa blanca." loading="lazy" decoding="async">
+        </div>
+        <div class="card__body">
+          <span class="chip">Opinión</span>
+          <h3 class="card__title">Contraloría imprueba presupuesto extraordinario de ₡1.400 millones de la Municipalidad de Santa Ana</h3>
+          <p class="card__summary">La Contraloría no encontró el acuerdo expreso del Concejo que aprobara la liquidación de 2025. El dinero no desapareció, pero no puede ejecutarse así.</p>
+          <div class="card__meta">
+            <span>2 min de lectura</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
+      <a class="card card--small reveal" data-seccion="servicio-comunal" style="--i:7" href="servicio-comunal.html">
+        <div class="card__media card__media--arriba">
+          <img src="img/como-navegar-la-ia-01.webp" alt="Servicio comunal · Octubre 2026 Cómo navegar entre la información hecha por IA Instrucciones de seguridad para tu celular. Leelas antes de reenviar." loading="lazy" decoding="async">
+        </div>
+        <div class="card__body">
+          <span class="chip">Servicio comunal</span>
+          <h3 class="card__title">Cómo navegar entre la información hecha por IA</h3>
+          <p class="card__summary">Seis pasos para distinguir lo hecho con IA antes de reenviarlo. Pasalos con el dedo, o descargá la guía para guardarla en el celular o imprimirla.</p>
+          <div class="card__meta">
+            <span>2 min de lectura</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
+      <a class="card card--small reveal" data-seccion="agenda" style="--i:8" href="agenda.html">
+        <div class="card__media">
+          <img src="img/agenda-oct-nov.webp" alt="Ilustración: un calendario de octubre y noviembre rodeado de notas musicales, máscaras de teatro, una medalla y una zapatilla de correr." loading="lazy" decoding="async">
+        </div>
+        <div class="card__body">
+          <span class="chip">Agenda</span>
+          <h3 class="card__title">Agenda de octubre y noviembre</h3>
+          <p class="card__summary">El Festival Internacional de Música Barroca, Fuenteovejuna, Dido & Æneas, una tarde para personas adultas mayores, la Lindora Run y los Juegos Comunales.</p>
+          <div class="card__meta">
+            <span>6 actividades</span>
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <section class="feedback reveal">
+      <h2>¿Qué te pareció esta edición?</h2>
+      <p>Contanos qué te sirvió, qué falta y qué deberíamos investigar el próximo mes. Nos toma un minuto leerlo y nos cambia la edición que viene.</p>
+      <a class="boton" href="https://forms.gle/9AAFWWuwYa7f2BU98" target="_blank" rel="noopener">
+        Dejanos tu opinión
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </section>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__inner wrap">
+    <img class="logo-light" src="../../assets/logo-claro.png" alt="" width="1052" height="682" loading="lazy">
+  <img class="logo-dark" src="../../assets/logo-oscuro.png" alt="" width="1052" height="682" loading="lazy">
+  <img class="logo-campana logo-campana--claro" data-campana="octubre-rosa" src="../../assets/logo-claro-rosado.png" alt="" width="1052" height="682" loading="lazy">
+  <img class="logo-campana logo-campana--oscuro" data-campana="octubre-rosa" src="../../assets/logo-oscuro-rosado.png" alt="" width="1052" height="682" loading="lazy">
+    <p><strong>¡Diay! Santa Ana</strong> — boletín informativo independiente, hecho en Santa Ana, Costa Rica. Edición N.º 3, octubre 2026.</p>
+    <p class="footer__aviso">Para saber cuánta gente nos lee, este sitio usa Google Analytics.</p>
+    <nav class="footer__enlaces" aria-label="Enlaces del pie">
+      <a href="../">Ediciones anteriores</a>
+      <a href="https://forms.gle/9AAFWWuwYa7f2BU98" target="_blank" rel="noopener">Enviar comentarios</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../../assets/boletin.js" defer></script>
+</body>
+</html>

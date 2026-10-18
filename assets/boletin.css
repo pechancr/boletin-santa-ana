@@ -1328,9 +1328,34 @@ a{color:inherit}
 .article-body .agenda-info li{margin:0 0 .6em; font-size:.95rem; line-height:1.5}
 .agenda-info a{color:var(--text); font-weight:600}
 
+/* Cada mes se pliega. En el celular, boletin.js deja abierto solo el de hoy. */
+.agenda__grupo + .agenda__grupo{margin-top:1.6rem}
+.agenda__resumen{
+  list-style:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  margin:0 0 .9rem; border-radius:14px;
+}
+.agenda__resumen::-webkit-details-marker{display:none}
+.agenda__resumen::after{
+  content:""; flex:none;
+  width:.55rem; height:.55rem; margin-right:.35rem;
+  border-right:2.5px solid var(--sec); border-bottom:2.5px solid var(--sec);
+  transform:translateY(-25%) rotate(45deg);
+  transition:transform .25s var(--ease);
+}
+.agenda__grupo[open] > .agenda__resumen::after{transform:translateY(25%) rotate(-135deg)}
+.agenda__grupo:not([open]) > .agenda__resumen{
+  margin:0; padding:.85rem 1rem;
+  background:var(--surface-2); border:1px solid var(--border);
+}
+.agenda__resumen:focus-visible{outline:2px solid var(--sec); outline-offset:3px}
+.article-body .agenda__resumen .agenda__mes{margin:0}
+.evento__fecha--rango .evento__dia{font-size:1.15rem; letter-spacing:-.01em}
+
 @media (max-width:520px){
   .evento{grid-template-columns:3.6rem 1fr; gap:.8rem}
   .evento__dia{font-size:1.55rem}
+  .evento__fecha--rango .evento__dia{font-size:.98rem}
 }
 
 /* ============================================================
@@ -1555,3 +1580,35 @@ a{color:inherit}
 .descarga__texto span{font-size:.88rem; color:var(--text-muted); line-height:1.4}
 .article-body .descarga .boton{margin:0; text-decoration:none}
 .article-body .descarga .boton, .article-body .descarga .boton:hover{color:#fff}
+
+/* Laminas de una guia, para pasar con el dedo (pedido del equipo, octubre 2026).
+   Sin JS se pasan con scroll-snap; boletin.js agrega flechas y contador. */
+.laminas{margin:clamp(1.6rem, 4vw, 2.4rem) auto; max-width:460px; font-family:var(--font-ui)}
+.laminas__pista{
+  display:flex; gap:14px;
+  overflow-x:auto; overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory; scrollbar-width:none;
+  border-radius:16px;
+}
+.laminas__pista::-webkit-scrollbar{display:none}
+.laminas__pista:focus-visible{outline:2px solid var(--sec); outline-offset:4px}
+.article-body .lamina{flex:0 0 100%; margin:0; scroll-snap-align:start; scroll-snap-stop:always}
+.lamina img{
+  display:block; width:100%; height:auto; aspect-ratio:4/5;
+  border:1px solid var(--border); border-radius:16px; background:#fff;
+}
+.laminas__control{display:flex; align-items:center; justify-content:center; gap:1.1rem; margin-top:.9rem}
+.laminas__control[hidden]{display:none}
+.laminas__boton{
+  width:44px; height:44px; padding:0;
+  display:grid; place-items:center;
+  border:1px solid var(--border); border-radius:50%;
+  background:var(--surface-2); color:var(--text);
+  cursor:pointer; transition:border-color .2s var(--ease), color .2s var(--ease), opacity .2s var(--ease);
+}
+.laminas__boton svg{width:20px; height:20px}
+.laminas__boton:hover:not(:disabled){border-color:var(--sec); color:var(--sec)}
+.laminas__boton:disabled{opacity:.35; cursor:default}
+.laminas__cuenta{min-width:5.5em; text-align:center; font-size:.9rem; font-weight:700; color:var(--text-muted); font-variant-numeric:tabular-nums}
+.article-body .laminas__ayuda{margin:.45rem 0 0; text-align:center; font-size:.8rem; color:var(--text-muted)}
+@media (hover:hover) and (pointer:fine){ .article-body .laminas__ayuda{display:none} }

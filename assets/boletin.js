@@ -160,7 +160,8 @@
       ('0' + hoy.getDate()).slice(-2);
 
     eventos.forEach(function (evento) {
-      if (evento.getAttribute('data-fecha') < hoyIso) {
+      // Un evento de varios dias pasa cuando pasa el ultimo.
+      if ((evento.getAttribute('data-hasta') || evento.getAttribute('data-fecha')) < hoyIso) {
         evento.classList.add('evento--pasado');
         var marca = document.createElement('span');
         marca.className = 'evento__pasado';
@@ -169,6 +170,20 @@
         if (titulo) titulo.appendChild(marca);
       }
     });
+
+    /* En el celular, solo el mes de quien lee queda abierto: los demas se
+       pliegan y se abren con un toque. Si ese mes no esta en la agenda, el
+       proximo que si; si ya paso toda, el ultimo. En computadora, todos. */
+    var grupos = document.querySelectorAll('.agenda__grupo[data-mes]');
+    if (grupos.length > 1 && window.matchMedia('(max-width: 760px)').matches) {
+      var mesHoy = hoyIso.slice(0, 7);
+      var abierto = null;
+      for (var g = 0; g < grupos.length && !abierto; g++) {
+        if (grupos[g].getAttribute('data-mes') >= mesHoy) abierto = grupos[g];
+      }
+      if (!abierto) abierto = grupos[grupos.length - 1];
+      for (var k = 0; k < grupos.length; k++) grupos[k].open = grupos[k] === abierto;
+    }
   }
 
   /* --- Agenda en la portada: cinco dias con hoy al centro ---------
@@ -192,7 +207,9 @@
 
     for (var i = -2; i <= 2; i++) {
       var dia = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i);
-      var delDia = datos.filter(function (ev) { return ev.fecha === iso(dia); });
+      var delDia = datos.filter(function (ev) {
+        return ev.fecha <= iso(dia) && iso(dia) <= (ev.hasta || ev.fecha);
+      });
       total += delDia.length;
 
       var li = document.createElement('li');
@@ -234,6 +251,48 @@
 
     if (total) semana.hidden = false;
   }
+
+  /* --- Laminas de una guia: pasar hacia adelante o hacia atras ----
+     Sin JS se pasan igual con el dedo (scroll-snap). Aqui solo se agregan
+     las flechas, el contador y las teclas de flecha.               */
+  document.querySelectorAll('.laminas').forEach(function (carrusel) {
+    var pista = carrusel.querySelector('.laminas__pista');
+    var hojas = pista ? pista.querySelectorAll('.lamina') : [];
+    var control = carrusel.querySelector('.laminas__control');
+    if (hojas.length < 2 || !control) return;
+    var cuenta = carrusel.querySelector('.laminas__cuenta');
+    var botones = carrusel.querySelectorAll('.laminas__boton');
+    var suave = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var actual = 0;
+
+    function ancho() { return hojas[1].offsetLeft - hojas[0].offsetLeft || pista.clientWidth; }
+    function pintar() {
+      actual = Math.max(0, Math.min(hojas.length - 1, Math.round(pista.scrollLeft / ancho())));
+      cuenta.textContent = (actual + 1) + ' de ' + hojas.length;
+      botones[0].disabled = actual === 0;
+      botones[1].disabled = actual === hojas.length - 1;
+    }
+    function ir(i) {
+      i = Math.max(0, Math.min(hojas.length - 1, i));
+      pista.scrollTo({ left: i * ancho(), behavior: suave ? 'smooth' : 'auto' });
+    }
+
+    control.hidden = false;
+    botones.forEach(function (b) {
+      b.addEventListener('click', function () { ir(actual + Number(b.getAttribute('data-paso'))); });
+    });
+    var pendiente = false;
+    pista.addEventListener('scroll', function () {
+      if (pendiente) return;
+      pendiente = true;
+      requestAnimationFrame(function () { pendiente = false; pintar(); });
+    }, { passive: true });
+    pista.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); ir(actual + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); ir(actual - 1); }
+    });
+    pintar();
+  });
 
   /* --- Aviso para instalar la app ---------------------------------
      Tres casos, y en ninguno el boton puede quedar sin hacer nada:

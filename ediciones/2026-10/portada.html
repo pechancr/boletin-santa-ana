@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es" data-seccion="portada">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crear también es ejercer la libertad — ¡Diay! Santa Ana</title>
+
+<meta name="description" content="En la recepción de la antorcha, la EMAI de Santa Ana reflexionó sobre lo que significa ser libres hoy y sobre el papel del arte en el país que queremos construir.">
+<meta name="author" content="Redacción ¡Diay! Santa Ana">
+<meta name="theme-color" content="#FF4B33">
+<link rel="canonical" href="https://diaycostarica.com/ediciones/2026-10/portada.html">
+<link rel="icon" href="../../assets/icono-32.png" sizes="32x32">
+<link rel="icon" href="../../assets/icono-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="../../assets/icono-180.png">
+<link rel="manifest" href="../../manifest.webmanifest">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="¡Diay! Santa Ana">
+<meta property="og:title" content="Crear también es ejercer la libertad">
+<meta property="og:description" content="En la recepción de la antorcha, la EMAI de Santa Ana reflexionó sobre lo que significa ser libres hoy y sobre el papel del arte en el país que queremos construir.">
+<meta property="og:url" content="https://diaycostarica.com/ediciones/2026-10/portada.html">
+<meta property="og:image" content="https://diaycostarica.com/assets/logo.png">
+<meta property="og:locale" content="es_CR">
+<meta name="twitter:card" content="summary_large_image">
+
+<script>
+  /* Se aplica el tema antes de pintar, para que no haya parpadeo al cargar. */
+  try {
+    var t = localStorage.getItem('diay-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+  } catch (e) {}
+  /* Instalar la app: Chrome avisa una sola vez, a veces antes de que cargue
+     boletin.js. El evento se guarda aqui y boletin.js lo usa cuando llega. */
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    window.diayInstalar = e;
+    document.dispatchEvent(new Event('diay:instalable'));
+  });
+  /* Campaña del mes. La lista y sus zonas viven en CAMPANAS (armazon.py);
+     aquí solo se elige la que toca hoy, o la de ?campana=<id> para probar. */
+  try {
+    var C = [{"id": "octubre-rosa", "desde": "10-01", "hasta": "10-31", "zonas": "linea resplandor pastilla lema boton opina aviso logo", "colores": {"claro": {"principal": "#E0457B", "fuerte": "#C2185B", "suave": "#FDE2EC"}, "oscuro": {"principal": "#F472B6", "fuerte": "#F9A8D4", "suave": "#3A1626"}}}], r = document.documentElement, d = new Date();
+    var hoy = ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    var pedida = (location.search.match(/[?&]campana=([a-z0-9-]+)/) || [])[1];
+    var c = C.filter(function (x) {
+      if (pedida) return x.id === pedida;
+      return x.desde <= x.hasta ? (hoy >= x.desde && hoy <= x.hasta) : (hoy >= x.desde || hoy <= x.hasta);
+    })[0];
+    if (c) {
+      r.dataset.campana = c.id;
+      r.dataset.zonas = c.zonas;
+      ['claro', 'oscuro'].forEach(function (m) {
+        ['principal', 'fuerte', 'suave'].forEach(function (t) {
+          r.style.setProperty('--campana-' + t + '-' + m, c.colores[m][t]);
+        });
+      });
+      /* Lo que depende de cual campana es: su tarjeta y su logo. */
+      var z = ' ' + c.zonas + ' ', sel = '[data-campana="' + c.id + '"]', css = '';
+      if (z.indexOf(' aviso ') >= 0) css += '.campana-aviso' + sel + '{display:flex}';
+      if (z.indexOf(' logo ') >= 0) css += '.logo-light,.logo-dark{display:none!important}'
+        + '.logo-campana--claro' + sel + '{display:revert}'
+        + ':root[data-theme="dark"] .logo-campana--claro' + sel + '{display:none}'
+        + ':root[data-theme="dark"] .logo-campana--oscuro' + sel + '{display:block}';
+      if (css) {
+        var st = document.createElement('style');
+        st.textContent = css;
+        document.head.appendChild(st);
+      }
+    }
+  } catch (e) {}
+</script>
+<script>
+  /* Google Analytics 4: solo en el dominio publicado, no en local. */
+  if (location.hostname === 'diaycostarica.com') {
+    var ga = document.createElement('script');
+    ga.async = true;
+    ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-J1KM0BXWMD';
+    document.head.appendChild(ga);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', 'G-J1KM0BXWMD');
+  }
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../../assets/boletin.css">
+</head>
+<body>
+
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="masthead">
+  <a class="nav-link back-link" href="./">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+    <span class="rotulo">Volver al boletín</span>
+  </a>
+
+  <details class="menu">
+    <summary>
+      Secciones
+      <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </summary>
+    <nav class="menu__panel" aria-label="Secciones de esta edición">
+      <a class="menu__item" data-seccion="portada" href="portada.html" aria-current="page">Portada</a>
+      <a class="menu__item" data-seccion="desde-el-concejo" href="desde-el-concejo.html">Desde el Concejo</a>
+      <a class="menu__item" data-seccion="desde-los-barrios" href="desde-los-barrios.html">Desde los barrios · Acompañar para aprender</a>
+      <a class="menu__item" data-seccion="desde-los-barrios" href="desde-los-barrios-espacios-verdes.html">Desde los barrios · Más que cemento</a>
+      <a class="menu__item" data-seccion="sabias-que" href="sabias-que.html">¿Sabías que…?</a>
+      <a class="menu__item" data-seccion="opinion" href="opinion.html">Opinión · Recuperemos el paisaje</a>
+      <a class="menu__item" data-seccion="opinion" href="opinion-contraloria.html">Opinión · La Contraloría imprueba ₡1.400 millones</a>
+      <a class="menu__item" data-seccion="servicio-comunal" href="servicio-comunal.html">Servicio comunal</a>
+      <a class="menu__item" data-seccion="agenda" href="agenda.html">Agenda</a>
+    </nav>
+  </details>
+
+  <a class="nav-link nav-link--agenda" href="agenda.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+    <span class="rotulo">Agenda</span>
+  </a>
+
+  <span class="masthead__spacer"></span>
+
+  <img class="masthead__logo logo-light" src="../../assets/logo-claro.png" alt="¡Diay! Santa Ana" width="1052" height="682">
+  <img class="masthead__logo logo-dark" src="../../assets/logo-oscuro.png" alt="¡Diay! Santa Ana" width="1052" height="682">
+  <img class="masthead__logo logo-campana logo-campana--claro" data-campana="octubre-rosa" src="../../assets/logo-claro-rosado.png" alt="¡Diay! Santa Ana" width="1052" height="682" loading="lazy">
+  <img class="masthead__logo logo-campana logo-campana--oscuro" data-campana="octubre-rosa" src="../../assets/logo-oscuro-rosado.png" alt="¡Diay! Santa Ana" width="1052" height="682" loading="lazy">
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar entre modo claro y oscuro">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.8 6.8 0 0 0 11.1 11.1Z"/></svg>
+  </button>
+</header>
+
+<main id="contenido">
+  <article>
+
+    <div class="article-head wrap">
+      <span class="chip rise" style="--d:60">Portada</span>
+      <h1 class="rise" style="--d:150">Crear también es ejercer la libertad</h1>
+      <p class="article-dek rise" style="--d:260">En la recepción de la antorcha, la EMAI de Santa Ana reflexionó sobre lo que significa ser libres hoy y sobre el papel del arte en el país que queremos construir.</p>
+      <div class="byline rise" style="--d:360">
+        <span><strong>Redacción ¡Diay!</strong></span>
+        <span>Octubre 2026</span>
+        <span>5 min de lectura</span>
+      </div>
+    </div>
+
+    <figure class="article-hero rise" style="--d:460">
+      <img src="img/emai-antorcha.webp" alt="Una mujer con chaleco rojo lee un discurso frente a un micrófono; detrás, la banda de la EMAI, con camisa blanca y pañuelo rojo, y la bandera de Costa Rica." fetchpriority="high">
+      <figcaption>La lectura del discurso en la recepción de la antorcha, en la EMAI, el 14 de setiembre.</figcaption>
+    </figure>
+
+    <div class="article-body measure">
+      <p>El pasado 14 de setiembre, la Escuela Municipal de Artes Integradas (EMAI) recibió la antorcha de la independencia ante estudiantes, familias, personal docente y vecinos. Para la ocasión, una profesora de teatro de la EMAI leyó un discurso escrito por Claudia Peirano Cisterna, inspirado en el lema de este año: «Costa Rica: 205 años libres, en paz y sembrando futuro».</p>
+
+      <p>Más que un repaso histórico, el texto plantea una pregunta: ¿qué hacemos hoy con la libertad que heredamos? La respuesta pasa por la educación y la cultura. En las aulas de la EMAI, la música, la danza, el teatro, la literatura y las artes visuales enseñan a observar, escuchar, imaginar y cuestionar. Formar desde el arte es formar ciudadanía crítica y sensible, capaz de participar en la vida de su comunidad.</p>
+
+      <p>Lo compartimos completo porque nos recuerda algo que en Santa Ana conviene no olvidar: la libertad, la paz y la democracia no se heredan para guardarse, sino para cuidarse y transmitirse.</p>
+
+      <h2>«Costa Rica: 205 años libres, en paz y sembrando futuro»</h2>
+
+      <p><em>Discurso de Claudia Peirano Cisterna para la celebración de las fiestas patrias en la EMAI de Santa Ana, el 14 de setiembre de 2026.</em></p>
+
+      <p>Reciban un caluroso saludo, grupo estudiantil, familiares, personal de la Escuela Municipal de Artes Integradas EMAI y todas las personas de la comunidad que nos acompañan en la celebración de este 14 de septiembre. Al reunirnos este día, compartimos una nueva oportunidad de honrar nuestra historia nacional mediante el recibimiento de la antorcha de independencia como parte de las fiestas patrias.</p>
+
+      <blockquote>
+        <p>«La antorcha simboliza la libertad que se mantiene viva, la luz de la independencia y el recorrido histórico que une a las comunidades del país durante las celebraciones patrias. No es solo una llama decorativa: representa una libertad que se hereda, se protege y se transmite».</p>
+        <cite>MEP, 2026</cite>
+      </blockquote>
+
+      <p>La conmemoración de la independencia nacional es un motivo de fiesta que nos une como sociedad, pero también es un espacio de reflexión que no se limita a los hechos históricos y los valores heredados de las proezas del pasado. El logo de la antorcha en pleno recorrido, como dice la cita de su significado “No es solo una llama decorativa: representa una libertad que se hereda, se protege y se transmite”, lo que nos invita a cuestionarnos ¿qué significa ser libres hoy?, ¿qué hacemos, desde nuestro presente, con esa libertad que hemos heredado?, ¿qué país queremos construir desde la educación, la cultura y el arte?</p>
+
+      <p>Como cada año, desde el Ministerio de Educación Pública (MEP), nos comparten el lema que nos inspira a lo largo de este gran festejo, “Costa Rica: 205 años libres, en paz y sembrando futuro”. Este lema nos insta precisamente a comprender la libertad como un legado que lleva consigo responsabilidad. Ser libres implica participar, pensar, dialogar, respetar nuestras diferencias y asumir el compromiso de construir, entre todas las personas, una sociedad más justa, solidaria y democrática; y frente a esta tarea, el arte tiene un papel fundamental.</p>
+
+      <p>En la EMAI, sabemos que educar no consiste solamente en transmitir conocimientos. La formación integral en arte significa también enseñar a observar, escuchar, imaginar, crear y cuestionar. La música, la danza, el teatro, la literatura, las artes plásticas y visuales nos permiten expresar lo que somos, conocer otras perspectivas y comprender mejor el mundo que habitamos.</p>
+
+      <p>Por medio del arte se desarrolla nuestra sensibilidad, pero también nuestro pensamiento crítico. La educación artística nos enseña que existen diferentes formas de interpretar la realidad, que podemos plantearnos preguntas y que tenemos la capacidad de proponer nuevas respuestas. Por eso, formar personas desde el arte es también formar ciudadanos capaces de participar activamente en la construcción de su sociedad y de su cultura.</p>
+
+      <p>En la EMAI tenemos el privilegio de cultivar precisamente esas capacidades. Cada experiencia de creación artística nos motiva a imaginar lo que todavía no existe, a experimentar con nuevas formas de expresión, a desarrollar un pensamiento crítico y sensible y a reconocer que nuestras ideas y nuestras obras pueden transformar la manera en que comprendemos y enriquecemos nuestra cultura. Crear también es ejercer nuestra libertad.</p>
+
+      <p>Por eso, al recibir hoy la Antorcha de la Libertad, queremos verla no solamente como el símbolo de una historia que nos precede, sino como una llama que nos compromete con el presente y con el futuro. Su luz representa esa libertad que hemos heredado y que debemos proteger; su recorrido nos recuerda que somos parte de una historia construida colectivamente; y su fuego nos invita a mantener vivo el compromiso de transmitir a las nuevas generaciones los valores de la paz, la democracia, la solidaridad y la participación.</p>
+
+      <p>Entonces, al celebrar nuestra libertad, queremos reconocer también la cultura como una de las semillas que debemos cuidar para construir el futuro. Sembrar futuro es educar. Es crear. Es pensar. Es escuchar. Es preservar nuestra memoria y, al mismo tiempo, atrevernos a imaginar lo que no se ha creado, tal como nos sugiere el lema cívico de este año.</p>
+
+      <p>Que esta antorcha nos invite, entonces, a preguntarnos qué futuro estamos sembrando desde nuestras aulas, desde nuestras familias, desde nuestra comunidad y, especialmente, desde el arte. Que cada creación, cada palabra, cada melodía, cada movimiento y cada imagen que nace en esta escuela sea también una forma de sembrar futuro y de ejercer responsablemente nuestra libertad.</p>
+
+      <p>Por lo tanto, estos 205 años de vida independiente nos recuerdan que la libertad de Costa Rica y las garantías sociales de sus ciudadanos no son solamente una historia que heredamos. Es también una construcción colectiva que continúa en nuestras manos y que tenemos la responsabilidad de proteger y de transmitir.</p>
+
+      <p>Recibamos la antorcha con orgullo, pero también con compromiso, porque la luz que recibimos hoy es una semilla de libertad, y el país que construiremos será el fruto de aquello que decidamos sembrar.</p>
+
+      <div class="compartir">
+        <span class="compartir__rotulo">Compartir</span>
+        <a id="btnWhatsApp" href="https://wa.me/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3.1-1.4-5.1-4.5-5.3-4.7-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .5-.1.7.5l1 2.3c.1.2.1.4 0 .6l-.4.5-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l.9-1c.2-.2.4-.2.6-.1l2.2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.4Z"/></svg>
+          WhatsApp
+        </a>
+        <button id="btnCopiar" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+          <span class="rotulo">Copiar enlace</span>
+        </button>
+        <button id="btnCompartir" type="button" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+          <span class="rotulo">Compartir</span>
+        </button>
+      </div>
+    </div>
+
+  </article>
+
+  <div class="wrap">
+    <section class="feedback">
+      <h2>¿Te sirvió esta nota?</h2>
+      <p>Contanos qué te pareció o mandanos un dato para la próxima edición. Lo leemos todo.</p>
+      <a class="boton" href="https://forms.gle/9AAFWWuwYa7f2BU98" target="_blank" rel="noopener">
+        Dejanos tu opinión
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </section>
+  </div>
+
+  <section class="related related--seccion" data-seccion="portada">
+    <div class="wrap">
+      <div class="related__head">
+        <h2>Más de Portada</h2>
+        <a class="related__todo" href="../../secciones/portada/">Ver todo <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="related__grid">
+        <a class="rel-card" data-seccion="portada" href="../2026-09/portada.html">
+          <span class="chip">Septiembre 2026</span>
+          <h3>El nuevo Plan Regulador</h3>
+          <span>2 min de lectura</span>
+        </a>
+        <a class="rel-card" data-seccion="portada" href="../2026-07/portada.html">
+          <span class="chip">Julio 2026</span>
+          <h3>Aguas negras en el Parque Lorne Ross</h3>
+          <span>2 min de lectura</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  <section class="related">
+    <div class="wrap">
+      <h2>Seguí leyendo</h2>
+      <div class="related__grid">
+        <a class="rel-card" data-seccion="desde-el-concejo" href="desde-el-concejo.html">
+          <span class="chip">Desde el Concejo</span>
+          <h3>El presupuesto 2027 y la basura</h3>
+          <span>3 min de lectura</span>
+        </a>
+        <a class="rel-card" data-seccion="desde-los-barrios" href="desde-los-barrios.html">
+          <span class="chip">Desde los barrios</span>
+          <h3>Acompañar para aprender</h3>
+          <span>2 min de lectura</span>
+        </a>
+        <a class="rel-card" data-seccion="desde-los-barrios" href="desde-los-barrios-espacios-verdes.html">
+          <span class="chip">Desde los barrios</span>
+          <h3>Más que cemento</h3>
+          <span>2 min de lectura</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__inner wrap">
+    <img class="logo-light" src="../../assets/logo-claro.png" alt="" width="1052" height="682" loading="lazy">
+  <img class="logo-dark" src="../../assets/logo-oscuro.png" alt="" width="1052" height="682" loading="lazy">
+  <img class="logo-campana logo-campana--claro" data-campana="octubre-rosa" src="../../assets/logo-claro-rosado.png" alt="" width="1052" height="682" loading="lazy">
+  <img class="logo-campana logo-campana--oscuro" data-campana="octubre-rosa" src="../../assets/logo-oscuro-rosado.png" alt="" width="1052" height="682" loading="lazy">
+    <p><strong>¡Diay! Santa Ana</strong> — boletín informativo independiente, hecho en Santa Ana, Costa Rica. Edición N.º 3, octubre 2026.</p>
+    <p class="footer__aviso">Para saber cuánta gente nos lee, este sitio usa Google Analytics.</p>
+    <nav class="footer__enlaces" aria-label="Enlaces del pie">
+      <a href="./">Portada de la edición</a>
+      <a href="../">Ediciones anteriores</a>
+      <a href="https://forms.gle/9AAFWWuwYa7f2BU98" target="_blank" rel="noopener">Enviar comentarios</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../../assets/boletin.js" defer></script>
+</body>
+</html>
