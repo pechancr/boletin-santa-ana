@@ -1298,6 +1298,12 @@ a{color:inherit}
 }
 .article-body ul.evento__datos li::before{content:none}
 .evento__datos svg{width:14px; height:14px; flex:none; color:var(--sec)}
+.article-body .evento__nota{
+  display:inline-block; margin:.5rem 0 0; padding:.3rem .6rem;
+  font-size:.82rem; font-weight:600; line-height:1.4;
+  color:var(--text); background:color-mix(in srgb, var(--sec) 12%, transparent);
+  border-radius:8px;
+}
 .evento__pasado{
   margin-left:.5rem;
   padding:.12rem .45rem;
