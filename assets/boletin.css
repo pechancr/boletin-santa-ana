@@ -1566,10 +1566,24 @@ a{color:inherit}
 .seccion-lista .rel-card p{margin:0; font-family:var(--font-read); color:var(--text-muted); line-height:1.5}
 
 /* Redes del boletin en el pie (solo si REDES en armazon.py tiene alguna) */
-.footer__redes{display:flex; gap:.9rem; flex-wrap:wrap; align-items:center; font-size:.82rem; font-weight:600}
-.footer__redes span{color:var(--text-muted); font-weight:500}
-.footer__redes a{color:var(--text); text-decoration:none}
-.footer__redes a:hover{color:var(--brand-red)}
+.footer__redes{background:var(--brand-red-deep); color:#fff; margin:-2.75rem 0 2.25rem; padding:1.9rem 0}
+.footer__redes-inner{display:flex; align-items:center; justify-content:space-between; gap:1.3rem 2rem; flex-wrap:wrap}
+.footer__redes-texto{display:flex; flex-direction:column; gap:.3rem; max-width:34rem}
+.footer__redes-texto strong{font-family:var(--font-ui); font-size:clamp(1.3rem, 3.4vw, 1.75rem); font-weight:800; line-height:1.15; color:#fff}
+.footer__redes-texto span{font-size:.95rem; color:rgba(255,255,255,.92)}
+.footer__iconos{display:flex; flex-wrap:nowrap; gap:.9rem}
+.footer__iconos a{display:grid; place-items:center; width:3.2rem; height:3.2rem; border-radius:50%; background:#fff; color:var(--brand-red-deep); box-shadow:0 4px 12px rgba(0,0,0,.18); transition:transform .2s var(--ease), background .2s var(--ease), color .2s var(--ease)}
+.footer__iconos svg{width:1.6rem; height:1.6rem}
+.footer__iconos a:hover, .footer__iconos a:focus-visible{background:var(--brand-yellow); color:#111; transform:translateY(-4px) scale(1.08)}
+.footer__marca{display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap}
+.footer p.footer__aviso{margin-top:1.4rem; max-width:none}
+@media (max-width:620px){
+  .footer__redes-inner{flex-direction:column; text-align:center}
+  .footer__redes-texto{align-items:center}
+  .footer__iconos{gap:.8rem}
+  .footer__iconos a{width:2.9rem; height:2.9rem}
+  .footer__marca{flex-direction:column; align-items:flex-start; gap:1rem}
+}
 
 /* Descarga de una nota (p. ej. la guia en PDF de Servicio comunal) */
 .descarga{
