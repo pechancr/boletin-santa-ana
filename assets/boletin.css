@@ -1043,7 +1043,7 @@ a{color:inherit}
   border-top:1px solid var(--border);
   background:var(--surface-2);
   padding:2.75rem 0 2.25rem;
-  margin-top:2rem;
+  margin-top:0;
 }
 .footer__inner{
   display:flex; align-items:center; justify-content:space-between;
@@ -1061,7 +1061,7 @@ a{color:inherit}
    ============================================================ */
 .centrado{
   min-height:100svh;
-  display:grid; place-items:center; justify-items:center;
+  display:grid; place-items:center; justify-items:center; align-content:center;
   gap:1.25rem;
   padding:2rem 1.5rem;
   text-align:center;
@@ -1074,6 +1074,10 @@ a{color:inherit}
   margin:0; text-wrap:balance;
 }
 .centrado p{margin:0; max-width:44ch; color:var(--text-muted)}
+/* La 404 lleva pie: no ocupa toda la pantalla y el pie queda a la vista */
+.centrado--con-pie{min-height:auto; padding:clamp(3rem, 9vw, 5.5rem) 1.5rem clamp(3rem, 8vw, 4.5rem)}
+.centrado--con-pie .boton{margin-top:.5rem}
+.centrado--con-pie h1{margin-top:1rem}
 
 /* ============================================================
    TRANSICION ENTRE PAGINAS
@@ -1568,6 +1572,7 @@ a{color:inherit}
   .footer__iconos{gap:.8rem}
   .footer__iconos a{width:2.9rem; height:2.9rem}
   .footer__marca{flex-direction:column; align-items:flex-start; gap:1rem}
+  .footer__enlaces{flex-direction:column; gap:.75rem}
 }
 
 /* Descarga de una nota (p. ej. la guia en PDF de Servicio comunal) */
