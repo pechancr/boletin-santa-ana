@@ -1491,10 +1491,15 @@ a{color:inherit}
    desde los dos lados, y al llegar empieza a «alzar la voz» en ola, de
    persona en persona. Después no hay nada que parpadee: solo esa ola,
    el viento en la bandera, las aspas y las nubes.
+
+   Capas, de atrás hacia adelante, cada una su propio <svg>: rayos, sol,
+   pueblo, y la gente de la izquierda una persona por <svg> (apiladas en
+   .marcha--izq). En la computadora se animan por dentro; en celular solo
+   se mueven capas enteras (ver más abajo por qué).
    ------------------------------------------------------------ */
 .campana-paisaje{display:none}
 
-.fondo-paisaje{
+.rayos-paisaje, .sol-paisaje, .fondo-paisaje{
   position:absolute; inset:0; width:100%; height:100%;
   z-index:-2; pointer-events:none;
 }
@@ -1505,6 +1510,9 @@ a{color:inherit}
 .marcha--izq{left:max(0px, calc(50% - 740px)); width:min(30vw, 470px)}
 /* Misma escala que la izquierda: ese dibujo trae a la gente 1.22 veces más grande por unidad */
 .marcha--der{right:max(0px, calc(50% - 720px)); width:calc(min(30vw, 470px) * .71)}
+/* Las personas de la izquierda: mismo lienzo, una encima de la otra. */
+.marcha--izq .persona-capa{display:block; width:100%; height:auto}
+.marcha--izq .persona-capa + .persona-capa{position:absolute; left:0; top:0}
 
 .paisaje-credito{
   position:absolute; right:12px; bottom:8px;
@@ -1539,7 +1547,7 @@ a{color:inherit}
 .paisaje .molino .buje{fill:#DDE3E9; stroke:#B9C3CD; stroke-width:1.2}
 .paisaje .aspas{transform-box:view-box; transform-origin:0 0}
 
-:root[data-theme="dark"] .fondo-paisaje .rayos2{opacity:.6}
+:root[data-theme="dark"] .rayos-paisaje .rayos2{opacity:.6}
 :root[data-theme="dark"] .paisaje .montana,
 :root[data-theme="dark"] .paisaje .volcan,
 :root[data-theme="dark"] .paisaje .volcan-nieve,
@@ -1573,11 +1581,11 @@ a{color:inherit}
 
 @media (prefers-reduced-motion: no-preference){
   /* 1 · El sol sale detrás del pueblo y los rayos se abren. */
-  .fondo-paisaje .disco2{
+  .sol-paisaje .disco2{
     transform-origin:800px 380px;
     animation:sol-sale 1.5s var(--ease) both, sol-late 7s ease-in-out 1.5s infinite;
   }
-  .fondo-paisaje .rayos2{
+  .rayos-paisaje .rayos2{
     transform-origin:800px 380px;
     animation:rayos-abren 2.2s ease-out .2s both, gira 200s linear 2.4s infinite;
   }
@@ -1608,7 +1616,7 @@ a{color:inherit}
 
   /* Profundidad: el fondo baja un poco más lento que la página al desplazarse. */
   @supports (animation-timeline: scroll()){
-    .fondo-paisaje{
+    .rayos-paisaje, .sol-paisaje, .fondo-paisaje{
       animation:fondo-lento linear both;
       animation-timeline:scroll(root block);
       animation-range:0 100vh;
@@ -1619,12 +1627,32 @@ a{color:inherit}
   .hero.fuera .campana-paisaje *{animation-play-state:paused !important}
 }
 
-/* En celular la gente ya está en su sitio desde el primer momento: no llega
-   de lado ni sube con el desplazamiento (se probó y en el teléfono quedaba a
-   medias). Se queda solo la ola de los torsos y el viento en la bandera, que
-   no mueven a nadie de lugar. */
+/* En celular solo se mueven CAPAS ENTERAS, y sin el grano encima.
+   Probado en teléfonos reales, iPhone y Android (noviembre 2026): animar
+   piezas DENTRO de un SVG (torsos, nubes, aspas, rayos) o mezclar el grano
+   (mix-blend-mode) sobre el paisaje obliga al teléfono a repintar el dibujo
+   entero en cada cuadro, y deja partes sin pintar (sobre todo las piernas)
+   que completa al recargar. Mover un <svg> entero no repinta nada: el
+   teléfono lo pinta una vez y solo lo desplaza. Los simuladores no
+   reproducen el fallo: cualquier cambio aquí se prueba en un teléfono. */
 @media (max-width:700px){
-  .marcha--izq, .marcha .persona{animation:none}
+  .campana-paisaje *{animation:none !important}
+  [data-zonas~="paisaje"] .hero::after{display:none}
+  /* Visible por fuera: al girar y crecer, los rayos que sobran tapan las
+     esquinas. 42.22 % es la altura del sol (380 de 900) en el lienzo. */
+  .rayos-paisaje, .sol-paisaje{overflow:visible; transform-origin:50% 42.22%}
+}
+@media (max-width:700px) and (prefers-reduced-motion: no-preference){
+  .campana-paisaje .rayos-paisaje{
+    animation:rayos-entran 2.4s cubic-bezier(.2,.7,.2,1) .2s both,
+              respira 5s ease-in-out 2.6s infinite alternate !important;
+  }
+  .campana-paisaje .sol-paisaje{animation:sol-entra 1.5s var(--ease) both !important}
+  /* Cada persona sube al entrar y después salta, una tras otra: la ola. */
+  .campana-paisaje .persona-capa{
+    animation:llega-capa .9s cubic-bezier(.2,.8,.3,1) calc(.3s + var(--i) * .15s) both,
+              salta 3.6s ease-in-out calc(1.8s + var(--i) * .35s) infinite !important;
+  }
 }
 
 @keyframes sol-sale{from{transform:translateY(150px) scale(.9); opacity:0}}
@@ -1650,6 +1678,17 @@ a{color:inherit}
 @keyframes copa{from{transform:skewX(-1.2deg)} to{transform:skewX(1.2deg)}}
 @keyframes deriva{to{transform:translateX(46px)}}
 @keyframes fondo-lento{to{transform:translateY(16vh)}}
+@keyframes rayos-entran{from{opacity:0; transform:scale(.55) rotate(-14deg)}}
+@keyframes sol-entra{from{opacity:0; transform:translateY(15%) scale(.9)}}
+@keyframes respira{from{opacity:1} to{opacity:.6}}
+@keyframes llega-capa{from{opacity:0; transform:translateY(35%)}}
+@keyframes salta{
+  0%,100%{transform:translateY(0)}
+  8%{transform:translateY(-4%)}
+  16%{transform:translateY(0)}
+  21%{transform:translateY(-1.5%)}
+  26%{transform:translateY(0)}
+}
 
 /* ============================================================
    INSTALAR LA APP — aviso abajo, solo en celular
