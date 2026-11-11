@@ -1480,6 +1480,166 @@ a{color:inherit}
 /* Logos de campaña (zona "logo"): escondidos; el <head> muestra los de la activa */
 .logo-campana{display:none}
 
+/* ------------------------------------------------------------
+   Zona «paisaje»: el sol, el pueblo y la gente de la portada.
+   Las piezas viven en plantilla/campanas/paisaje/*.svg y armazon.py las
+   mete en la portada dentro de .campana-paisaje, escondida; el <head> la
+   muestra solo con la campaña que tiene esta zona. Fuera de fecha no se ve
+   ni se pinta, y la portada vuelve a ser la de siempre.
+
+   La coreografía tiene UN momento: el sol sale, la gente llega caminando
+   desde los dos lados, y al llegar empieza a «alzar la voz» en ola, de
+   persona en persona. Después no hay nada que parpadee: solo esa ola,
+   el viento en la bandera, las aspas y las nubes.
+   ------------------------------------------------------------ */
+.campana-paisaje{display:none}
+
+.fondo-paisaje{
+  position:absolute; inset:0; width:100%; height:100%;
+  z-index:-2; pointer-events:none;
+}
+.marcha{
+  position:absolute; bottom:0; height:auto;
+  z-index:-1; pointer-events:none; overflow:visible;
+}
+.marcha--izq{left:max(0px, calc(50% - 740px)); width:min(30vw, 470px)}
+/* Misma escala que la izquierda: ese dibujo trae a la gente 1.22 veces más grande por unidad */
+.marcha--der{right:max(0px, calc(50% - 720px)); width:calc(min(30vw, 470px) * .71)}
+
+.paisaje-credito{
+  position:absolute; right:12px; bottom:8px;
+  font-size:.68rem; color:var(--text-muted); opacity:.85; text-decoration:none;
+}
+.paisaje-credito:hover{text-decoration:underline}
+
+/* Colores del pueblo. Quien lo pinta es el CSS, no el SVG: así se afinan sin tocar el dibujo. */
+.paisaje .montana--lejos{fill:#CFDDEA}
+.paisaje .volcan{fill:#B7CADD}
+.paisaje .volcan-nieve{fill:#FFFFFF}
+.paisaje .montana--cerca{fill:#C3E0CB}
+.paisaje .copa{fill:#8DC6A0}
+.paisaje .tronco{fill:#A9876A}
+.paisaje .pared{fill-opacity:1}
+.paisaje .teja{fill:#DB8E68}
+.paisaje .teja-linea{stroke:#C27450; stroke-width:4}
+.paisaje .ventana{fill:#9DB3C4}
+.paisaje .puerta{fill:#B9906F}
+.paisaje .cruz{stroke:#B9906F; stroke-width:5; stroke-linecap:round; fill:none}
+.paisaje .nube{fill:#FFFFFF; fill-opacity:.9}
+.paisaje .ciudad .vidrio{fill:#FFFFFF; fill-opacity:.55}
+.paisaje .ciudad .ventana{fill:#FFFFFF; fill-opacity:.7}
+.paisaje .ciudad .remate{fill:#C9D3DC}
+.paisaje .ciudad .fila-atras{opacity:.75}
+.paisaje .ciudad .columna{fill:#E2D2B8}
+.paisaje .ciudad .fronton{fill:#E8D9C0}
+.paisaje .ciudad .cupula{fill:#9FC3B5}
+.paisaje .molino .torre{fill:#F4F6F8; stroke:#B9C3CD; stroke-width:1.2}
+.paisaje .molino .aspa{fill:#F7F9FB; stroke:#B9C3CD; stroke-width:1.2}
+.paisaje .molino .gondola{fill:#E9EDF1; stroke:#B9C3CD; stroke-width:1.2}
+.paisaje .molino .buje{fill:#DDE3E9; stroke:#B9C3CD; stroke-width:1.2}
+.paisaje .aspas{transform-box:view-box; transform-origin:0 0}
+
+:root[data-theme="dark"] .fondo-paisaje .rayos2{opacity:.6}
+:root[data-theme="dark"] .paisaje .montana,
+:root[data-theme="dark"] .paisaje .volcan,
+:root[data-theme="dark"] .paisaje .volcan-nieve,
+:root[data-theme="dark"] .paisaje .pueblo{filter:brightness(.4) saturate(.8)}
+:root[data-theme="dark"] .paisaje .nube{fill-opacity:.25}
+:root[data-theme="dark"] .paisaje .ciudad .ventana,
+:root[data-theme="dark"] .paisaje .ciudad .vidrio{fill:#FFE08A; fill-opacity:.9}
+:root[data-theme="dark"] .paisaje .molinos{filter:brightness(.62)}
+
+/* Cada persona se mueve por partes: las piernas se quedan en el suelo y el
+   torso (con cabeza, brazos, bandera y cartel) es lo que se alza. */
+.marcha .persona{transform-box:fill-box; transform-origin:50% 100%}
+.marcha .torso{transform-box:fill-box; transform-origin:50% 100%}
+.marcha .bandera-cr{transform-box:fill-box; transform-origin:50% 100%}
+.marcha .tela-onda{transform-box:fill-box; transform-origin:0 50%}
+
+@media (max-width:700px){
+  /* En celular cabe un solo grupo, centrado y cortado por la cintura. */
+  [data-zonas~="paisaje"] .hero{padding-bottom:min(80vw, 370px)}
+  [data-zonas~="paisaje"] .hero__cue{display:none}
+  .marcha--der{display:none}
+  .marcha--izq{
+    left:0; right:0; margin-inline:auto;
+    width:min(100%, 460px);
+    bottom:calc(min(100vw, 460px) * -.1845);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference){
+  /* 1 · El sol sale detrás del pueblo y los rayos se abren. */
+  .fondo-paisaje .disco2{
+    transform-origin:800px 380px;
+    animation:sol-sale 1.5s var(--ease) both, sol-late 7s ease-in-out 1.5s infinite;
+  }
+  .fondo-paisaje .rayos2{
+    transform-origin:800px 380px;
+    animation:rayos-abren 2.2s ease-out .2s both, gira 200s linear 2.4s infinite;
+  }
+
+  /* 2 · La gente llega caminando, cada grupo por su lado, y frena al llegar.
+     El paso (.persona) dura lo mismo que la llegada: 9 pasos de .34 s. */
+  .marcha--izq{animation:llega-izq 2.7s cubic-bezier(.2,.75,.25,1) .35s both}
+  .marcha--der{animation:llega-der 2.7s cubic-bezier(.2,.75,.25,1) .35s both}
+  .marcha .persona{animation:paso .34s ease-in-out var(--d, 0s) 9}
+
+  /* 3 · Ya en su sitio, la ola: cada torso se alza un instante y baja,
+     un poco después que el de al lado (--ola va en el propio SVG). */
+  .marcha .torso{
+    animation:alza 3.6s ease-in-out calc(3.1s + var(--ola, 0s)) infinite;
+  }
+  .marcha .bandera-cr{animation:viento 2.3s ease-in-out infinite alternate}
+  .marcha .tela-onda{animation:ondea .62s ease-in-out infinite alternate}
+
+  /* Lo de fondo: casi imperceptible, solo para que no sea una foto fija. */
+  .paisaje .nube{animation:deriva 70s ease-in-out infinite alternate}
+  .paisaje .nubes g:nth-child(2) .nube{animation-duration:90s; animation-direction:alternate-reverse}
+  .paisaje .nubes g:nth-child(3) .nube{animation-duration:80s}
+  .paisaje .nubes g:nth-child(4) .nube{animation-duration:100s; animation-direction:alternate-reverse}
+  .paisaje .copa{transform-box:fill-box; transform-origin:50% 100%; animation:copa 5s ease-in-out infinite alternate}
+  .paisaje .aspas{animation:gira 6s linear var(--d, 0s) infinite}
+  .paisaje .molino:nth-child(2) .aspas{animation-duration:8s}
+  .paisaje .molino:nth-child(3) .aspas{animation-duration:7s}
+
+  /* Profundidad: el fondo baja un poco más lento que la página al desplazarse. */
+  @supports (animation-timeline: scroll()){
+    .fondo-paisaje{
+      animation:fondo-lento linear both;
+      animation-timeline:scroll(root block);
+      animation-range:0 100vh;
+    }
+  }
+
+  /* Si la portada no se ve, nada se anima (batería). boletin.js pone .fuera. */
+  .hero.fuera .campana-paisaje *{animation-play-state:paused !important}
+}
+
+@keyframes sol-sale{from{transform:translateY(150px) scale(.9); opacity:0}}
+@keyframes sol-late{0%,100%{transform:scale(1)} 50%{transform:scale(1.035)}}
+@keyframes rayos-abren{from{opacity:0; transform:scale(.55) rotate(-8deg)}}
+@keyframes gira{to{transform:rotate(360deg)}}
+@keyframes llega-izq{from{transform:translateX(-64%)}}
+@keyframes llega-der{from{transform:translateX(64%)}}
+/* Subir rápido y bajar suave: así se camina; subir y bajar igual se ve flotar. */
+@keyframes paso{
+  0%,100%{transform:translateY(0)}
+  38%{transform:translateY(-7px) rotate(.8deg)}
+  70%{transform:translateY(0) rotate(-.4deg)}
+}
+@keyframes alza{
+  0%{transform:translateY(0) rotate(0)}
+  9%{transform:translateY(-10px) rotate(-1.6deg)}
+  20%{transform:translateY(-9px) rotate(1.2deg)}
+  36%,100%{transform:translateY(0) rotate(0)}
+}
+@keyframes viento{from{transform:rotate(-4deg)} to{transform:rotate(5deg)}}
+@keyframes ondea{from{transform:skewY(-6deg) scaleX(1)} to{transform:skewY(6deg) scaleX(.9)}}
+@keyframes copa{from{transform:skewX(-1.2deg)} to{transform:skewX(1.2deg)}}
+@keyframes deriva{to{transform:translateX(46px)}}
+@keyframes fondo-lento{to{transform:translateY(16vh)}}
+
 /* ============================================================
    INSTALAR LA APP — aviso abajo, solo en celular
    Chrome y Android avisan con beforeinstallprompt y aquí va el botón;

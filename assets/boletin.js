@@ -55,6 +55,15 @@
     }
   }
 
+  /* --- Portada con paisaje: si no se ve, no se anima --------------
+     Las animaciones del paisaje no paran solas; fuera de pantalla solo
+     gastan batería. El CSS las pausa cuando el hero lleva .fuera.   */
+  if (hero && hero.querySelector('.campana-paisaje') && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entradas) {
+      hero.classList.toggle('fuera', !entradas[0].isIntersecting);
+    }).observe(hero);
+  }
+
   /* --- Revelado escalonado de las tarjetas ------------------------ */
   var porRevelar = document.querySelectorAll('.reveal');
 
