@@ -1,6 +1,6 @@
 /* ¡Diay! Santa Ana — service worker. Lo genera plantilla/generar.py. */
-var VERSION = 'diay-20261110204544';
-var PRECARGA = ["/", "/ediciones/", "/assets/boletin.css?v=74aa295c", "/assets/boletin.js", "/assets/logo-claro.png", "/assets/logo-oscuro.png", "/assets/icono-192.png", "/ediciones/2026-10/", "/ediciones/2026-10/portada.html", "/ediciones/2026-10/desde-el-concejo.html", "/ediciones/2026-10/desde-los-barrios.html", "/ediciones/2026-10/desde-los-barrios-espacios-verdes.html", "/ediciones/2026-10/sabias-que.html", "/ediciones/2026-10/opinion.html", "/ediciones/2026-10/opinion-contraloria.html", "/ediciones/2026-10/servicio-comunal.html", "/ediciones/2026-10/agenda.html"];
+var VERSION = 'diay-20261110205054';
+var PRECARGA = ["/", "/ediciones/", "/assets/boletin.css?v=2d43dcb5", "/assets/boletin.js", "/assets/logo-claro.png", "/assets/logo-oscuro.png", "/assets/icono-192.png", "/ediciones/2026-10/", "/ediciones/2026-10/portada.html", "/ediciones/2026-10/desde-el-concejo.html", "/ediciones/2026-10/desde-los-barrios.html", "/ediciones/2026-10/desde-los-barrios-espacios-verdes.html", "/ediciones/2026-10/sabias-que.html", "/ediciones/2026-10/opinion.html", "/ediciones/2026-10/opinion-contraloria.html", "/ediciones/2026-10/servicio-comunal.html", "/ediciones/2026-10/agenda.html"];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(VERSION).then(function (c) {

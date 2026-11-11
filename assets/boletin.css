@@ -1557,16 +1557,17 @@ a{color:inherit}
 .marcha .tela-onda{transform-box:fill-box; transform-origin:0 50%}
 
 @media (max-width:700px){
-  /* En celular cabe un solo grupo, centrado y cortado por la cintura. */
-  /* clip y no hidden: hidden vuelve al hero un «contenedor de scroll» y la
-     animación atada al desplazamiento se queda congelada en un punto cualquiera. */
-  [data-zonas~="paisaje"] .hero{padding-bottom:min(80vw, 370px); overflow:clip}
+  /* En celular cabe un solo grupo: entero, centrado, apoyado en el borde de
+     abajo. Nada de recortes ni posiciones que dependan del desplazamiento:
+     en el teléfono la barra del navegador cambia la altura y la gente quedaba
+     a medias. El dibujo mide .983 de alto por cada 1 de ancho; el relleno de
+     abajo deja ese espacio. */
+  [data-zonas~="paisaje"] .hero{padding-bottom:min(80vw, 375px)}
   [data-zonas~="paisaje"] .hero__cue{display:none}
   .marcha--der{display:none}
   .marcha--izq{
     left:0; right:0; margin-inline:auto;
-    width:min(100%, 460px);
-    bottom:calc(min(100vw, 460px) * -.1845);
+    width:min(80vw, 380px);
   }
 }
 
@@ -1618,21 +1619,14 @@ a{color:inherit}
   .hero.fuera .campana-paisaje *{animation-play-state:paused !important}
 }
 
-/* En celular la gente queda debajo del primer pantallazo: una llegada con el
-   tiempo ya habría pasado cuando llegue la vista. Ahí sube con el desplazamiento
-   (si el navegador no lo sabe hacer, queda en su sitio) y no camina de lado. */
-@media (max-width:700px) and (prefers-reduced-motion: no-preference){
+/* En celular la gente ya está en su sitio desde el primer momento: no llega
+   de lado ni sube con el desplazamiento (se probó y en el teléfono quedaba a
+   medias). Se queda solo la ola de los torsos y el viento en la bandera, que
+   no mueven a nadie de lugar. */
+@media (max-width:700px){
   .marcha--izq, .marcha .persona{animation:none}
-  @supports (animation-timeline: view()){
-    .marcha--izq{
-      animation:llega-sube linear both;
-      animation-timeline:view();
-      animation-range:entry 0% entry 100%;
-    }
-  }
 }
 
-@keyframes llega-sube{from{transform:translateY(45%)}}
 @keyframes sol-sale{from{transform:translateY(150px) scale(.9); opacity:0}}
 @keyframes sol-late{0%,100%{transform:scale(1)} 50%{transform:scale(1.035)}}
 @keyframes rayos-abren{from{opacity:0; transform:scale(.55) rotate(-8deg)}}
