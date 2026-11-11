@@ -1648,11 +1648,10 @@ a{color:inherit}
               respira 5s ease-in-out 2.6s infinite alternate !important;
   }
   .campana-paisaje .sol-paisaje{animation:sol-entra 1.5s var(--ease) both !important}
-  /* Cada persona sube al entrar y después salta, una tras otra: la ola. */
-  .campana-paisaje .persona-capa{
-    animation:llega-capa .9s cubic-bezier(.2,.8,.3,1) calc(.3s + var(--i) * .15s) both,
-              salta 3.6s ease-in-out calc(1.8s + var(--i) * .35s) infinite !important;
-  }
+  /* La gente va QUIETA en celular, por ahora. Se probó moverla como capas
+     enteras (subir al entrar y saltar en ola: keyframes llega-capa y salta)
+     y en una prueba aislada salió bien, pero ya en el sitio los teléfonos
+     volvieron a dejar piernas sin pintar. Pendiente de revisar con calma. */
 }
 
 @keyframes sol-sale{from{transform:translateY(150px) scale(.9); opacity:0}}
