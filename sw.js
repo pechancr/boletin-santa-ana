@@ -1,6 +1,6 @@
 /* ¡Diay! Santa Ana — service worker. Lo genera plantilla/generar.py. */
-var VERSION = 'diay-20261110214135';
-var PRECARGA = ["/", "/ediciones/", "/assets/boletin.css?v=388b9a49", "/assets/boletin.js", "/assets/logo-claro.png", "/assets/logo-oscuro.png", "/assets/icono-192.png", "/ediciones/2026-10/", "/ediciones/2026-10/portada.html", "/ediciones/2026-10/desde-el-concejo.html", "/ediciones/2026-10/desde-los-barrios.html", "/ediciones/2026-10/desde-los-barrios-espacios-verdes.html", "/ediciones/2026-10/sabias-que.html", "/ediciones/2026-10/opinion.html", "/ediciones/2026-10/opinion-contraloria.html", "/ediciones/2026-10/servicio-comunal.html", "/ediciones/2026-10/agenda.html"];
+var VERSION = 'diay-20261113210918';
+var PRECARGA = ["/", "/ediciones/", "/assets/boletin.css?v=388b9a49", "/assets/boletin.js", "/assets/logo-claro.png", "/assets/logo-oscuro.png", "/assets/icono-192.png", "/ediciones/2026-11/", "/ediciones/2026-11/portada.html", "/ediciones/2026-11/desde-el-concejo.html", "/ediciones/2026-11/entrevista-del-mes.html", "/ediciones/2026-11/sabias-que.html", "/ediciones/2026-11/opinion.html", "/ediciones/2026-11/servicio-comunal.html", "/ediciones/2026-11/agenda.html"];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(VERSION).then(function (c) {
